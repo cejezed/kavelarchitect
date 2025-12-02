@@ -37,7 +37,7 @@ export interface CustomerInput {
 }
 
 const API_BASE_URL = typeof window === 'undefined'
-  ? `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api`
+  ? `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'}/api`
   : '/api';
 
 // MOCK DATA FOR BUILD TIME / FALLBACK

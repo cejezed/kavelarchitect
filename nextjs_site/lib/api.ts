@@ -36,7 +36,9 @@ export interface CustomerInput {
   early_access_rapport?: boolean;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8765/api';
+const API_BASE_URL = typeof window === 'undefined'
+  ? `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api`
+  : '/api';
 
 // MOCK DATA FOR BUILD TIME / FALLBACK
 const MOCK_LISTINGS: Listing[] = [

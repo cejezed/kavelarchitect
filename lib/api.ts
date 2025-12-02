@@ -73,7 +73,7 @@ const MOCK_LISTINGS: Listing[] = [
 
 // Helper for fetching with timeout
 async function fetchWithTimeout(resource: string, options: any = {}) {
-  const { timeout = 2000 } = options; // Default 2s timeout for fast UI fallback
+  const { timeout = 10000 } = options; // Default 10s timeout for Supabase API calls
 
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -87,6 +87,24 @@ async function fetchWithTimeout(resource: string, options: any = {}) {
 }
 
 export async function getListings(): Promise<Listing[]> {
+  // For server-side, use Supabase directly
+  if (typeof window === 'undefined') {
+    try {
+      const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
+      const { data } = await supabaseAdmin
+        .from('listings')
+        .select('*')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false });
+
+      return (data as Listing[]) || [];
+    } catch (error) {
+      console.warn('Supabase fetch failed, using mock data', error);
+      return MOCK_LISTINGS;
+    }
+  }
+
+  // For client-side, use API route
   try {
     const res = await fetchWithTimeout(`${API_BASE_URL}/published-listings`, {
       cache: 'no-store',
@@ -95,7 +113,6 @@ export async function getListings(): Promise<Listing[]> {
 
     if (!res.ok) throw new Error('Failed to fetch data');
     const data = await res.json();
-    // Filter for only listings meant for this site if needed, currently returning all published
     return data.length > 0 ? data : MOCK_LISTINGS;
   } catch (error) {
     console.warn('Backend fetch failed (or offline), using mock data');

@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { ArrowLeft, Bell } from 'lucide-react';
 import { AanbodFilter } from '../../components/AanbodFilter';
 import { FloatingAlertButton } from '../../components/FloatingAlertButton';
-import { getListings } from '@/lib/api';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import type { Listing } from '@/lib/api';
 
 export const metadata = {
     title: 'Kavelaanbod | KavelArchitect',
@@ -11,7 +12,14 @@ export const metadata = {
 };
 
 export default async function AanbodPage() {
-    const listings = await getListings();
+    // Fetch directly from Supabase in server component
+    const { data } = await supabaseAdmin
+        .from('listings')
+        .select('*')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false });
+
+    const listings: Listing[] = data || [];
 
     return (
         <div className="min-h-screen bg-slate-50">

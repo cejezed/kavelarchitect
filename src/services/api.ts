@@ -1,8 +1,13 @@
 
 import { Listing, DashboardStats, CustomerProfile } from '../types';
+import { supabase } from '../lib/supabase';
 
 // Configuration
-const API_BASE_URL = 'http://localhost:8765/api'; // Port defined in your config.yaml
+// Use environment variable for API URL (Vercel) or fallback to localhost
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8765/api';
+
+// Check if we should use Supabase directly (for Vercel deployment)
+const USE_SUPABASE_DIRECT = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // --- MOCK DATA FALLBACK (Used if backend is offline) ---
 let mockListings: Listing[] = [
@@ -112,38 +117,95 @@ export const api = {
   isConnected: () => isConnected,
 
   getPendingListings: async (): Promise<Listing[]> => {
+    // Use Supabase directly if configured (Vercel)
+    if (USE_SUPABASE_DIRECT) {
+      try {
+        const { data, error } = await supabase
+          .from('listings')
+          .select('*')
+          .eq('status', 'pending')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        isConnected = true;
+        // Add empty potential_matches array for each listing
+        return (data || []).map(listing => ({ ...listing, potential_matches: [] }));
+      } catch (error) {
+        console.error('Supabase error:', error);
+        isConnected = false;
+        await delay(400);
+        return [...mockListings];
+      }
+    }
+
+    // Fallback to backend API (localhost)
     try {
-      // Try to fetch from real backend
       const response = await fetch(`${API_BASE_URL}/pending-listings`);
       if (!response.ok) throw new Error('Backend offline');
       const data = await response.json();
 
-      isConnected = true; // Success!
+      isConnected = true;
       return data;
     } catch (error) {
       console.warn('Backend connection failed, using mock data.');
-      isConnected = false; // Failed
+      isConnected = false;
 
-      // Fallback to mock data
       await delay(400);
       return [...mockListings];
     }
   },
 
   getPublishedListings: async (): Promise<Listing[]> => {
+    // Use Supabase directly if configured (Vercel)
+    if (USE_SUPABASE_DIRECT) {
+      try {
+        const { data, error } = await supabase
+          .from('listings')
+          .select('*')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        return (data || []).map(listing => ({ ...listing, potential_matches: [] }));
+      } catch (error) {
+        console.error('Supabase error:', error);
+        await delay(300);
+        return [...mockPublishedHistory];
+      }
+    }
+
+    // Fallback to backend API (localhost)
     try {
       const response = await fetch(`${API_BASE_URL}/published-listings`);
       if (!response.ok) throw new Error('Backend offline');
       const data = await response.json();
       return data;
     } catch (e) {
-      // Fallback mock history
       await delay(300);
       return [...mockPublishedHistory];
     }
   },
 
   getCustomers: async (): Promise<CustomerProfile[]> => {
+    // Use Supabase directly if configured (Vercel)
+    if (USE_SUPABASE_DIRECT) {
+      try {
+        const { data, error } = await supabase
+          .from('customers')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        return data || [];
+      } catch (error) {
+        console.error('Supabase error:', error);
+        await delay(300);
+        return [...mockCustomers];
+      }
+    }
+
+    // Fallback to backend API (localhost)
     try {
       const response = await fetch(`${API_BASE_URL}/customers`);
       if (!response.ok) throw new Error('Backend offline');

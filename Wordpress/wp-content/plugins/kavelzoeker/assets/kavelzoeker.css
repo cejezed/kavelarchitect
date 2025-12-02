@@ -1,0 +1,48 @@
+:root {
+  --kz-bg:#f6fbfb; --kz-card:#ffffff; --kz-text:#0f1e1f;
+  --kz-accent:#4db8ba; --kz-accent-strong:#1b7d80; --kz-border:#e3eeee;
+}
+
+.kavelzoeker {background: var(--kz-bg); padding: 1.5rem; border-radius: 16px; box-shadow: 0 6px 18px rgba(0,0,0,.06);}
+.kavelzoeker .kz-form {max-width: 980px; margin: 0 auto; color: var(--kz-text);}
+.kz-intro { margin: 0 0 1rem; font-size: .95rem; opacity: .9; }
+.kz-req { color: #d12; margin-left: .25rem; }
+
+.kz-steps {position: relative;}
+.kz-step {display: none;}
+.kz-step.active {display: block;}
+.kz-grid {display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));}
+
+.kz-card {background: var(--kz-card); border: 1px solid var(--kz-border); border-radius: 12px; padding: 1rem; display: flex; gap: .75rem; align-items: flex-start; cursor: pointer; transition: border-color .2s, box-shadow .2s;}
+.kz-card:hover {border-color: var(--kz-accent); box-shadow: 0 4px 12px rgba(0,0,0,.05);}
+.kz-card input {margin-top: .2rem;}
+
+label {display: grid; gap: .4rem; font-size: .95rem;}
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], select, textarea {
+  width: 100%; padding: .75rem .9rem; border: 1px solid var(--kz-border); border-radius: 10px; background: #fff; font-size: 1rem;
+}
+
+.kz-nav {display: flex; justify-content: space-between; gap: .75rem; margin-top: 1rem;}
+.kz-btn, .kz-nav .kz-next, .kz-submit, .kz-prev {appearance: none; border: none; border-radius: 999px; padding: .75rem 1.25rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all .2s;}
+.kz-nav .kz-prev {background: var(--kz-accent); color: white;}
+.kz-nav .kz-prev:hover {background: #e8f4f4; color: var(--kz-text);}
+.kz-nav .kz-next, .kz-submit, .kz-btn {background: var(--kz-accent); color: white;}
+.kz-nav .kz-next:hover, .kz-submit:hover, .kz-btn:hover {background: var(--kz-accent-strong);}
+.kz-check {display: flex; gap: .6rem; align-items: flex-start;}
+.kz-hp {position: absolute; left: -9999px;}
+
+.kz-result {background: #fff; border: 1px solid var(--kz-border); border-radius: 12px; padding: 1rem; margin-top: 1rem;}
+.kz-result p { margin: .75rem 0 0; }
+
+/* Variant velden – per formulier */
+.kavelzoeker .kz-if-kavel, .kavelzoeker .kz-if-verbouw {display: none;}
+.kavelzoeker.kz-mode-kavel .kz-if-kavel {display: block;}
+.kavelzoeker.kz-mode-verbouw .kz-if-verbouw {display: block;}
+.kavelzoeker.kz-mode-beide .kz-if-kavel, .kavelzoeker.kz-mode-beide .kz-if-verbouw {display: block;}
+
+/* Matches */
+.kz-matches {margin-top: 1rem; background:#fff; border:1px solid var(--kz-border); border-radius:12px; padding:1rem;}
+.kz-matches-list {display:grid; gap:.75rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));}
+.kz-match {border:1px solid var(--kz-border); border-radius:10px; padding:.75rem;}
+.kz-match .addr {font-weight:600; margin-bottom:.25rem;}
+.kz-ctas {display:flex; gap:.75rem; margin-top: .75rem;}

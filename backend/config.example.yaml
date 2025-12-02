@@ -1,0 +1,27 @@
+﻿gmail:
+  # Zet hier jouw Desktop OAuth client JSON + token pad
+  credentials_file: "secrets/credentials.json"
+  token_file: "secrets/token.json"
+  # Query voor jouw Funda-zoekopdrachten (pas aan naar je mailbox)
+  query: 'from:notificaties@service.funda.nl subject:"zoekopdracht" newer_than:7d'
+
+wordpress:
+  base_url: "https://kavelarchitect.nl"
+  username: "n8n-bot"
+  application_password: "OXfw Xz2g X7EG Qo81 74Fd jsAA"
+  status: "draft"   # of "publish"
+  # Optioneel: categorie-IDs (lijst van ints)
+  category_ids: [Bouwgrond]
+
+maps:
+  output_dir: "artifacts/maps"
+  size: "800x500"
+  zoom: 15
+
+state:
+  processed_store: "state/processed.json"
+
+perplexity:
+  enabled: false     # zet true als je PPLX_API_KEY hebt
+  api_key: ""        # of laat leeg en zet env var PPLX_API_KEY
+  model: "sonar-pro"

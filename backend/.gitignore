@@ -1,0 +1,13 @@
+﻿__pycache__/
+*.pyc
+.venv/
+.env
+*.log
+
+secrets/
+config.yaml
+artifacts/
+state/
+
+.vscode/
+.idea/

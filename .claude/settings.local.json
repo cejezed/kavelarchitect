@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c 'schtasks /query /fo TABLE /nh | findstr /i \"\"funda brikx\"\"')",
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)",
+      "Bash(npm run dev:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

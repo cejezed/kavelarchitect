@@ -25,6 +25,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'kavelarchitect.nl',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ymwwydpywichbotrqwsy.supabase.co',
       }
     ],
   },

@@ -278,6 +278,95 @@ app.post('/api/publish/:id', async (req, res) => {
     });
 });
 
+// 5b. Publiceer alle pending listings
+app.post('/api/publish-all', async (req, res) => {
+    const { sites } = req.body;
+
+    if (!sites || !Array.isArray(sites) || sites.length === 0) {
+        return res.status(400).json({ success: false, message: "Sites array is verplicht" });
+    }
+
+    // Haal alle pending listings op
+    const { data: pendingListings, error: fetchError } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('status', 'pending');
+
+    if (fetchError) {
+        return res.status(500).json({ success: false, message: fetchError.message });
+    }
+
+    if (!pendingListings || pendingListings.length === 0) {
+        return res.json({ success: true, message: "Geen pending kavels om te publiceren", count: 0 });
+    }
+
+    let successCount = 0;
+    let errorCount = 0;
+
+    // Loop door alle listings en publiceer ze
+    for (const listing of pendingListings) {
+        try {
+            // Run Python publisher if Zwijsen is selected
+            if (sites.includes('zwijsen')) {
+                try {
+                    console.log(`Publishing ${listing.kavel_id} to Zwijsen...`);
+                    const scriptPath = path.join(process.cwd(), 'backend', 'publish_worker.py').replace(/\\/g, '/');
+                    const { stdout, stderr } = await execPromise(`python "${scriptPath}" ${listing.kavel_id}`);
+                    console.log('Publisher output:', stdout);
+                    if (stderr) console.error('Publisher stderr:', stderr);
+                } catch (error) {
+                    console.error(`Publisher failed for ${listing.kavel_id}:`, error);
+                }
+            }
+
+            // Update status in database
+            const { error: updateError } = await supabase
+                .from('listings')
+                .update({
+                    status: 'published',
+                    published_sites: sites,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('kavel_id', listing.kavel_id);
+
+            if (updateError) {
+                console.error(`Failed to update ${listing.kavel_id}:`, updateError);
+                errorCount++;
+                continue;
+            }
+
+            // Match en mail klanten
+            if (resend) {
+                const matches = await findMatchesForListing(listing);
+                for (const customer of matches) {
+                    try {
+                        await resend.emails.send({
+                            from: 'KavelArchitect <onboarding@resend.dev>',
+                            to: customer.email,
+                            subject: `🔔 Nieuwe Match: Bouwkavel in ${listing.plaats}`,
+                            html: `<div style="font-family: sans-serif; color: #0F2B46; max-width: 600px;"><h2 style="font-family: serif; color: #0F2B46;">Nieuwe kavel gevonden!</h2><p>Beste ${customer.naam || 'bouwer'},</p><p>We hebben een nieuwe kavel gevonden die past bij uw zoekprofiel:</p><div style="background: #F8FAFC; padding: 20px; border-radius: 8px; margin: 20px 0;"><h3 style="margin:0;">${listing.adres}, ${listing.plaats}</h3><p style="margin: 5px 0; color: #64748B;">${listing.seo_summary || 'Geen omschrijving beschikbaar.'}</p><ul style="font-size: 14px; color: #334155;"><li><strong>Prijs:</strong> € ${listing.prijs.toLocaleString()}</li><li><strong>Oppervlakte:</strong> ${listing.oppervlakte} m²</li></ul><a href="${process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace('/api', '') : 'http://localhost:3000'}/aanbod/${listing.kavel_id}" style="display: inline-block; background: #0F2B46; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">Bekijk Kavel & Bouwpotentie</a></div><p>Wilt u weten wat u hier mag bouwen? Bekijk dan de volledige analyse op onze site.</p><br/><p>Met vriendelijke groet,</p><p><strong>Jules Zwijsen</strong><br/>KavelArchitect.nl</p></div>`
+                        });
+                        console.log(`📧 Match mail verstuurd naar ${customer.email}`);
+                    } catch (e) {
+                        console.error(`Fout bij mailen ${customer.email}:`, e);
+                    }
+                }
+            }
+
+            successCount++;
+        } catch (error) {
+            console.error(`Error publishing ${listing.kavel_id}:`, error);
+            errorCount++;
+        }
+    }
+
+    res.json({
+        success: true,
+        message: `${successCount} kavels gepubliceerd op ${sites.join(' & ')}${errorCount > 0 ? ` (${errorCount} fouten)` : ''}`,
+        count: successCount
+    });
+});
+
 // 6. Overslaan
 app.post('/api/skip/:id', async (req, res) => {
     const { id } = req.params;

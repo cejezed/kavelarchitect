@@ -93,7 +93,7 @@ Railway geeft automatisch een URL zoals: `kavelarchitect-backend.up.railway.app`
 ### 3.2 Import Project
 1. Selecteer `kavelarchitect` repository
 2. Framework Preset: **Next.js**
-3. Root Directory: `nextjs_site`
+3. Root Directory: `.` (of laat leeg, de standaard is correct)
 4. Build Command: `npm run build`
 5. Output Directory: `.next`
 

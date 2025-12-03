@@ -373,5 +373,43 @@ export const api = {
 
       return { success: true, message: '(DEMO) Wijzigingen lokaal opgeslagen' };
     }
+  },
+
+  publishAllPending: async (sites: string[]): Promise<{ success: boolean, message: string, count: number }> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/publish-all`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sites })
+      });
+
+      if (!response.ok) throw new Error('Failed to publish all');
+
+      const result = await response.json();
+      return {
+        success: true,
+        message: result.message || 'Alle kavels gepubliceerd',
+        count: result.count || 0
+      };
+    } catch (e) {
+      console.warn('Backend offline, simulating bulk publish locally.');
+
+      await delay(1000);
+      const count = mockListings.length;
+
+      // Move all to published
+      mockPublishedHistory = [
+        ...mockListings.map(l => ({ ...l, status: 'published' as const, published_sites: sites })),
+        ...mockPublishedHistory
+      ];
+      mockListings = [];
+      sessionStats.publishedToday += count;
+
+      return {
+        success: true,
+        message: `(DEMO) ${count} kavels gepubliceerd op ${sites.join(' & ')}`,
+        count
+      };
+    }
   }
 };

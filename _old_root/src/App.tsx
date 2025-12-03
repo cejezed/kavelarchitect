@@ -298,6 +298,40 @@ function App() {
 
                   <div className="mb-4 flex items-center justify-between">
                     <h3 className="font-bold text-slate-800">Pending Listings ({listings.length})</h3>
+                    {listings.length > 0 && (
+                      <button
+                        onClick={async () => {
+                          const sites = ['kavelarchitect', 'zwijsen'];
+                          const confirmed = window.confirm(`Weet je zeker dat je alle ${listings.length} kavels wilt publiceren op ${sites.join(' & ')}?`);
+                          if (!confirmed) return;
+
+                          setIsSyncing(true);
+                          try {
+                            const res = await api.publishAllPending(sites);
+                            if (res.success) {
+                              alert(`Succes! ${res.count} kavels gepubliceerd.`);
+                              await fetchData();
+                            } else {
+                              alert("Fout: " + res.message);
+                            }
+                          } catch (e) {
+                            alert("Er ging iets mis.");
+                            console.error(e);
+                          } finally {
+                            setIsSyncing(false);
+                          }
+                        }}
+                        disabled={isSyncing}
+                        className="flex items-center text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors px-4 py-2 rounded-lg shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
+                      >
+                        {isSyncing ? (
+                          <Loader2 size={16} className="mr-2 animate-spin" />
+                        ) : (
+                          <CheckCircle2 size={16} className="mr-2" />
+                        )}
+                        Publiceer Alles
+                      </button>
+                    )}
                   </div>
 
                   {listings.length === 0 ? (

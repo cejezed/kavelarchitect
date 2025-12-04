@@ -331,9 +331,26 @@ def process_single_listing(url: str, listing_info: Dict[str, Any] = None) -> boo
             
             saved_path = download_static_map(lat, lon, out_path=map_path)
             if saved_path:
-                # URL relative to server root (served via express.static)
-                map_url = f"http://localhost:8765/maps/{map_filename}"
-                logger.info(f"Generated map: {map_url}")
+                # Upload to Supabase Storage
+                try:
+                    with open(saved_path, 'rb') as f:
+                        file_bytes = f.read()
+
+                    # Upload to Supabase storage bucket 'maps'
+                    storage_path = f"maps/{map_filename}"
+                    supabase.storage.from_('maps').upload(
+                        storage_path,
+                        file_bytes,
+                        file_options={"content-type": "image/png", "upsert": "true"}
+                    )
+
+                    # Get public URL from Supabase
+                    map_url = supabase.storage.from_('maps').get_public_url(storage_path)
+                    logger.info(f"Uploaded map to Supabase: {map_url}")
+                except Exception as upload_err:
+                    # Fallback to local URL if upload fails
+                    logger.warning(f"Failed to upload map to Supabase: {upload_err}, using local URL")
+                    map_url = f"http://localhost:8765/maps/{map_filename}"
         except Exception as e:
             logger.error(f"Failed to generate map: {e}")
 

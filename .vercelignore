@@ -1,8 +1,6 @@
 _old_root
 nextjs_site
 .git
-node_modules
-.next
 .env
 .env.local
 *.log

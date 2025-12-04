@@ -33,6 +33,17 @@ if not exist "server.js" (
     exit /b 1
 )
 
+REM Check of node_modules bestaat, zo niet installeer dependencies
+if not exist "node_modules\" (
+    echo node_modules niet gevonden, installeren van dependencies...
+    echo Dit kan een paar minuten duren...
+    echo.
+    call npm install
+    echo.
+    echo Dependencies geinstalleerd!
+    echo.
+)
+
 echo Starting backend server op poort 8765...
 echo.
 echo Druk op Ctrl+C om de server te stoppen

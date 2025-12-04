@@ -39,7 +39,9 @@ if not exist "node_modules\" (
     echo node_modules niet gevonden, installeren van dependencies...
     echo Dit kan een paar minuten duren...
     echo.
-    npm install
+    call npm install
+    echo.
+    echo Dependencies geinstalleerd!
     echo.
 )
 

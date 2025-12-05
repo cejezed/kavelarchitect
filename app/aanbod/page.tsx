@@ -7,8 +7,33 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 
 export const metadata = {
-    title: 'Kavelaanbod | KavelArchitect',
-    description: 'Actueel overzicht van bouwkavels in Nederland.',
+    title: 'Kavelaanbod | KavelArchitect - Bouwkavels in heel Nederland',
+    description: 'Actueel overzicht van bouwkavels in Nederland. Vind uw ideale kavel voor zelfbouw met expert begeleiding van Architectenbureau Zwijsen.',
+    keywords: ['bouwkavels', 'kavelaanbod', 'zelfbouw', 'bouwgrond te koop', 'Nederland', 'architect', 'nieuwbouw', 'kavels', 'grond kopen'],
+    alternates: {
+        canonical: 'https://kavelarchitect.nl/aanbod',
+    },
+    openGraph: {
+        title: 'Kavelaanbod | KavelArchitect',
+        description: 'Actueel overzicht van bouwkavels in Nederland. Vind uw ideale kavel voor zelfbouw.',
+        url: 'https://kavelarchitect.nl/aanbod',
+        siteName: 'KavelArchitect',
+        locale: 'nl_NL',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Kavelaanbod | KavelArchitect',
+        description: 'Actueel overzicht van bouwkavels in Nederland.',
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+        },
+    },
 };
 
 export default async function AanbodPage() {

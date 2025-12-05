@@ -33,7 +33,7 @@ export default function Home() {
 
                 <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
 
-                    <div className="order-2 lg:order-1 text-center lg:text-left">
+                    <div className="order-1 lg:order-1 text-center lg:text-left">
                         <div className="inline-block py-1.5 px-4 rounded-full bg-blue-50 text-navy-900 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-100">
                             Exclusief voor Zelfbouwers
                         </div>
@@ -58,7 +58,7 @@ export default function Home() {
                     </div>
 
                     {/* Mobile Mockup Visual */}
-                    <div className="order-1 lg:order-2 flex justify-center">
+                    <div className="order-2 lg:order-2 flex justify-center">
                         <div className="relative w-[280px] h-[580px] bg-slate-900 rounded-[40px] border-[8px] border-slate-900 shadow-2xl overflow-hidden">
                             {/* Phone Screen Content */}
                             <div className="absolute inset-0 bg-white flex flex-col pt-12 relative">

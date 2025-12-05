@@ -165,7 +165,7 @@ export async function getArticles(): Promise<BlogPost[]> {
   try {
     // Fetch posts with embedded media (images)
     const res = await fetch(`${WORDPRESS_API_URL}/posts?_embed&per_page=9`, {
-      next: { revalidate: 3600 }
+      next: { revalidate: 300 }
     });
 
     if (!res.ok) throw new Error('Failed to fetch posts');
@@ -179,7 +179,7 @@ export async function getArticles(): Promise<BlogPost[]> {
 export async function getArticle(slug: string): Promise<BlogPost | undefined> {
   try {
     const res = await fetch(`${WORDPRESS_API_URL}/posts?_embed&slug=${slug}`, {
-      next: { revalidate: 3600 }
+      next: { revalidate: 300 }
     });
 
     if (!res.ok) throw new Error('Failed to fetch post');

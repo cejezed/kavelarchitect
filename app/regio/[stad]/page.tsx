@@ -15,7 +15,9 @@ export async function generateStaticParams() {
   if (!listings) return [];
 
   // Get unique cities
-  const cities = [...new Set(listings.map(l => l.plaats))];
+  const uniqueCities = new Set<string>();
+  listings.forEach(l => uniqueCities.add(l.plaats));
+  const cities = Array.from(uniqueCities);
 
   return cities.map((stad) => ({
     stad: stad.toLowerCase().replace(/\s+/g, '-'),

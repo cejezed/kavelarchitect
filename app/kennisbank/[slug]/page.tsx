@@ -17,12 +17,51 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         };
     }
 
+    const title = `${article.title.rendered} | KavelArchitect Kennisbank`;
+    const description = article.yoast_head_json?.description || article.excerpt.rendered.replace(/<[^>]*>/g, '').slice(0, 160);
+    const imageUrl = article._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+    const canonicalUrl = `https://kavelarchitect.nl/kennisbank/${params.slug}`;
+
     return {
-        title: `${article.title.rendered} | KavelArchitect Kennisbank`,
-        description: article.yoast_head_json?.description || article.excerpt.rendered.replace(/<[^>]*>/g, '').slice(0, 160),
+        title,
+        description,
+        alternates: {
+            canonical: canonicalUrl,
+        },
         openGraph: {
-            images: article._embedded?.['wp:featuredmedia']?.[0]?.source_url ? [article._embedded['wp:featuredmedia'][0].source_url] : [],
-        }
+            title,
+            description,
+            url: canonicalUrl,
+            siteName: 'KavelArchitect',
+            images: imageUrl ? [{
+                url: imageUrl,
+                width: 1200,
+                height: 630,
+                alt: article.title.rendered,
+            }] : [],
+            locale: 'nl_NL',
+            type: 'article',
+            publishedTime: article.date,
+            modifiedTime: article.modified || article.date,
+            authors: ['Architectenbureau Zwijsen'],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: imageUrl ? [imageUrl] : [],
+        },
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+                index: true,
+                follow: true,
+                'max-video-preview': -1,
+                'max-image-preview': 'large',
+                'max-snippet': -1,
+            },
+        },
     };
 }
 

@@ -10,12 +10,61 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id);
   if (!listing) return { title: 'Kavel Niet Gevonden' };
 
+  const title = `${listing.seo_title} | KavelArchitect`;
+  const description = listing.seo_summary;
+  const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
+  const canonicalUrl = `https://kavelarchitect.nl/aanbod/${params.id}`;
+  const priceFormatted = `€${listing.prijs.toLocaleString('nl-NL')}`;
+
   return {
-    title: `${listing.seo_title} | KavelArchitect`,
-    description: listing.seo_summary,
+    title,
+    description,
+    keywords: [
+      'bouwkavel',
+      listing.plaats,
+      listing.provincie,
+      'zelfbouw',
+      'kavel te koop',
+      'bouwgrond',
+      'architect',
+      'nieuwbouw',
+      `bouwkavel ${listing.plaats}`,
+      `kavel ${listing.provincie}`,
+    ],
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
-      images: [listing.image_url || listing.map_url || '']
-    }
+      title,
+      description: `${description} | ${priceFormatted} | ${listing.oppervlakte}m²`,
+      url: canonicalUrl,
+      siteName: 'KavelArchitect',
+      images: [{
+        url: imageUrl,
+        width: 1200,
+        height: 630,
+        alt: `Bouwkavel ${listing.adres}, ${listing.plaats}`,
+      }],
+      locale: 'nl_NL',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: `${description} | ${priceFormatted}`,
+      images: [imageUrl],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 

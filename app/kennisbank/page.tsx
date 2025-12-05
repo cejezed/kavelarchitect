@@ -5,7 +5,32 @@ import Image from 'next/image';
 
 export const metadata = {
     title: 'Kennisbank | KavelArchitect',
-    description: 'Tips en gidsen over zelfbouwen, bestemmingsplannen en kavelprijzen.',
+    description: 'Tips en gidsen over zelfbouwen, bestemmingsplannen en kavelprijzen. Expert advies van Architectenbureau Zwijsen.',
+    keywords: ['kennisbank', 'zelfbouw', 'bouwkavel', 'bestemmingsplan', 'architect', 'nieuwbouw', 'kavelprijzen', 'bouwadvies'],
+    alternates: {
+        canonical: 'https://kavelarchitect.nl/kennisbank',
+    },
+    openGraph: {
+        title: 'Kennisbank | KavelArchitect',
+        description: 'Tips en gidsen over zelfbouwen, bestemmingsplannen en kavelprijzen. Expert advies van Architectenbureau Zwijsen.',
+        url: 'https://kavelarchitect.nl/kennisbank',
+        siteName: 'KavelArchitect',
+        locale: 'nl_NL',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Kennisbank | KavelArchitect',
+        description: 'Tips en gidsen over zelfbouwen, bestemmingsplannen en kavelprijzen.',
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+        },
+    },
 };
 
 export default async function KennisbankPage() {

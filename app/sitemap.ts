@@ -1,6 +1,15 @@
 import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
 
+// Featured cities for programmatic SEO
+const FEATURED_CITIES = [
+  'blaricum', 'laren', 'hilversum', 'huizen', 'naarden',
+  'bloemendaal', 'heemstede', 'haarlem', 'wassenaar', 'noordwijk',
+  'voorschoten', 'leidschendam', 'zoetermeer',
+  'bunnik', 'de-bilt', 'zeist',
+  'oisterwijk', 'eersel',
+];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://kavelarchitect.nl';
 
@@ -52,5 +61,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...listingUrls, ...articleUrls];
+  // Programmatic SEO regio pages
+  const regioUrls: MetadataRoute.Sitemap = FEATURED_CITIES.map((city) => ({
+    url: `${baseUrl}/regio/${city}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 0.85, // High priority for conversion pages
+  }));
+
+  return [...staticPages, ...listingUrls, ...articleUrls, ...regioUrls];
 }

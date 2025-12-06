@@ -155,11 +155,19 @@ export interface BlogPost {
   content: { rendered: string };
   excerpt: { rendered: string };
   featured_media: number;
+  categories: number[];
   _embedded?: {
     'wp:featuredmedia'?: Array<{ source_url: string }>;
     'author'?: Array<{ name: string }>;
   };
   yoast_head_json?: any;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
 }
 
 export async function getArticles(): Promise<BlogPost[]> {
@@ -189,5 +197,19 @@ export async function getArticle(slug: string): Promise<BlogPost | undefined> {
   } catch (error) {
     console.error('WordPress fetch failed:', error);
     return undefined;
+  }
+}
+
+export async function getCategories(): Promise<Category[]> {
+  try {
+    const res = await fetch(`${WORDPRESS_API_URL}/categories?per_page=100`, {
+      next: { revalidate: 300 }
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch categories');
+    return await res.json();
+  } catch (error) {
+    console.error('WordPress categories fetch failed:', error);
+    return [];
   }
 }

@@ -20,6 +20,16 @@ export function ListingCard({ listing }: { listing: Listing }) {
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-700"
         />
+
+        {/* VERKOCHT Overlay for sold properties */}
+        {listing.status === 'sold' && (
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] flex items-center justify-center">
+            <div className="bg-red-600 text-white px-6 py-2 rounded-xl font-bold text-lg shadow-2xl transform -rotate-12">
+              VERKOCHT
+            </div>
+          </div>
+        )}
+
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-slate-900 flex items-center">
           <MapPin size={12} className="mr-1" /> {listing.provincie}
         </div>
@@ -45,9 +55,16 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
         <Link
           href={`/aanbod/${listing.kavel_id}`}
-          className="w-full py-3 border border-slate-200 rounded-xl font-bold text-sm text-slate-700 hover:border-navy-900 hover:text-navy-900 transition-colors text-center flex items-center justify-center group/btn"
+          className={`w-full py-3 border rounded-xl font-bold text-sm transition-colors text-center flex items-center justify-center group/btn ${listing.status === 'sold'
+              ? 'border-red-200 bg-red-50 text-red-700 hover:border-red-400 hover:bg-red-100'
+              : 'border-slate-200 text-slate-700 hover:border-navy-900 hover:text-navy-900'
+            }`}
         >
-          Bekijk Potentie <ArrowRight size={16} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
+          {listing.status === 'sold' ? (
+            <>Wil ook een alert? <ArrowRight size={16} className="ml-2 group-hover/btn:translate-x-1 transition-transform" /></>
+          ) : (
+            <>Bekijk Potentie <ArrowRight size={16} className="ml-2 group-hover/btn:translate-x-1 transition-transform" /></>
+          )}
         </Link>
       </div>
     </div>

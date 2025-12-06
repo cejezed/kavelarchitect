@@ -1,9 +1,12 @@
 
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, Mail } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, Mail, XCircle, Bell } from 'lucide-react';
 import { getListing } from '@/lib/api';
+import { InlineKavelAlert } from '@/components/InlineKavelAlert';
+import { SimilarListings } from '@/components/SimilarListings';
 
 // 1. Generate SEO Metadata dynamically based on the listing data
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -134,8 +137,24 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
       <div className="relative h-[60vh] w-full mt-16">
         <Image src={imageUrl} alt={listing.adres} fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent"></div>
+
+        {/* VERKOCHT Overlay */}
+        {listing.status === 'sold' && (
+          <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center">
+            <div className="text-center">
+              <div className="inline-block bg-red-600 text-white px-8 py-4 rounded-2xl font-bold text-3xl md:text-4xl mb-4 shadow-2xl">
+                VERKOCHT
+              </div>
+              <p className="text-white text-lg md:text-xl">Deze kavel is niet meer beschikbaar</p>
+            </div>
+          </div>
+        )}
+
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 max-w-7xl mx-auto text-white">
-          <div className="bg-emerald-600 inline-block px-3 py-1 rounded-full text-xs font-bold mb-4">Beschikbaar</div>
+          <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 ${listing.status === 'sold' ? 'bg-red-600' : 'bg-emerald-600'
+            }`}>
+            {listing.status === 'sold' ? 'Verkocht' : 'Beschikbaar'}
+          </div>
           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2">{listing.seo_title}</h1>
           <p className="text-xl opacity-90">{listing.adres}, {listing.plaats}</p>
         </div>
@@ -202,32 +221,60 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
         {/* Sidebar CTA */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-white p-8 rounded-2xl shadow-xl shadow-navy-900/5 border border-slate-100">
-            <h3 className="font-serif text-xl font-bold text-navy-900 mb-2">Interesse in deze kavel?</h3>
-            <p className="text-slate-600 text-sm mb-6">
-              Bekijk de originele advertentie of laat ons direct een haalbaarheidscheck doen.
-            </p>
+            {listing.status === 'sold' ? (
+              // Sold property - Inline KavelAlert Form
+              <>
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                    <XCircle className="text-red-600" size={32} />
+                  </div>
+                  <h3 className="font-serif text-xl font-bold text-navy-900 mb-2">Kavel Verkocht</h3>
+                  <p className="text-slate-600 text-sm mb-4">
+                    Deze kavel is helaas al verkocht. Maar er komen regelmatig nieuwe kavels beschikbaar!
+                  </p>
+                </div>
 
-            {listing.source_url && (
-              <a
-                href={listing.source_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-full py-4 mb-3 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors"
-              >
-                Bekijk originele advertentie <ExternalLink size={16} className="ml-2" />
-              </a>
+                {/* Inline KavelAlert Form */}
+                <InlineKavelAlert
+                  provincie={listing.provincie}
+                  plaats={listing.plaats}
+                  prijs={listing.prijs}
+                />
+              </>
+            ) : (
+              // Available property - Normal CTA
+              <>
+                <h3 className="font-serif text-xl font-bold text-navy-900 mb-2">Interesse in deze kavel?</h3>
+                <p className="text-slate-600 text-sm mb-6">
+                  Bekijk de originele advertentie of laat ons direct een haalbaarheidscheck doen.
+                </p>
+
+                {listing.source_url && (
+                  <a
+                    href={listing.source_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-full py-4 mb-3 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors"
+                  >
+                    Bekijk originele advertentie <ExternalLink size={16} className="ml-2" />
+                  </a>
+                )}
+
+                <a
+                  href={`mailto:info@kavelarchitect.nl?subject=Haalbaarheidscheck Kavel ${listing.adres}`}
+                  className="flex items-center justify-center w-full py-4 bg-blue-50 text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition-colors border border-blue-200"
+                >
+                  Gratis Haalbaarheidscheck <Mail size={16} className="ml-2" />
+                </a>
+              </>
             )}
-
-            <a
-              href={`mailto:info@kavelarchitect.nl?subject=Haalbaarheidscheck Kavel ${listing.adres}`}
-              className="flex items-center justify-center w-full py-4 bg-blue-50 text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition-colors border border-blue-200"
-            >
-              Gratis Haalbaarheidscheck <Mail size={16} className="ml-2" />
-            </a>
           </div>
         </div>
 
       </div>
+
+      {/* Similar Listings Section */}
+      <SimilarListings currentListing={listing} />
     </div>
   );
 }

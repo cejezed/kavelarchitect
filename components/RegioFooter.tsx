@@ -89,7 +89,7 @@ export default function RegioFooter() {
           <div>
             <h4 className="font-bold mb-4">KavelArchitect</h4>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Vind sneller uw ideale bouwkavel met expert begeleiding van Architectenbureau Zwijsen.
+              Vind sneller uw ideale bouwkavel met expert begeleiding van Architectenbureau Jules Zwijsen.
               Exclusieve toegang tot off-market kavels.
             </p>
           </div>
@@ -116,7 +116,7 @@ export default function RegioFooter() {
           <div>
             <h4 className="font-bold mb-4">Contact</h4>
             <p className="text-slate-400 text-sm">
-              Architectenbureau Zwijsen
+              Architectenbureau Jules Zwijsen
               <br />
               <a href="mailto:info@kavelarchitect.nl" className="hover:text-white transition-colors">
                 info@kavelarchitect.nl
@@ -127,7 +127,7 @@ export default function RegioFooter() {
 
         {/* Copyright */}
         <div className="text-center text-slate-500 text-sm pt-8 border-t border-slate-800">
-          © {new Date().getFullYear()} KavelArchitect - Powered by Architectenbureau Zwijsen
+          © {new Date().getFullYear()} KavelArchitect - Powered by Architectenbureau Jules Zwijsen
         </div>
       </div>
     </footer>

@@ -288,6 +288,9 @@
             <button class="btn btn-primary" onclick="runSync()">
                 ▶️ Start Sync Nu
             </button>
+            <button class="btn btn-primary" onclick="publishAllPending()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                ✅ Publiceer Alles
+            </button>
             <button class="btn btn-secondary" onclick="loadData()">
                 🔄 Ververs Data
             </button>
@@ -454,6 +457,52 @@
 
         function openConfig() {
             window.open('config.yaml', '_blank');
+        }
+
+        async function publishAllPending() {
+            showMessage('📊 Pending kavels ophalen...', 'info');
+
+            try {
+                // Haal eerst pending kavels op
+                const pendingResponse = await fetch('http://localhost:3000/api/listings?status=pending');
+                const pendingListings = await pendingResponse.json();
+
+                if (!pendingListings || pendingListings.length === 0) {
+                    showMessage('ℹ️ Geen pending kavels gevonden om te publiceren.', 'info');
+                    return;
+                }
+
+                const confirmed = confirm(`Weet je zeker dat je alle ${pendingListings.length} pending kavels wilt publiceren?`);
+                if (!confirmed) return;
+
+                showMessage(`🚀 ${pendingListings.length} kavels worden gepubliceerd...`, 'info');
+
+                // Publiceer alle kavels parallel
+                const publishPromises = pendingListings.map(listing =>
+                    fetch(`http://localhost:3000/api/publish/${listing.kavel_id}`, {
+                        method: 'POST'
+                    }).then(r => r.json())
+                );
+
+                const results = await Promise.all(publishPromises);
+
+                const successes = results.filter(r => r.success).length;
+                const failures = results.filter(r => !r.success).length;
+
+                if (failures > 0) {
+                    showMessage(`⚠️ Publicatie voltooid: ${successes} geslaagd, ${failures} mislukt. Check de console voor details.`, 'error');
+                    console.error('Failed publishes:', results.filter(r => !r.success));
+                } else {
+                    showMessage(`✅ Alle ${successes} kavels succesvol gepubliceerd!`, 'success');
+                }
+
+                // Ververs de data
+                setTimeout(() => loadData(), 2000);
+
+            } catch (error) {
+                showMessage('❌ Fout bij publiceren: ' + error.message, 'error');
+                console.error('Publish error:', error);
+            }
         }
 
         // Auto-refresh elke 30 seconden

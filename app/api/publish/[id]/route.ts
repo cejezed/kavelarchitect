@@ -102,6 +102,11 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         });
 
     } catch (error: any) {
-        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+        console.error('PUBLISH API ERROR:', error);
+        return NextResponse.json({
+            success: false,
+            message: error.message || 'Er is een onbekende fout opgetreden',
+            details: error.stack
+        }, { status: 500 });
     }
 }

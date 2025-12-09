@@ -1,0 +1,347 @@
+﻿================================================================================
+RECENT LISTINGS - PRICE CHECK
+================================================================================
+
+Found 37 listings from the last 7 days
+
+ID: 43278128
+  Adres: Plein Vogelzang 19, Bilthoven
+  Status: skipped
+  Database Price: Ç700,000
+  Created: 2025-12-06T14:10:39.926243+00:00
+  Funda URL: https://www.funda.nl/detail/koop/bilthoven/huis-plein-vogelzang-19/43278128
+  Price Sources:
+    Gmail: Ç 700.000
+
+ID: 43278303
+  Adres: Baanhoek None, Sliedrecht
+  Status: pending
+  Database Price: Ç485,000
+  Created: 2025-12-06T14:09:49.835008+00:00
+  Funda URL: https://www.funda.nl/detail/koop/sliedrecht/bouwgrond-baanhoek/43278303
+  Price Sources:
+    Gmail: Ç 700.000
+
+ID: 43279207
+  Adres: Buitenhuisweg None, Barneveld
+  Status: pending
+  Database Price: Ç700,000
+  Created: 2025-12-06T14:08:58.949412+00:00
+  Funda URL: https://www.funda.nl/detail/koop/barneveld/bouwgrond-buitenhuisweg/43279207
+  Price Sources:
+    Gmail: Ç 700.000
+    Perplexity: Op aanvraag
+
+ID: 43186587
+  Adres: Zanderijweg 14, Castricum
+  Status: published
+  Database Price: Ç857,450
+  Created: 2025-12-03T13:41:37.30283+00:00
+  Funda URL: https://www.funda.nl/detail/koop/castricum/bouwgrond-zanderijweg-14-bouwnr-39/43186587/
+  Price Sources:
+    Perplexity: Ç 857.450,- v.o.n.
+
+ID: 43174341
+  Adres: Sterkenburgerlaan 93, Doorn
+  Status: published
+  Database Price: Ç1,075,000
+  Created: 2025-12-03T13:39:46.233035+00:00
+  Funda URL: https://www.funda.nl/detail/koop/doorn/bouwgrond-sterkenburgerlaan-93/43174341/
+  Price Sources:
+    Perplexity: Ç 1.075.000 vrij op naam
+
+ID: 43189589
+  Adres: Niet beschikbaar, Onbekend
+  Status: skipped
+  Database Price: None
+  Created: 2025-12-03T13:38:09.016539+00:00
+  Funda URL: https://www.funda.nl/detail/koop/maarn/bouwgrond-boslaan-2/43189589/
+
+ID: 89552989
+  Adres: s-Gravenweg 220, Nieuwerkerk aan den IJssel
+  Status: published
+  Database Price: Ç695,000
+  Created: 2025-12-03T13:33:49.095068+00:00
+  Funda URL: https://www.funda.nl/detail/koop/nieuwerkerk-aan-den-ijssel/bouwgrond-s-gravenweg-220/89552989/
+  Price Sources:
+    Perplexity: Ç695.000
+
+ID: 43198202
+  Adres: Osdorperweg 575-A, Amsterdam
+  Status: published
+  Database Price: Ç1,495,000
+  Created: 2025-12-03T13:32:56.926579+00:00
+  Funda URL: https://www.funda.nl/detail/koop/amsterdam/bouwgrond-osdorperweg-575-a/43198202/
+  Price Sources:
+    Perplexity: Ç 1.495.000 kosten koper
+
+ID: 43104186
+  Adres: Amsteldijk 316, Amsterdam
+  Status: published
+  Database Price: Ç6,400,000
+  Created: 2025-12-03T13:28:22.350711+00:00
+  Funda URL: https://www.funda.nl/detail/koop/amsterdam/bouwgrond-amsteldijk-316/43104186/
+  Price Sources:
+    Perplexity: Ç 6.400.000 kosten koper
+
+ID: 43252296
+  Adres: Hamersveldseweg 78, Leusden
+  Status: published
+  Database Price: Ç1,250,000
+  Created: 2025-12-03T09:38:46.684956+00:00
+  Funda URL: https://www.funda.nl/detail/koop/leusden/bouwgrond-hamersveldseweg-78/43252296
+  Price Sources:
+    Gmail: Ç 1.250.000
+    Perplexity: Ç 1.250.000 kosten koper
+
+ID: 43259435
+  Adres: Lageweg 1a, Schellinkhout
+  Status: published
+  Database Price: Ç500,000
+  Created: 2025-12-03T09:38:13.712325+00:00
+  Funda URL: https://www.funda.nl/detail/koop/schellinkhout/bouwgrond-lageweg-1a/43259435
+  Price Sources:
+    Gmail: Ç 1.250.000
+    Perplexity: Ç 500.000 v.o.n.
+
+ID: 43267827
+  Adres: Rademakerstraat 34, Soesterberg
+  Status: published
+  Database Price: Ç525,000
+  Created: 2025-12-03T09:37:32.646826+00:00
+  Funda URL: https://www.funda.nl/detail/koop/soesterberg/bouwgrond-rademakerstraat-34/43267827
+  Price Sources:
+    Gmail: Ç 350.000
+    Perplexity: Ç 525.000 k.k.
+
+ID: 89624202
+  Adres: Niet beschikbaar, Onbekend
+  Status: skipped
+  Database Price: None
+  Created: 2025-12-03T09:36:58.751432+00:00
+  Funda URL: https://www.funda.nl/detail/koop/noordwijkerhout/bouwgrond-herenweg-230-nabij-b/89624202
+  Price Sources:
+
+ID: 43261754
+  Adres: Horsterhoeve B.01, Ermelo
+  Status: published
+  Database Price: Ç520,000
+  Created: 2025-12-03T09:36:27.604658+00:00
+  Funda URL: https://www.funda.nl/detail/koop/ermelo/bouwgrond-kavel-bouwnr-b01/43261754
+  Price Sources:
+    Gmail: Ç 625.000
+    Perplexity: Ç 520.000 vrij op naam
+
+ID: 89626828
+  Adres: Schouwweg 85, Wassenaar
+  Status: published
+  Database Price: Ç3,000,000
+  Created: 2025-12-03T09:35:54.820337+00:00
+  Funda URL: https://www.funda.nl/detail/koop/wassenaar/bouwgrond-schouwweg/89626828
+  Price Sources:
+    Gmail: Ç 3.000.000
+    Perplexity: Ç 3.000.000 kosten koper
+
+ID: 43185080
+  Adres: Werkdroger 10, Laren
+  Status: published
+  Database Price: Ç2,950,000
+  Created: 2025-12-02T11:48:01.869786+00:00
+  Funda URL: https://www.funda.nl/detail/koop/laren-nh/bouwgrond-werkdroger-10/43185080/
+  Price Sources:
+    Perplexity: Ç 2.950.000 kosten koper
+
+ID: 43945745
+  Adres: Franse Kampweg None, Bussum
+  Status: published
+  Database Price: Ç2,950,000
+  Created: 2025-12-02T11:46:41.54257+00:00
+  Funda URL: https://www.funda.nl/detail/koop/bussum/bouwgrond-franse-kampweg/43945745/
+  Price Sources:
+    Perplexity: Ç 2.950.000 k.k.
+
+ID: 89107947
+  Adres: Niet beschikbaar, Onbekend
+  Status: skipped
+  Database Price: None
+  Created: 2025-12-02T11:44:48.359757+00:00
+  Funda URL: https://www.funda.nl/detail/koop/hilversum/bouwgrond-van-riebeeckweg-2-a/89107947/
+
+ID: 43482381
+  Adres: Akkerweg 12, Soest
+  Status: published
+  Database Price: Ç250,000
+  Created: 2025-12-02T11:43:20.727021+00:00
+  Funda URL: https://www.funda.nl/detail/koop/soest/bouwgrond-akkerweg-12-nabij/43482381/
+  Price Sources:
+    Perplexity: Ç 250.000 kosten koper
+
+ID: 43100014
+  Adres: Bouwkavels None, Nieuwkoop
+  Status: published
+  Database Price: Ç1,395,000
+  Created: 2025-12-01T16:43:38.02082+00:00
+  Funda URL: https://www.funda.nl/detail/koop/nieuwkoop/bouwgrond-bouwkavels-bouwnr-kavel-a/43100014/
+  Price Sources:
+    Perplexity: Prijs op aanvraag
+
+ID: 43102997
+  Adres: Oud Huizerweg 3, Naarden
+  Status: published
+  Database Price: Ç2,300,000
+  Created: 2025-12-01T16:41:51.91286+00:00
+  Funda URL: https://www.funda.nl/detail/koop/naarden/bouwgrond-oud-huizerweg-3/43102997/
+  Price Sources:
+    Perplexity: Ç 2.300.000 kosten koper
+
+ID: 43105394
+  Adres: Benedenberg 34, Bergambacht
+  Status: published
+  Database Price: Ç1,475,000
+  Created: 2025-12-01T16:34:35.919486+00:00
+  Funda URL: https://www.funda.nl/detail/koop/bergambacht/bouwgrond-benedenberg-34/43105394/
+  Price Sources:
+    Perplexity: Ç 1.475.000
+
+ID: 43106867
+  Adres: Groen van Prinstererlaan 1A, Wassenaar
+  Status: published
+  Database Price: Ç1,915,000
+  Created: 2025-12-01T16:33:09.854394+00:00
+  Funda URL: https://www.funda.nl/detail/koop/wassenaar/bouwgrond-groen-van-prinstererlaan-kavel-2/43106867/
+  Price Sources:
+    Perplexity: Ç 1.915.000 k.k.
+
+ID: 43106866
+  Adres: Groen van Prinstererlaan 1A, Wassenaar
+  Status: published
+  Database Price: Ç1,875,000
+  Created: 2025-12-01T16:31:31.961034+00:00
+  Funda URL: https://www.funda.nl/detail/koop/wassenaar/bouwgrond-groen-van-prinstererlaan-kavel-1/43106866/
+  Price Sources:
+    Perplexity: Ç 1.875.000 kosten koper
+
+ID: 43107146
+  Adres: Oude Maasdijk 24, Dreumel
+  Status: published
+  Database Price: Ç375,000
+  Created: 2025-12-01T16:30:20.321473+00:00
+  Funda URL: https://www.funda.nl/detail/koop/dreumel/bouwgrond-oude-maasdijk-24/43107146/
+  Price Sources:
+    Perplexity: Ç 375.000 k.k.
+
+ID: 43107049
+  Adres: Cattenbroekerdijk None, Woerden
+  Status: published
+  Database Price: Ç1,000,000
+  Created: 2025-12-01T16:27:24.472165+00:00
+  Funda URL: https://www.funda.nl/detail/koop/woerden/bouwgrond-cattenbroekerdijk/43107049/
+  Price Sources:
+    Perplexity: Ç 1.000.000 kosten koper
+
+ID: 43118417
+  Adres: Voordorpsedijk 67, Groenekan
+  Status: published
+  Database Price: Ç995,000
+  Created: 2025-12-01T16:19:02.005763+00:00
+  Funda URL: https://www.funda.nl/detail/koop/groenekan/bouwgrond-voordorpsedijk-67-grond/43118417/
+  Price Sources:
+    Perplexity: Ç 995.000 kosten koper
+
+ID: 89589741
+  Adres: Herenweg 14b, Rijnsaterwoude
+  Status: published
+  Database Price: Ç400,000
+  Created: 2025-12-01T16:17:11.898703+00:00
+  Funda URL: https://www.funda.nl/detail/koop/rijnsaterwoude/bouwgrond-herenweg-14-b/89589741/
+  Price Sources:
+
+ID: 43110391
+  Adres: Blarinckhorsterweg None, Putten
+  Status: published
+  Database Price: Ç550,000
+  Created: 2025-12-01T16:15:11.278426+00:00
+  Funda URL: https://www.funda.nl/detail/koop/putten/bouwgrond-blarinckhorsterweg/43110391/
+  Price Sources:
+    Perplexity: Ç 550.000 k.k.
+
+ID: 43110945
+  Adres: Noordenseweg 68, Nieuwkoop
+  Status: published
+  Database Price: Ç1,395,000
+  Created: 2025-12-01T16:13:23.805164+00:00
+  Funda URL: https://www.funda.nl/detail/koop/nieuwkoop/bouwgrond-noordenseweg-68/43110945
+  Price Sources:
+
+ID: 43137450
+  Adres: Dillenburglaan None, Baarn
+  Status: published
+  Database Price: Ç1,495,000
+  Created: 2025-12-01T16:12:05.081222+00:00
+  Funda URL: https://www.funda.nl/detail/koop/baarn/bouwgrond-dillenburglaan-ong/43137450/
+  Price Sources:
+    Perplexity: Ç 1.495.000
+
+ID: 43136134
+  Adres: De Heul 20, Oostzaan
+  Status: published
+  Database Price: Ç735,000
+  Created: 2025-12-01T16:07:24.410483+00:00
+  Funda URL: https://www.funda.nl/detail/koop/oostzaan/bouwgrond-de-heul-20/43136134/
+  Price Sources:
+    Perplexity: Ç 735.000 v.o.n.
+
+ID: 43136126
+  Adres: De Heul 18, Oostzaan
+  Status: published
+  Database Price: Ç750,000
+  Created: 2025-12-01T16:04:14.682386+00:00
+  Funda URL: https://www.funda.nl/detail/koop/oostzaan/bouwgrond-de-heul-18/43136126/
+  Price Sources:
+
+ID: 89622418
+  Adres: Waalbandijk 8, Nieuwaal
+  Status: published
+  Database Price: Ç350,000
+  Created: 2025-12-01T12:29:24.650976+00:00
+  Funda URL: https://www.funda.nl/detail/koop/nieuwaal/bouwgrond-waalbandijk/89622418
+  Price Sources:
+    Gmail: Ç 350.000
+    Perplexity: Ç 350.000 k.k.
+
+ID: 43269698
+  Adres: Nieuwe Bussummerweg 246, Huizen
+  Status: published
+  Database Price: Ç1,595,000
+  Created: 2025-12-01T12:29:08.399897+00:00
+  Funda URL: https://www.funda.nl/detail/koop/huizen/bouwgrond-nieuwe-bussummerweg-246/43269698
+  Price Sources:
+    Gmail: Ç 695.000
+    Perplexity: Ç 1.595.000 kosten koper
+
+ID: 89626137
+  Adres: 1454 AJ Watergang, Watergang
+  Status: published
+  Database Price: Ç625,000
+  Created: 2025-12-01T12:28:40.302502+00:00
+  Funda URL: https://www.funda.nl/detail/koop/watergang/bouwgrond-kavel-bouwnr-2/89626137
+  Price Sources:
+    Gmail: Ç 625.000
+    Perplexity: Ç 625.000 v.o.n.
+
+ID: 43262269
+  Adres: Waaiersluis 9, Culemborg
+  Status: published
+  Database Price: Ç450,000
+  Created: 2025-12-01T12:28:14.312025+00:00
+  Funda URL: https://www.funda.nl/detail/koop/culemborg/bouwgrond-waaiersluis-9/43262269
+  Price Sources:
+    Gmail: Ç 450.000
+    Perplexity: Ç 450.000 k.k.
+
+================================================================================
+DIAGNOSTIC TIPS:
+1. Check if Gmail extracted price correctly from email
+2. Check if Perplexity returned correct price
+3. Manually verify prices on Funda website
+================================================================================

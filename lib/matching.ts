@@ -10,7 +10,7 @@ export async function findMatchesForListing(listing: any) {
 
     return customers.filter(c => {
         // Regio check
-        const regioMatch = c.provincies && c.provincies.some((p: string) => listing.provincie.includes(p));
+        const regioMatch = c.provincies && listing.provincie && c.provincies.some((p: string) => listing.provincie.includes(p));
 
         // Oppervlakte check
         const oppMatch = !c.min_oppervlakte || listing.oppervlakte >= c.min_oppervlakte;

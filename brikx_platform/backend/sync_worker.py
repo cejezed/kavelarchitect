@@ -53,7 +53,9 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 # Gmail configuration
 GMAIL_CREDENTIALS = str(backend_dir / 'secrets' / 'credentials.json')
 GMAIL_TOKEN = str(backend_dir / 'secrets' / 'token.json')
-GMAIL_QUERY = 'from:notificaties@service.funda.nl subject:"zoekopdracht" newer_than:21d -label:Brikx/Verwerkt'
+# Updated query: removed strict "zoekopdracht" requirement since emails have "zoekopdrachten" (plural)
+# Now matches any Funda notification email about search results
+GMAIL_QUERY = 'from:notificaties@service.funda.nl newer_than:21d -label:Brikx/Verwerkt'
 
 # Initialize clients (will be initialized in main function)
 supabase = None

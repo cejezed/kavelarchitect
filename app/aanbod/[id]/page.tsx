@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, Mail, XCircle, Bell } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, XCircle, Bell } from 'lucide-react';
 import { getListing } from '@/lib/api';
 import { InlineKavelAlert } from '@/components/InlineKavelAlert';
 import { SimilarListings } from '@/components/SimilarListings';
@@ -260,12 +260,12 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                   </a>
                 )}
 
-                <a
-                  href={`mailto:info@kavelarchitect.nl?subject=Haalbaarheidscheck Kavel ${listing.adres}`}
-                  className="flex items-center justify-center w-full py-4 bg-blue-50 text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition-colors border border-blue-200"
-                >
-                  Gratis Haalbaarheidscheck <Mail size={16} className="ml-2" />
-                </a>
+                <InlineKavelAlert
+                  provincie={listing.provincie}
+                  plaats={listing.plaats}
+                  prijs={listing.prijs}
+                  buttonText="Kavel Alert Activeren"
+                />
               </>
             )}
           </div>

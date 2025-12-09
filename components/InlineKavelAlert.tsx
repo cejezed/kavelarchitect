@@ -7,12 +7,15 @@ interface InlineKavelAlertProps {
     provincie?: string;
     plaats?: string;
     prijs?: number;
+    autoExpand?: boolean; // If true, form is visible by default
+    buttonText?: string; // Custom button text to trigger the form
 }
 
-export function InlineKavelAlert({ provincie, plaats, prijs }: InlineKavelAlertProps) {
+export function InlineKavelAlert({ provincie, plaats, prijs, autoExpand = false, buttonText }: InlineKavelAlertProps) {
     const [email, setEmail] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(autoExpand);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -64,6 +67,19 @@ export function InlineKavelAlert({ provincie, plaats, prijs }: InlineKavelAlertP
                     Je ontvangt een email zodra er een vergelijkbare kavel beschikbaar komt in {provincie || 'jouw regio'}.
                 </p>
             </div>
+        );
+    }
+
+    // If buttonText is provided and form is not expanded, show trigger button
+    if (buttonText && !isExpanded) {
+        return (
+            <button
+                onClick={() => setIsExpanded(true)}
+                className="flex items-center justify-center w-full py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors"
+            >
+                <Bell size={16} className="mr-2" />
+                {buttonText}
+            </button>
         );
     }
 

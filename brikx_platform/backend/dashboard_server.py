@@ -16,6 +16,13 @@ PORT = 8765
 BASE_DIR = Path(__file__).parent
 
 class BrikxDashboardHandler(http.server.SimpleHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.end_headers()
+
     def do_GET(self):
         parsed_path = urlparse(self.path)
 
@@ -72,6 +79,57 @@ class BrikxDashboardHandler(http.server.SimpleHTTPRequestHandler):
                 self.path = '/dashboard.html'
 
             return http.server.SimpleHTTPRequestHandler.do_GET(self)
+
+    def do_POST(self):
+        parsed_path = urlparse(self.path)
+        
+        # Handle publish request: /publish/<id>
+        if parsed_path.path.startswith('/publish/'):
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            
+            try:
+                # Extract ID from path
+                listing_id = parsed_path.path.split('/')[-1]
+                
+                if not listing_id:
+                    raise ValueError("No listing ID provided")
+                
+                # Run publish_worker.py
+                script_path = BASE_DIR / 'publish_worker.py'
+                
+                # Run script and capture output
+                result = subprocess.run(
+                    [sys.executable, str(script_path), listing_id],
+                    cwd=str(BASE_DIR),
+                    capture_output=True,
+                    text=True
+                )
+                
+                if result.returncode == 0:
+                    self.wfile.write(json.dumps({
+                        'success': True,
+                        'message': f'Listing {listing_id} succesvol gepubliceerd!',
+                        'output': result.stdout
+                    }).encode())
+                else:
+                    self.wfile.write(json.dumps({
+                        'success': False,
+                        'error': f'Publish script failed: {result.stderr}'
+                    }).encode())
+                    
+            except Exception as e:
+                self.wfile.write(json.dumps({
+                    'success': False,
+                    'error': str(e)
+                }).encode())
+            return
+            
+        # Handle other POST requests if needed
+        self.send_response(404)
+        self.end_headers()
 
     def log_message(self, format, *args):
         """Custom logging"""

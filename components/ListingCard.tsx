@@ -1,10 +1,15 @@
+'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, ArrowRight } from 'lucide-react';
+import { MapPin, ArrowRight, Bell } from 'lucide-react';
 import { Listing } from '@/lib/api';
+import { InlineKavelAlert } from './InlineKavelAlert';
 
 export function ListingCard({ listing }: { listing: Listing }) {
+  const [showAlert, setShowAlert] = useState(false);
+
   // Use map_url as fallback for image
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80';
 
@@ -53,19 +58,34 @@ export function ListingCard({ listing }: { listing: Listing }) {
           </div>
         </div>
 
-        <Link
-          href={`/aanbod/${listing.kavel_id}`}
-          className={`w-full py-3 border rounded-xl font-bold text-sm transition-colors text-center flex items-center justify-center group/btn ${listing.status === 'sold'
-              ? 'border-red-200 bg-red-50 text-red-700 hover:border-red-400 hover:bg-red-100'
-              : 'border-slate-200 text-slate-700 hover:border-navy-900 hover:text-navy-900'
-            }`}
-        >
-          {listing.status === 'sold' ? (
-            <>Wil ook een alert? <ArrowRight size={16} className="ml-2 group-hover/btn:translate-x-1 transition-transform" /></>
-          ) : (
-            <>Bekijk Potentie <ArrowRight size={16} className="ml-2 group-hover/btn:translate-x-1 transition-transform" /></>
-          )}
-        </Link>
+        {/* For sold properties, show KavelAlert button/form */}
+        {listing.status === 'sold' ? (
+          <div className="space-y-3">
+            {!showAlert ? (
+              <button
+                onClick={() => setShowAlert(true)}
+                className="w-full py-3 border border-blue-200 bg-blue-50 text-blue-700 hover:border-blue-400 hover:bg-blue-100 rounded-xl font-bold text-sm transition-colors text-center flex items-center justify-center group/btn"
+              >
+                <Bell size={16} className="mr-2" />
+                Wil ook een alert?
+              </button>
+            ) : (
+              <InlineKavelAlert
+                provincie={listing.provincie}
+                plaats={listing.plaats}
+                prijs={listing.prijs}
+                autoExpand={true}
+              />
+            )}
+          </div>
+        ) : (
+          <Link
+            href={`/aanbod/${listing.kavel_id}`}
+            className="w-full py-3 border border-slate-200 text-slate-700 hover:border-navy-900 hover:text-navy-900 rounded-xl font-bold text-sm transition-colors text-center flex items-center justify-center group/btn"
+          >
+            Bekijk Potentie <ArrowRight size={16} className="ml-2 group-hover/btn:translate-x-1 transition-transform" />
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 const WP_API_URL = process.env.WP_ZWIJSEN_URL;
 const WP_USER = process.env.WP_ZWIJSEN_USER;
-const WP_PASSWORD = process.env.WP_ZWIJSEN_APP_PASSWORD;
+const WP_PASSWORD = process.env.WP_ZWIJSEN_PASS;
 
 export async function createWordPressPost(listing: any) {
     if (!WP_API_URL || !WP_USER || !WP_PASSWORD) {

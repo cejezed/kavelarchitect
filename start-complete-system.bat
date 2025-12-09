@@ -12,15 +12,15 @@ echo   2. Admin Dashboard (Port 3001)
 echo   3. Next.js Website (Port 3000)
 echo.
 
-REM Start Backend API in _old_root
+REM Start Backend API in brikx_platform
 echo [1/3] Starting Backend API...
-start "Brikx Backend API" cmd /k "cd /d "%~dp0_old_root" && node server.js"
+start "Brikx Backend API" cmd /k "cd /d "%~dp0brikx_platform" && node server.js"
 
 timeout /t 2 /nobreak >nul
 
-REM Start Admin Dashboard in _old_root
+REM Start Admin Dashboard in brikx_platform
 echo [2/3] Starting Admin Dashboard...
-start "Brikx Admin Dashboard" cmd /k "cd /d "%~dp0_old_root" && npm run dev"
+start "Brikx Admin Dashboard" cmd /k "cd /d "%~dp0brikx_platform" && npm run dev"
 
 timeout /t 2 /nobreak >nul
 

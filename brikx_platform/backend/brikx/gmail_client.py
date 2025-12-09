@@ -154,6 +154,12 @@ class GmailClient:
         title = subject.strip() if (use_subject_as_title and subject.strip()) else None
 
         listings: List[Dict[str, str]] = []
+        
+        # Als er meerdere URLs zijn, kunnen we niet zeker weten welke prijs/oppervlakte bij welke URL hoort
+        # op basis van simpele regex op de hele tekst.
+        # In dat geval zetten we ze op None en laten we Perplexity het uitzoeken.
+        is_multi_listing = len(urls) > 1
+        
         for url in urls:
             # …of uit de URL (detail/koop/<plaats>/<slug>/<id>)
             place_from_url = None
@@ -169,8 +175,8 @@ class GmailClient:
 
             listings.append({
                 "url": url,
-                "price": price,
-                "surface": surface,
+                "price": None if is_multi_listing else price,
+                "surface": None if is_multi_listing else surface,
                 "place": place_from_text or place_from_url,
                 "title": title
             })

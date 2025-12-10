@@ -41,6 +41,13 @@ app.use(cors());
 app.use(express.json());
 app.use('/maps', express.static(path.join(__dirname, 'public', 'maps')));
 
+// Serve static assets from dist folder with no-cache headers
+app.use('/assets', express.static(path.join(__dirname, 'dist', 'assets'), {
+    setHeaders: (res) => {
+        res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+}));
+
 // --- State tracking ---
 let currentSyncStatus = {
     status: 'unknown',

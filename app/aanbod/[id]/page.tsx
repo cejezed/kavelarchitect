@@ -188,30 +188,38 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           </div>
 
           {/* Build Specs (if available) */}
-          {listing.specs && (
+          {listing.specs && (listing.specs.volume || listing.specs.nokhoogte || listing.specs.goothoogte || listing.specs.regulations) && (
             <div className="bg-navy-900 text-white rounded-3xl p-8 relative overflow-hidden">
               <div className="relative z-10">
                 <h3 className="font-serif text-2xl font-bold mb-6 flex items-center">
-                  <Ruler className="mr-3 text-blue-400" /> Bouwpotentie
+                  <Ruler className="mr-3 text-blue-400" /> Bouwregels & Mogelijkheden
                 </h3>
                 <div className="grid grid-cols-2 gap-8">
-                  <div>
-                    <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Max. Volume</p>
-                    <p className="text-2xl font-bold">{listing.specs.maxVolume}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Nokhoogte</p>
-                    <p className="text-2xl font-bold">{listing.specs.maxHeight}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Goothoogte</p>
-                    <p className="text-2xl font-bold">{listing.specs.gutterHeight}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Dakvorm</p>
-                    <p className="text-2xl font-bold">{listing.specs.roofType}</p>
-                  </div>
+                  {listing.specs.volume && (
+                    <div>
+                      <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Max. Inhoud</p>
+                      <p className="text-2xl font-bold">{listing.specs.volume} m³</p>
+                    </div>
+                  )}
+                  {listing.specs.nokhoogte && (
+                    <div>
+                      <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Nokhoogte</p>
+                      <p className="text-2xl font-bold">{listing.specs.nokhoogte} m</p>
+                    </div>
+                  )}
+                  {listing.specs.goothoogte && (
+                    <div>
+                      <p className="text-xs text-slate-400 uppercase tracking-widest mb-1">Goothoogte</p>
+                      <p className="text-2xl font-bold">{listing.specs.goothoogte} m</p>
+                    </div>
+                  )}
                 </div>
+                {listing.specs.regulations && (
+                  <div className="mt-6 pt-6 border-t border-white/10">
+                    <p className="text-xs text-slate-400 uppercase tracking-widest mb-2">Bouwregels</p>
+                    <p className="text-sm leading-relaxed opacity-90">{listing.specs.regulations}</p>
+                  </div>
+                )}
               </div>
               <Building2 className="absolute -bottom-10 -right-10 text-white/5 w-64 h-64" />
             </div>

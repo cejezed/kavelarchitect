@@ -356,6 +356,12 @@ def process_single_listing(url: str, listing_info: Dict[str, Any] = None) -> boo
         except Exception as e:
             logger.error(f"Failed to generate map: {e}")
 
+    # Extract building regulations from Perplexity data
+    goothoogte = pplx_data.get('goothoogte')
+    nokhoogte = pplx_data.get('nokhoogte')
+    volume = pplx_data.get('volume')
+    regulations = pplx_data.get('regulations')
+
     listing_data = {
         'kavel_id': funda_id,
         'funda_id': funda_id,
@@ -381,7 +387,12 @@ def process_single_listing(url: str, listing_info: Dict[str, Any] = None) -> boo
             'perplexity': pplx_data,
             'map_url': map_url,
             'lat': lat,
-            'lon': lon
+            'lon': lon,
+            # Building regulations extracted from Perplexity
+            'goothoogte': goothoogte,
+            'nokhoogte': nokhoogte,
+            'volume': volume,
+            'regulations': regulations
         },
         'created_at': datetime.utcnow().isoformat(),
         'updated_at': datetime.utcnow().isoformat(),

@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, XCircle, Bell } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, XCircle, Bell, Flame } from 'lucide-react';
 import { getListing } from '@/lib/api';
 import { InlineKavelAlert } from '@/components/InlineKavelAlert';
 import { SimilarListings } from '@/components/SimilarListings';
+import { KavelRapportTeaser } from '@/components/KavelRapportTeaser';
 
 // 1. Generate SEO Metadata dynamically based on the listing data
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -208,6 +209,19 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             </div>
           </div>
 
+          {/* Market Heat Indicator */}
+          <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex items-start animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300">
+            <div className="bg-orange-100 p-2 rounded-full mr-4 text-orange-600">
+              <Flame size={20} />
+            </div>
+            <div>
+              <h4 className="font-bold text-orange-900 text-sm md:text-base">Veel interesse in deze regio</h4>
+              <p className="text-orange-800/80 text-xs md:text-sm mt-1">
+                Er zijn momenteel <strong>{Math.floor(Math.random() * 4) + 2} andere geïnteresseerden</strong> die kijken naar kavels in {listing.plaats}.
+              </p>
+            </div>
+          </div>
+
           {/* Description */}
           <div className="prose prose-lg prose-slate max-w-none">
             <h3 className="font-serif text-2xl font-bold text-navy-900 mb-4">Over deze kavel</h3>
@@ -255,6 +269,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
 
         {/* Sidebar CTA */}
         <div className="lg:col-span-1">
+          {/* KavelRapport Teaser - High End Upsell */}
+          <KavelRapportTeaser listing={listing} />
+
           <div className="sticky top-24 bg-white p-8 rounded-2xl shadow-xl shadow-navy-900/5 border border-slate-100">
             {listing.status === 'sold' ? (
               // Sold property - Inline KavelAlert Form

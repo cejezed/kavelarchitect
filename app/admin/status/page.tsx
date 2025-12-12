@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle, XCircle, Clock, Package, Search } from 'lucide-react';
+import { ArrowLeft, CheckCircle, XCircle, Clock, Package, Search, Users } from 'lucide-react';
 
 interface Listing {
     kavel_id: string;
@@ -93,8 +93,19 @@ export default function AdminStatusPage() {
                     <Link href="/" className="inline-flex items-center text-sm text-slate-500 hover:text-slate-700 mb-4">
                         <ArrowLeft size={16} className="mr-2" /> Terug naar home
                     </Link>
-                    <h1 className="text-3xl font-bold text-slate-900">Kavel Status Beheer</h1>
-                    <p className="text-slate-600 mt-2">Markeer kavels als verkocht of wijzig hun status</p>
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <h1 className="text-3xl font-bold text-slate-900">Kavel Status Beheer</h1>
+                            <p className="text-slate-600 mt-2">Markeer kavels als verkocht of wijzig hun status</p>
+                        </div>
+                        <Link
+                            href="/admin/leads"
+                            className="flex items-center px-4 py-2 bg-navy-900 text-white rounded-lg hover:bg-navy-800 transition-colors shadow-sm"
+                        >
+                            <Users size={18} className="mr-2" />
+                            Bekijk Leads
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Filters */}

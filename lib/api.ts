@@ -16,10 +16,14 @@ export interface Listing {
   status: string;
   published_sites?: string[];
   specs?: {
-    maxVolume: string;
-    maxHeight: string;
-    gutterHeight: string;
-    roofType: string;
+    maxVolume?: string;
+    maxHeight?: string;
+    gutterHeight?: string;
+    roofType?: string;
+    volume?: string; // Dutch variant
+    nokhoogte?: string; // Dutch variant
+    goothoogte?: string; // Dutch variant
+    regulations?: string;
   };
 }
 
@@ -94,7 +98,7 @@ export async function getListings(): Promise<Listing[]> {
       const { data } = await supabaseAdmin
         .from('listings')
         .select('*')
-        .eq('status', 'published')
+        .in('status', ['published', 'sold']) // Allow sold listings too
         .order('created_at', { ascending: false });
 
       return (data as Listing[]) || [];
@@ -121,6 +125,23 @@ export async function getListings(): Promise<Listing[]> {
 }
 
 export async function getListing(id: string): Promise<Listing | undefined> {
+  // Direct fetch for single item (More efficient & robust)
+  if (typeof window === 'undefined') {
+    try {
+      const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
+      const { data } = await supabaseAdmin
+        .from('listings')
+        .select('*')
+        .eq('kavel_id', id)
+        .single();
+
+      return (data as Listing) || undefined;
+    } catch (error) {
+      console.error(`Failed to fetch listing ${id}:`, error);
+      // Fallback to searching in mock data if DB fails
+    }
+  }
+
   const listings = await getListings();
   return listings.find(l => l.kavel_id === id);
 }

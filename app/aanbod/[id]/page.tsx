@@ -85,38 +85,65 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
   // 3. Construct Schema.org JSON-LD
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'RealEstateListing',
-    'name': listing.seo_title,
-    'description': listing.seo_summary,
-    'image': [imageUrl],
-    'url': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`,
-    'datePosted': new Date().toISOString(),
-    'offer': {
-      '@type': 'Offer',
-      'price': listing.prijs,
-      'priceCurrency': 'EUR',
-      'availability': 'https://schema.org/InStock',
-      'category': 'purchase'
-    },
-    'itemOffered': {
-      '@type': 'Place',
-      'name': `Bouwkavel ${listing.adres}`,
-      'address': {
-        '@type': 'PostalAddress',
-        'streetAddress': listing.adres,
-        'addressLocality': listing.plaats,
-        'addressRegion': listing.provincie,
-        'addressCountry': 'NL'
-      },
-      'additionalProperty': [
-        {
-          '@type': 'PropertyValue',
-          'name': 'Perceeloppervlakte',
-          'value': listing.oppervlakte,
-          'unitCode': 'MTK'
+    '@graph': [
+      {
+        '@type': 'RealEstateListing',
+        'name': listing.seo_title,
+        'description': listing.seo_summary,
+        'image': [imageUrl],
+        'url': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`,
+        'datePosted': new Date().toISOString(),
+        'offer': {
+          '@type': 'Offer',
+          'price': listing.prijs,
+          'priceCurrency': 'EUR',
+          'availability': 'https://schema.org/InStock',
+          'category': 'purchase'
+        },
+        'itemOffered': {
+          '@type': 'Place',
+          'name': `Bouwkavel ${listing.adres}`,
+          'address': {
+            '@type': 'PostalAddress',
+            'streetAddress': listing.adres,
+            'addressLocality': listing.plaats,
+            'addressRegion': listing.provincie,
+            'addressCountry': 'NL'
+          },
+          'additionalProperty': [
+            {
+              '@type': 'PropertyValue',
+              'name': 'Perceeloppervlakte',
+              'value': listing.oppervlakte,
+              'unitCode': 'MTK'
+            }
+          ]
         }
-      ]
-    }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+          {
+            '@type': 'ListItem',
+            'position': 1,
+            'name': 'Home',
+            'item': 'https://kavelarchitect.nl'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 2,
+            'name': 'Aanbod',
+            'item': 'https://kavelarchitect.nl/aanbod'
+          },
+          {
+            '@type': 'ListItem',
+            'position': 3,
+            'name': listing.seo_title.substring(0, 30) + '...', // Truncate for cleaner breadcrumb
+            'item': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`
+          }
+        ]
+      }
+    ]
   };
 
   return (

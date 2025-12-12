@@ -23,10 +23,12 @@ export default function Home() {
             <section className="relative pt-20 pb-20 md:pt-32 md:pb-32 overflow-hidden border-b border-slate-200">
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
-                    <img
+                    <Image
                         src="/hero-bg.png"
-                        alt="Background Architecture"
-                        className="absolute inset-0 w-full h-full object-cover opacity-30"
+                        alt="Luxe vrijstaande woning en architectuur voorbeeld"
+                        fill
+                        priority
+                        className="object-cover opacity-30"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/10 to-white/90"></div>
                 </div>
@@ -109,43 +111,43 @@ export default function Home() {
 
                                         {/* Mock Kavel Card */}
                                         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                        {/* Card Image with gradient */}
-                                        <div className="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600">
-                                            <div className="absolute inset-0 bg-[url('/hero-bg.png')] bg-cover opacity-20"></div>
-                                            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-900">
-                                                Nieuw
+                                            {/* Card Image with gradient */}
+                                            <div className="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600">
+                                                <div className="absolute inset-0 bg-[url('/hero-bg.png')] bg-cover opacity-20"></div>
+                                                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-900">
+                                                    Nieuw
+                                                </div>
+                                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
+                                                    <p className="text-white text-xs font-medium mb-1">Blaricum, Noord-Holland</p>
+                                                    <h3 className="text-white font-bold text-lg">Villapark Oost</h3>
+                                                </div>
                                             </div>
-                                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
-                                                <p className="text-white text-xs font-medium mb-1">Blaricum, Noord-Holland</p>
-                                                <h3 className="text-white font-bold text-lg">Villapark Oost</h3>
-                                            </div>
-                                        </div>
 
-                                        {/* Card Content */}
-                                        <div className="p-4">
-                                            <div className="flex items-baseline gap-2 mb-3">
-                                                <span className="text-2xl font-bold text-navy-900">€ 1.250.000</span>
-                                                <span className="text-sm text-slate-500">v.o.n.</span>
-                                            </div>
-                                            <div className="flex items-center gap-4 text-xs text-slate-600 mb-3">
-                                                <div className="flex items-center gap-1">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                                                    </svg>
-                                                    <span>1.400 m²</span>
+                                            {/* Card Content */}
+                                            <div className="p-4">
+                                                <div className="flex items-baseline gap-2 mb-3">
+                                                    <span className="text-2xl font-bold text-navy-900">€ 1.250.000</span>
+                                                    <span className="text-sm text-slate-500">v.o.n.</span>
                                                 </div>
-                                                <div className="flex items-center gap-1">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                                    </svg>
-                                                    <span>Max. 850 m³</span>
+                                                <div className="flex items-center gap-4 text-xs text-slate-600 mb-3">
+                                                    <div className="flex items-center gap-1">
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                                                        </svg>
+                                                        <span>1.400 m²</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                                        </svg>
+                                                        <span>Max. 850 m³</span>
+                                                    </div>
                                                 </div>
+                                                <button className="w-full py-3 bg-navy-900 text-white font-bold rounded-xl text-sm hover:bg-navy-800 transition-colors">
+                                                    Bekijk Details
+                                                </button>
                                             </div>
-                                            <button className="w-full py-3 bg-navy-900 text-white font-bold rounded-xl text-sm hover:bg-navy-800 transition-colors">
-                                                Bekijk Details
-                                            </button>
                                         </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>

@@ -146,11 +146,15 @@ export default async function RegioPage({ params }: { params: { stad: string } }
                       <h3 className="font-serif text-xl font-bold text-navy-900 mb-2">{listing.adres}</h3>
                       <p className="text-slate-600 text-sm mb-4">{listing.plaats}</p>
                       <div className="flex items-baseline justify-between mb-4">
-                        <span className="text-2xl font-bold text-navy-900">€ {listing.prijs.toLocaleString('nl-NL')}</span>
+                        <span className="text-2xl font-bold text-navy-900">
+                          {listing.prijs ? `€ ${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag'}
+                        </span>
                         <span className="text-sm text-slate-500">{listing.oppervlakte} m²</span>
                       </div>
                       <div className="text-sm text-slate-600">
-                        <span className="font-medium">€ {pricePerSqm.toLocaleString('nl-NL')} / m²</span>
+                        {listing.prijs && pricePerSqm > 0 && (
+                          <span className="font-medium">€ {pricePerSqm.toLocaleString('nl-NL')} / m²</span>
+                        )}
                       </div>
                     </div>
                   </Link>

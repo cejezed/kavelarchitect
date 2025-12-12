@@ -1,9 +1,41 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import Link from 'next/link';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Listing } from '@/lib/api';
 import { ListingCard } from './ListingCard';
 import { Search, SlidersHorizontal, X, ArrowUpDown } from 'lucide-react';
+
+// Helper for nearby regions
+function getNearbyRegions(query: string, province: string): string[] {
+    const q = (query || '').toLowerCase();
+
+    // 't Gooi specific
+    if (q.includes('blaricum') || q.includes('laren') || q.includes('gooi')) {
+        return ['Huizen', 'Naarden', 'Bussum', 'Eemnes'];
+    }
+    if (q.includes('huizen') || q.includes('naarden') || q.includes('bussum')) {
+        return ['Blaricum', 'Laren', 'Hilversum'];
+    }
+    if (q.includes('wassenaar')) {
+        return ['Den Haag', 'Voorschoten', 'Leiden'];
+    }
+
+    // Provincie based fallback
+    if (province === 'Noord-Holland' || province === 'Utrecht') {
+        return ['Hilversum', 'Amersfoort', 'Vinkeveen', 'Loosdrecht'];
+    }
+    if (province === 'Zuid-Holland') {
+        return ['Wassenaar', 'Noordwijk', 'Rotterdam'];
+    }
+    if (province === 'Noord-Brabant') {
+        return ['Eindhoven', 'Den Bosch', 'Breda', 'Tilburg'];
+    }
+
+    // Default suggestions
+    return ['Blaricum', 'Wassenaar', 'Aerdenhout', 'Vught'];
+}
 
 interface AanbodFilterProps {
     initialListings: Listing[];
@@ -11,6 +43,8 @@ interface AanbodFilterProps {
 }
 
 export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterProps) {
+    const searchParams = useSearchParams();
+
     const [maxPrice, setMaxPrice] = useState<number | ''>('');
     const [minSurface, setMinSurface] = useState<number | ''>('');
     const [province, setProvince] = useState<string>('Alle provincies');
@@ -18,6 +52,19 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
     const [showFilters, setShowFilters] = useState(false);
     const [sortBy, setSortBy] = useState<'newest' | 'price-low' | 'price-high' | 'size-large' | 'size-small'>('newest');
     const [showSold, setShowSold] = useState<boolean>(true);
+
+    // Sync from URL
+    useEffect(() => {
+        const q = searchParams.get('q');
+        const p = searchParams.get('province');
+        const max = searchParams.get('maxPrice');
+        const min = searchParams.get('minSurface');
+
+        if (q) setSearchQuery(q);
+        if (p) setProvince(p);
+        if (max) setMaxPrice(Number(max));
+        if (min) setMinSurface(Number(min));
+    }, [searchParams]);
 
     // Extract unique provinces from listings
     const provinces = useMemo(() => {
@@ -274,7 +321,26 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
 
             {filteredListings.length === 0 && (
                 <div className="text-center py-12 md:py-20 bg-white rounded-xl border border-slate-200 border-dashed">
-                    <p className="text-slate-500 text-base md:text-lg">Geen kavels gevonden die aan uw criteria voldoen.</p>
+                    <p className="text-slate-500 text-base md:text-lg mb-4">Geen kavels gevonden die aan uw criteria voldoen.</p>
+
+                    {/* Nearby Regions Suggestions */}
+                    {(searchQuery || province !== 'Alle provincies') && (
+                        <div className="mb-6 animate-in fade-in slide-in-from-bottom-3 duration-500">
+                            <p className="text-sm font-medium text-slate-900 mb-3">Misschien zoekt u iets in de buurt?</p>
+                            <div className="flex flex-wrap justify-center gap-2">
+                                {getNearbyRegions(searchQuery, province).map(region => (
+                                    <Link
+                                        key={region}
+                                        href={`?q=${region}`}
+                                        className="px-4 py-2 bg-blue-50 text-blue-700 text-sm font-bold rounded-lg hover:bg-blue-100 transition-colors"
+                                    >
+                                        {region}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
                     <button
                         onClick={() => {
                             setProvince('Alle provincies');
@@ -282,7 +348,7 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                             setMinSurface('');
                             setSearchQuery('');
                         }}
-                        className="mt-4 text-blue-600 font-bold hover:underline"
+                        className="text-blue-600 font-bold hover:underline"
                     >
                         Filters wissen
                     </button>

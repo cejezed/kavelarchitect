@@ -76,7 +76,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
                 <h3 style="margin:0;">${listing.adres}, ${listing.plaats}</h3>
                 <p style="margin: 5px 0; color: #64748B;">${listing.seo_summary || 'Geen omschrijving beschikbaar.'}</p>
                 <ul style="font-size: 14px; color: #334155;">
-                  <li><strong>Prijs:</strong> € ${listing.prijs.toLocaleString()}</li>
+                  <li><strong>Prijs:</strong> ${listing.prijs ? `€ ${listing.prijs.toLocaleString()}` : 'Op aanvraag'}</li>
                   <li><strong>Oppervlakte:</strong> ${listing.oppervlakte} m²</li>
                 </ul>
                 <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kavelarchitect.nl'}/aanbod/${listing.kavel_id}" 

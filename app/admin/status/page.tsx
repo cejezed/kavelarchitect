@@ -197,7 +197,7 @@ export default function AdminStatusPage() {
                                             </td>
                                             <td className="px-6 py-4 text-slate-600">{listing.plaats}</td>
                                             <td className="px-6 py-4 font-medium text-slate-900">
-                                                € {listing.prijs.toLocaleString('nl-NL')}
+                                                {listing.prijs ? `€ ${listing.prijs.toLocaleString('nl-NL')}` : 'Op aanvraag'}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex gap-2">

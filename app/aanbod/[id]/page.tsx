@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const description = listing.seo_summary;
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
   const canonicalUrl = `https://kavelarchitect.nl/aanbod/${params.id}`;
-  const priceFormatted = `€${listing.prijs.toLocaleString('nl-NL')}`;
+  const priceFormatted = listing.prijs ? `€${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag';
 
   return {
     title,
@@ -197,15 +197,21 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Vraagprijs</p>
-              <p className="text-2xl font-serif font-bold text-navy-900">€ {(listing.prijs).toLocaleString()}</p>
+              <p className="text-2xl font-serif font-bold text-navy-900">
+                {listing.prijs ? `€ ${listing.prijs.toLocaleString('nl-NL')}` : 'Op aanvraag'}
+              </p>
             </div>
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Oppervlakte</p>
               <p className="text-2xl font-serif font-bold text-navy-900">{listing.oppervlakte} m²</p>
             </div>
             <div className="hidden md:block">
-              <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Prijs / m²</p>
-              <p className="text-2xl font-serif font-bold text-blue-600">€ {pricePerSqm.toLocaleString()}</p>
+              {listing.prijs && pricePerSqm > 0 && (
+                <>
+                  <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Prijs / m²</p>
+                  <p className="text-2xl font-serif font-bold text-blue-600">€ {pricePerSqm.toLocaleString()} / m²</p>
+                </>
+              )}
             </div>
           </div>
 

@@ -53,8 +53,12 @@ export function ListingCard({ listing }: { listing: Listing }) {
           </div>
           <div>
             <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Vraagprijs</p>
-            <p className="font-bold text-slate-700">€ {listing.prijs.toLocaleString()}</p>
-            <p className="text-xs text-slate-400 font-medium">€ {pricePerSqm.toLocaleString()} / m²</p>
+            <p className="font-bold text-slate-700">
+              {listing.prijs ? `€ ${listing.prijs.toLocaleString()}` : 'Prijs op aanvraag'}
+            </p>
+            {listing.prijs && pricePerSqm > 0 && (
+              <p className="text-xs text-slate-400 font-medium">€ {pricePerSqm.toLocaleString()} / m²</p>
+            )}
           </div>
         </div>
 

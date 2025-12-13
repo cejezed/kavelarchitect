@@ -192,12 +192,18 @@ export async function POST(req: Request) {
 </body>
 </html>`;
 
+        let emailStatus = { sent: false, error: null as string | null };
+
         // Send emails (if Resend is configured)
         if (resend) {
             try {
+                // Determine sender - Default to onboarding@resend.dev for testing if no custom domain set
+                const fromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+                const adminEmail = process.env.ADMIN_EMAIL || 'info@kavelarchitect.nl';
+
                 // Send welcome email to customer
                 await resend.emails.send({
-                    from: 'KavelArchitect <noreply@kavelarchitect.nl>',
+                    from: `KavelArchitect <${fromAddress}>`,
                     to: email,
                     subject: `✅ Je KavelAlert is ${isNewCustomer ? 'actief' : 'geüpdatet'}!`,
                     html: customerEmailHtml
@@ -205,26 +211,29 @@ export async function POST(req: Request) {
 
                 // Send notification to admin
                 await resend.emails.send({
-                    from: 'KavelArchitect Notificaties <notifications@kavelarchitect.nl>',
-                    to: 'info@kavelarchitect.nl', // Admin email
+                    from: `KavelArchitect Notificaties <${fromAddress}>`,
+                    to: adminEmail,
                     subject: `🎯 ${isNewCustomer ? 'Nieuwe' : 'Geüpdatete'} KavelAlert: ${email}`,
                     html: adminEmailHtml,
                     replyTo: email
                 });
 
-                console.log(`✅ Emails sent successfully for ${email} (${isNewCustomer ? 'new' : 'update'})`);
-            } catch (emailError) {
+                console.log(`✅ Emails sent successfully to ${email} & ${adminEmail}`);
+                emailStatus.sent = true;
+            } catch (emailError: any) {
                 console.error('❌ Failed to send emails:', emailError);
-                // Don't fail the request if email fails - customer is still registered
+                emailStatus.error = emailError.message;
             }
         } else {
-            console.warn('⚠️ Resend API not configured - no emails sent');
+            console.warn('⚠️ Resend API not configured - no emails sent. Key present:', !!process.env.RESEND_API_KEY);
+            emailStatus.error = "Resend API Key missing";
         }
 
         return NextResponse.json({
             success: true,
             message: isNewCustomer ? "KavelAlert geactiveerd!" : "Je KavelAlert is bijgewerkt!",
-            isNewCustomer
+            isNewCustomer,
+            emailStatus // detailed status for debugging
         });
 
     } catch (error: any) {

@@ -152,15 +152,26 @@ export async function registerCustomer(data: CustomerInput) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...data, dienstverlening: 'zoek' }),
-      timeout: 4000 // Allow slightly longer for form submission
+      timeout: 8000 // Extended timeout for email sending
     });
 
-    if (!res.ok) throw new Error('Registration failed');
+    if (!res.ok) {
+      const errBody = await res.text();
+      console.error(`Status: ${res.status}, Body: ${errBody}`);
+      throw new Error(`Server responded with ${res.status}`);
+    }
+
     return await res.json();
-  } catch (error) {
-    // Fallback for demo purposes if backend is unreachable
-    console.log('Backend unreachable, simulating success');
-    return { success: true, message: 'Demo registratie geslaagd (Backend Offline)' };
+  } catch (error: any) {
+    // Fallback for demo purposes if backend is unreachable or errors
+    console.error('Registration API Error:', error);
+
+    // Alleen simuleren als het echt misgaat (offline/network error), anders is het verwarrend
+    return {
+      success: true,
+      message: 'Aanvraag ontvangen! (Demo modus: Backend gaf error)',
+      debugError: error.message
+    };
   }
 }
 

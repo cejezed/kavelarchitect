@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { ShieldCheck, Check, CheckCircle2, Crown, ArrowRight, HelpCircle, X } from 'lucide-react';
 
 export const metadata = {
-  title: 'KavelRapport™ | Zekerheid vóór aankoop van een bouwkavel',
+  title: 'KavelRapport | Zekerheid voor aankoop van een bouwkavel',
   description:
-    'Weet wat u koopt vóór u een bod doet. Objectieve bestemmingsplan- en risicoanalyse van bouwkavels in begrijpelijke taal.'
+    'Weet wat u koopt voordat u een bod doet. Objectieve bestemmingsplan- en risicoanalyse van bouwkavels in begrijpelijke taal.'
 };
 
 export default function KavelRapportPage() {
@@ -62,7 +62,7 @@ export default function KavelRapportPage() {
               {[
                 {
                   title: 'Planologische vertaalslag',
-                  desc: 'Bestemmingsplanregels vertaald naar begrijpelijke conclusies: wat mag hier wel en wat niet?',
+                  desc: 'Bestemmingsplanregels vertaald naar begrijpelijke conclusies: wat mag hier wel en wat nieto',
                 },
                 {
                   title: 'Indicatieve investeringsbandbreedte',
@@ -130,15 +130,15 @@ export default function KavelRapportPage() {
                 Overweegt u een verouderde woning te kopen?
               </h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                Ook bij bestaande woningen met een slecht energielabel of een matige bouwkundige staat is zekerheid vÇüÇür aankoop cruciaal.
-                Het KavelRapportƒ"½ helpt u niet bij hoe u moet verbouwen, maar bij de vraag: is dit object planologisch en financieel geschikt om hier serieus in te investeren?
+                Ook bij bestaande woningen met een slecht energielabel of een matige bouwkundige staat is zekerheid voor aankoop cruciaal.
+                Het KavelRapport helpt u niet bij hoe u moet verbouwen, maar bij de vraag: is dit object planologisch en financieel geschikt om hier serieus in te investeren?
               </p>
               <ul className="space-y-3 mb-6">
                 {[
                   'Wat mag er planologisch met deze woning?',
                   'Is ingrijpende verbouwing of vervangende nieuwbouw toegestaan of kansrijk?',
-                  'Welke investeringsbandbreedte is realistisch vÇüÇürdat u koopt?',
-                  'Waar zitten de grootste risicoƒ?Ts bij aankoop?',
+                  'Welke investeringsbandbreedte is realistisch voordat u koopt?',
+                  'Waar zitten de grootste risico?s bij aankoop?',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-700">
                     <Check size={18} className="text-emerald-600 mt-1 shrink-0" />
@@ -147,14 +147,15 @@ export default function KavelRapportPage() {
                 ))}
               </ul>
               <p className="text-slate-500 text-sm">
-                Het KavelRapportƒ"½ vervangt geen bouwkundige keuring, maar voorkomt dat u een object koopt dat planologisch of financieel niet past bij uw plannen.
+
+                Het KavelRapport™ vervangt geen bouwkundige keuring, maar voorkomt dat u een object koopt dat planologisch of financieel niet past bij uw plannen.
               </p>
             </div>
             <div className="md:w-1/3 mt-8 md:mt-0">
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-full flex flex-col">
                 <h3 className="font-bold text-navy-900 text-lg mb-3">Direct intake starten</h3>
                 <p className="text-slate-600 text-sm mb-4 flex-1">
-                  Heeft u al een kavel of bestaande woning op het oog? Start de intake en ontvang een voorstel.
+                  Heeft u al een kavel of bestaande woning op het oogo Start de intake en ontvang een voorstel.
                 </p>
                 <Link
                   href="/kavelrapport/intake"
@@ -275,19 +276,19 @@ export default function KavelRapportPage() {
           <div className="space-y-4">
             {[
               {
-                q: 'Hoe snel ontvang ik het rapport?',
+                q: 'Hoe snel ontvang ik het rapporto',
                 a: 'Na betaling gaan wij direct aan de slag. Voor een KavelCheck en KavelRapport streven we naar levering binnen 24 uur (op werkdagen). De Premium Review plannen we in overleg.',
               },
               {
-                q: 'Wat als de kavel onbebouwbaar blijkt?',
+                q: 'Wat als de kavel onbebouwbaar blijkto',
                 a: 'Dat is waardevolle informatie! Het rapport behoedt u dan voor een miskoop. U krijgt in dat geval een negatief bouwadvies, helder onderbouwd.',
               },
               {
-                q: 'Is het KavelRapport ook geschikt voor bestaande woningen?',
-                a: 'Ja. Het KavelRapportƒ"½ is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risicoƒ?Ts van het object ƒ?" niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.',
+                q: 'Is het KavelRapport ook geschikt voor bestaande woningeno',
+                a: 'Ja. Het KavelRapport™ is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risico’s van het object — niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.',
               },
               {
-                q: 'Ik heb zelf een kavel gevonden (niet op jullie site), kunnen jullie helpen?',
+                q: 'Ik heb zelf een kavel gevonden (niet op jullie site), kunnen jullie helpeno',
                 a: 'Absoluut. Start de intake voor een eigen kavel of stuur een e-mail naar info@kavelarchitect.nl voor een maatwerk analyse.',
               },
             ].map((faq, i) => (

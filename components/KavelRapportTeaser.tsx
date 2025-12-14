@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Shield, CheckCircle2, Lock, Crown, FileText } from 'lucide-react';
 import { PurchaseModal, ReportTier } from './PurchaseModal';
@@ -91,8 +92,8 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                     beslisinformatie. Geen verkooppraat, wel helderheid.
                 </p>
 
-                {/* Tier cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+                {/* Tier cards: always stacked for readability */}
+                <div className="grid grid-cols-1 gap-3 mb-6">
                     {tiers.map((t) => {
                         const Icon = t.icon;
                         const isActive = t.key === selectedTier;
@@ -194,6 +195,15 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                         <Lock size={16} className="mr-2" />
                         Verder naar betaling
                     </button>
+                </div>
+
+                <div className="mt-3 text-right md:text-left">
+                    <Link
+                        href="/kavelrapport"
+                        className="text-[11px] text-slate-400 hover:text-white underline underline-offset-4"
+                    >
+                        Meer weten over KavelRapport & wat u krijgt?
+                    </Link>
                 </div>
 
                 {/* Micro trust */}

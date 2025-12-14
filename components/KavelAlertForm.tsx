@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ArrowRight, X, Check, MapPin, Award } from 'lucide-react';
 import { registerCustomer } from '@/lib/api';
 import posthog from 'posthog-js';
@@ -95,6 +96,14 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
                           <p className="text-sm text-slate-600 mt-1">
                               U staat op de lijst voor 50% korting bij lancering (Q2 2025).
                           </p>
+                          <Link
+                            href="/kavelrapport"
+                            onClick={() => posthog?.capture?.('kavelrapport_link_success_click')}
+                            className="text-sm text-blue-700 font-semibold inline-flex items-center gap-1 mt-3 underline underline-offset-4"
+                          >
+                            Lees meer over alle rapporten
+                            <ArrowRight size={16} />
+                          </Link>
                       </div>
                  </div>
             </div>
@@ -211,6 +220,15 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
                     Volgende Stap <ArrowRight className="ml-2" />
                 </button>
             )}
+            <div className="mt-3 text-center text-xs text-slate-500">
+                <Link
+                  href="/kavelrapport"
+                  onClick={() => posthog?.capture?.('kavelrapport_link_footer_click')}
+                  className="underline underline-offset-4 hover:text-navy-900"
+                >
+                  Liever eerst zien wat in het KavelRapport staat?
+                </Link>
+            </div>
         </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import posthog from 'posthog-js';
 import { Bell, ShieldCheck, LayoutGrid, BookOpen, User, Check, ArrowRight } from 'lucide-react';
 import KavelAlertForm from '@/components/KavelAlertForm';
 import CTASticky from '@/components/CTASticky';
@@ -33,6 +34,21 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/10 to-white/90"></div>
                 </div>
 
+                {/* Simple top nav with KavelRapport entry */}
+                <div className="absolute top-0 left-0 right-0 z-20">
+                    <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-end gap-6 text-sm font-semibold text-slate-700">
+                        <Link href="/kavelrapport" className="hover:text-navy-900">
+                            KavelRapport
+                        </Link>
+                        <Link href="/kennisbank" className="hover:text-navy-900">
+                            Kennisbank
+                        </Link>
+                        <Link href="/aanbod" className="inline-flex items-center gap-2 text-navy-900">
+                            Aanbod <ArrowRight size={14} />
+                        </Link>
+                    </div>
+                </div>
+
                 <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
 
                     <div className="order-1 lg:order-1 text-center lg:text-left">
@@ -46,13 +62,26 @@ export default function Home() {
                         <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
                             Wij bewaken dagelijks het aanbod en sturen u direct kavels die passen bij uw regio, budget en woonwensen.
                         </p>
-                        <button
-                            onClick={() => setShowWizard(true)}
-                            className="inline-flex items-center justify-center px-8 py-4 bg-navy-900 text-white font-bold text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
-                        >
-                            <Bell size={20} className="mr-3" />
-                            Activeer Mijn Gratis KavelAlert
-                        </button>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <button
+                                onClick={() => {
+                                    posthog?.capture?.('cta_kavelalert_hero_click');
+                                    setShowWizard(true);
+                                }}
+                                className="inline-flex items-center justify-center px-8 py-4 bg-navy-900 text-white font-bold text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
+                            >
+                                <Bell size={20} className="mr-3" />
+                                Activeer Mijn Gratis KavelAlert
+                            </button>
+                            <Link
+                                href="/kavelrapport"
+                                onClick={() => posthog?.capture?.('cta_kavelrapport_hero_click')}
+                                className="inline-flex items-center justify-center px-8 py-4 border-2 border-navy-900 text-navy-900 font-bold text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
+                            >
+                                Bekijk KavelRapport
+                                <ArrowRight size={18} className="ml-2" />
+                            </Link>
+                        </div>
                         <div className="mt-8 flex items-center justify-center lg:justify-start gap-2 text-xs text-slate-400">
                             <ShieldCheck size={14} />
                             <span>Powered by Architectenbureau Zwijsen</span>
@@ -195,12 +224,21 @@ export default function Home() {
                                 </div>
                             </div>
 
-                            <Link
-                                href="/aanbod"
-                                className="inline-flex items-center text-navy-900 font-bold border-b-2 border-navy-900 hover:text-blue-600 hover:border-blue-600 transition-colors pb-1"
-                            >
-                                Vind uw kavel en vraag rapport aan <ArrowRight size={18} className="ml-2" />
-                            </Link>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <Link
+                                    href="/aanbod"
+                                    className="inline-flex items-center text-navy-900 font-bold border-b-2 border-navy-900 hover:text-blue-600 hover:border-blue-600 transition-colors pb-1"
+                                >
+                                    Vind uw kavel en vraag rapport aan <ArrowRight size={18} className="ml-2" />
+                                </Link>
+                                <Link
+                                    href="/kavelrapport"
+                                    onClick={() => posthog?.capture?.('cta_kavelrapport_showcase_click')}
+                                    className="inline-flex items-center text-blue-600 font-bold border-b-2 border-blue-600 hover:text-blue-700 hover:border-blue-700 transition-colors pb-1"
+                                >
+                                    Bekijk voorbeelden rapporten <ArrowRight size={18} className="ml-2" />
+                                </Link>
+                            </div>
                         </div>
                         <div className="flex-1 w-full relative">
                             {/* Visual representation of the report - Abstract */}
@@ -255,12 +293,18 @@ export default function Home() {
             <section className="py-16 bg-white">
                 <div className="max-w-4xl mx-auto px-6">
                     <p className="text-center text-sm font-medium text-slate-500 mb-8">Twijfelt u nog? Ontdek eerst onze gidsen:</p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <Link href="/aanbod" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
                             <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
                                 <LayoutGrid size={20} />
                             </div>
                             <span className="font-bold text-slate-900 block">Bekijk Aanbod</span>
+                        </Link>
+                        <Link href="/kavelrapport" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
+                            <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
+                                <ShieldCheck size={20} />
+                            </div>
+                            <span className="font-bold text-slate-900 block">KavelRapport</span>
                         </Link>
                         <Link href="/kennisbank" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
                             <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
@@ -268,7 +312,7 @@ export default function Home() {
                             </div>
                             <span className="font-bold text-slate-900 block">Kennisbank</span>
                         </Link>
-                        <Link href="/over-ons" className="p-6 rounded-2xl border border-slate-200 bg-slate-50 text-center col-span-2 md:col-span-1 hover:border-navy-900 hover:shadow-lg transition-all group">
+                        <Link href="/over-ons" className="p-6 rounded-2xl border border-slate-200 bg-slate-50 text-center hover:border-navy-900 hover:shadow-lg transition-all group">
                             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
                                 <User size={20} />
                             </div>

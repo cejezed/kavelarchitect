@@ -102,6 +102,11 @@ export default function RegioFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/kavelrapport" className="text-slate-400 hover:text-white transition-colors">
+                  KavelRapport
+                </Link>
+              </li>
+              <li>
                 <Link href="/kennisbank" className="text-slate-400 hover:text-white transition-colors">
                   Kennisbank
                 </Link>

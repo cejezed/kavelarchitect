@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { listingId, price, description, email, name, metadata } = body;
+        const { listingId, price, description, email, name, metadata, productName } = body;
 
         const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
                     price_data: {
                         currency: 'eur',
                         product_data: {
-                            name: 'KavelRapport™',
+                            name: productName || 'KavelRapport™',
                             description: description || `Rapport voor kavel ${listingId}`,
                             // images: ['https://uwdomein.nl/assets/rapport-cover.jpg'], // Optioneel
                         },

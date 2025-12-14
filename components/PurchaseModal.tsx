@@ -1,18 +1,31 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Check, ShieldCheck, Lock, CreditCard } from 'lucide-react';
+import { X, Check, ShieldCheck, Lock } from 'lucide-react';
 import { Listing } from '@/lib/api';
+
+export type ReportTier = 'check' | 'rapport' | 'premium';
 
 interface PurchaseModalProps {
     listing: Listing;
+    tier: ReportTier;
     onClose: () => void;
 }
 
-export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
+export function PurchaseModal({ listing, tier, onClose }: PurchaseModalProps) {
     const [step, setStep] = useState<'info' | 'payment' | 'success'>('info');
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+
+    const getTierDetails = (t: ReportTier) => {
+        switch (t) {
+            case 'check': return { price: 39, name: 'KavelCheck', oldPrice: 79 };
+            case 'premium': return { price: 349, name: 'Premium Review', oldPrice: 499 };
+            case 'rapport': default: return { price: 149, name: 'KavelRapport™', oldPrice: 249 };
+        }
+    };
+
+    const details = getTierDetails(tier);
 
     const handlePayment = async () => {
         setStep('payment');
@@ -23,13 +36,15 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     listingId: listing.kavel_id,
-                    price: 75.00,
-                    description: `KavelRapport™: ${listing.adres}`,
+                    price: details.price,
+                    description: `${details.name}: ${listing.adres}`,
+                    productName: details.name,
                     email,
                     name,
                     metadata: {
                         provincie: listing.provincie,
-                        plaats: listing.plaats
+                        plaats: listing.plaats,
+                        tier: tier
                     }
                 })
             });
@@ -37,7 +52,7 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
             const data = await res.json();
 
             if (data.success && data.checkoutUrl) {
-                // Redirect user to Mollie
+                // Redirect user to Mollie/Stripe
                 window.location.href = data.checkoutUrl;
             } else {
                 alert('Er ging iets mis met het aanmaken van de betaling: ' + (data.error || 'Onbekende fout'));
@@ -51,8 +66,6 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
     };
 
     if (step === 'success') {
-        // This state might not be reached client-side anymore because of the redirect,
-        // but kept for fallback or test mode.
         return (
             <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-navy-900/60 backdrop-blur-sm animate-in fade-in duration-300">
                 <div className="bg-white rounded-2xl max-w-lg w-full p-8 text-center shadow-2xl relative">
@@ -66,7 +79,7 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
 
                     <h2 className="text-2xl font-serif font-bold text-navy-900 mb-2">Bedankt voor je bestelling!</h2>
                     <p className="text-slate-600 mb-6">
-                        Je ontvangt het <strong>KavelRapport™</strong> voor {listing.adres} binnen 5 minuten in je mailbox ({email}).
+                        Je ontvangt het <strong>{details.name}</strong> voor {listing.adres} spoedig in je mailbox ({email}).
                     </p>
 
                     <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 mb-6 text-left">
@@ -95,37 +108,42 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
                 <div className="hidden md:block w-1/3 bg-slate-50 p-8 border-r border-slate-200">
                     <div className="mb-6">
                         <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Geselecteerd</span>
-                        <h3 className="font-serif font-bold text-navy-900 text-lg mt-1">{listing.adres}</h3>
-                        <p className="text-sm text-slate-500">{listing.plaats}</p>
+                        <h3 className="font-serif font-bold text-navy-900 text-lg mt-1">{details.name}</h3>
+                        <p className="text-sm text-slate-500">{listing.adres}</p>
+                        <p className="text-xs text-slate-400">{listing.plaats}</p>
                     </div>
 
                     <div className="space-y-4 mb-8">
                         <div className="flex items-start">
                             <Check size={16} className="text-emerald-500 mt-0.5 mr-2 shrink-0" />
-                            <p className="text-sm text-slate-600">Massastudie (m³ & m²)</p>
+                            <p className="text-sm text-slate-600">Bouwregels & Mogelijkheden</p>
                         </div>
                         <div className="flex items-start">
                             <Check size={16} className="text-emerald-500 mt-0.5 mr-2 shrink-0" />
-                            <p className="text-sm text-slate-600">Investeringsraming volledig</p>
+                            <p className="text-sm text-slate-600">Financiële Haalbaarheid</p>
                         </div>
-                        <div className="flex items-start">
-                            <Check size={16} className="text-emerald-500 mt-0.5 mr-2 shrink-0" />
-                            <p className="text-sm text-slate-600">Architectenblik + Advies</p>
-                        </div>
-                        <div className="flex items-start">
-                            <Check size={16} className="text-emerald-500 mt-0.5 mr-2 shrink-0" />
-                            <p className="text-sm text-slate-600">Zelfbouw Roadmap</p>
-                        </div>
+                        {tier !== 'check' && (
+                            <div className="flex items-start">
+                                <Check size={16} className="text-emerald-500 mt-0.5 mr-2 shrink-0" />
+                                <p className="text-sm text-slate-600">Architectenblik + Advies</p>
+                            </div>
+                        )}
+                        {tier === 'premium' && (
+                            <div className="flex items-start">
+                                <Check size={16} className="text-emerald-500 mt-0.5 mr-2 shrink-0" />
+                                <p className="text-sm text-slate-600">Persoonlijke Review & Call</p>
+                            </div>
+                        )}
                     </div>
 
                     <div className="mt-auto pt-6 border-t border-slate-200">
                         <div className="flex justify-between items-center mb-1">
-                            <span className="text-slate-500 text-sm">Totaal</span>
-                            <span className="text-slate-400 line-through text-sm">€ 150,-</span>
+                            <span className="text-slate-500 text-sm">Waarde</span>
+                            <span className="text-slate-400 line-through text-sm">€ {details.oldPrice},-</span>
                         </div>
                         <div className="flex justify-between items-center">
                             <span className="font-bold text-navy-900">Te betalen</span>
-                            <span className="font-bold text-navy-900 text-xl">€ 75,-</span>
+                            <span className="font-bold text-navy-900 text-xl">€ {details.price},-</span>
                         </div>
                     </div>
                 </div>
@@ -143,16 +161,16 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
                         <div className="flex flex-col items-center justify-center py-12">
                             <div className="w-16 h-16 border-4 border-slate-200 border-t-navy-900 rounded-full animate-spin mb-4"></div>
                             <p className="text-slate-600 font-medium">Betaling verwerken...</p>
-                            <p className="text-sm text-slate-400 mt-2">Je wordt doorgestuurd naar je bank.</p>
+                            <p className="text-sm text-slate-400 mt-2">Je wordt doorgestuurd voor de betaling.</p>
                         </div>
                     ) : (
                         <div className="space-y-6">
                             <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start">
                                 <ShieldCheck className="text-blue-600 shrink-0 mr-3" size={20} />
                                 <div>
-                                    <p className="text-sm font-bold text-blue-800">100% Tevredenheidsgarantie</p>
+                                    <p className="text-sm font-bold text-blue-800">Veilig & Vertrouwd</p>
                                     <p className="text-xs text-blue-700 mt-1">
-                                        Is het rapport niet wat je zocht? Dan krijg je je geld terug. Geen vragen.
+                                        Data direct van het kadaster en bestemmingsplan, gecontroleerd door experts.
                                     </p>
                                 </div>
                             </div>
@@ -180,7 +198,7 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                         />
-                                        <p className="text-xs text-slate-500 mt-1">Hier sturen we het rapport naartoe.</p>
+                                        <p className="text-xs text-slate-500 mt-1">Hier sturen we het document naartoe.</p>
                                     </div>
                                 </div>
 
@@ -199,10 +217,10 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
 
                                 <div className="mt-8 pt-6 border-t border-slate-100">
                                     <div className="flex justify-between items-center md:hidden mb-4">
-                                        <span className="text-slate-500">Totaal</span>
+                                        <span className="text-slate-500">Totaal ({details.name})</span>
                                         <div>
-                                            <span className="text-slate-400 line-through text-sm mr-2">€ 150</span>
-                                            <span className="font-bold text-navy-900 text-xl">€ 75</span>
+                                            <span className="text-slate-400 line-through text-sm mr-2">€ {details.oldPrice}</span>
+                                            <span className="font-bold text-navy-900 text-xl">€ {details.price}</span>
                                         </div>
                                     </div>
 
@@ -211,7 +229,7 @@ export function PurchaseModal({ listing, onClose }: PurchaseModalProps) {
                                         className="w-full py-4 bg-navy-900 text-white font-bold text-lg rounded-xl hover:bg-navy-800 transition-all shadow-lg flex items-center justify-center group"
                                     >
                                         <Lock size={18} className="mr-2 opacity-80" />
-                                        Veilig Afrekenen
+                                        Afrekenen € {details.price},-
                                     </button>
                                     <p className="text-center text-xs text-slate-400 mt-3 flex items-center justify-center">
                                         <Lock size={12} className="mr-1" /> SSL Beveiligde transactie

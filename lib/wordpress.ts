@@ -11,11 +11,14 @@ export async function createWordPressPost(listing: any) {
     const auth = Buffer.from(`${WP_USER}:${WP_PASSWORD}`).toString('base64');
 
     // 1. Upload Image (if exists)
-    let featuredMediaId = 0;
-    if (listing.image_url) {
+    // Gebruik meegegeven WP media id als die er is; anders upload de gekozen bron
+    let featuredMediaId = listing.featured_media_id || 0;
+    // Gebruik handmatig ingestelde afbeelding indien beschikbaar, anders de automatische kaart
+    const featuredSource = listing.featured_image_url || listing.image_url;
+
+    if (!featuredMediaId && featuredSource) {
         try {
-            // Fetch image buffer
-            const imgRes = await fetch(listing.image_url);
+            const imgRes = await fetch(featuredSource);
             const imgBuffer = await imgRes.arrayBuffer();
 
             const filename = `kavel-${listing.kavel_id}.jpg`;

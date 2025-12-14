@@ -8,6 +8,8 @@ export interface Listing {
   prijs: number;
   oppervlakte: number;
   image_url?: string;
+  featured_image_url?: string; // optioneel overschrijfbare uitgelichte afbeelding
+  featured_media_id?: number;  // WP media ID indien al geüpload
   source_url?: string;
   map_url?: string;
   seo_title: string;

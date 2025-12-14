@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ShieldCheck, Check, CheckCircle2, Crown, ArrowRight, HelpCircle, X } from 'lucide-react';
+import PricingSelector from './PricingSelector';
 
 export const metadata = {
   title: 'KavelRapport | Zekerheid voor aankoop van een bouwkavel',
@@ -18,7 +19,7 @@ export default function KavelRapportPage() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500/20 text-yellow-300 text-xs font-bold uppercase tracking-widest rounded-full border border-yellow-500/50 mb-6">
               <ShieldCheck size={14} />
-              Zekerheid vóór aankoop
+              Zekerheid voor aankoop
             </div>
 
             <h1 className="font-serif text-4xl md:text-6xl text-white leading-tight mb-6">
@@ -27,9 +28,9 @@ export default function KavelRapportPage() {
             </h1>
 
             <p className="text-lg text-slate-300 mb-8 max-w-lg leading-relaxed">
-              Het bestemmingsplan is complex en vaak verkeerd geïnterpreteerd.
-              Het KavelRapport™ vertaalt regels en risico’s naar heldere beslisinformatie,
-              zodat u weet waar u aan toe bent vóórdat u een bod doet.
+              Het bestemmingsplan is complex en wordt vaak verkeerd geïnterpreteerd.
+              Het KavelRapport vertaalt regels en risico's naar heldere beslisinformatie,
+              zodat u weet waar u aan toe bent voordat u een bod doet.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -62,20 +63,20 @@ export default function KavelRapportPage() {
               {[
                 {
                   title: 'Planologische vertaalslag',
-                  desc: 'Bestemmingsplanregels vertaald naar begrijpelijke conclusies: wat mag hier wel en wat nieto',
+                  desc: 'Bestemmingsplanregels vertaald naar begrijpelijke conclusies: wat mag hier wel en wat niet?'
                 },
                 {
                   title: 'Indicatieve investeringsbandbreedte',
-                  desc: 'Een realistische kosteninschatting (bandbreedte) van grond, bouw en bijkomende kosten.',
+                  desc: 'Een realistische kosteninschatting (bandbreedte) van grond, bouw en bijkomende kosten.'
                 },
                 {
                   title: 'Risicoanalyse',
-                  desc: 'De belangrijkste juridische, ruimtelijke en procesmatige risico’s overzichtelijk op een rij.',
+                  desc: 'De belangrijkste juridische, ruimtelijke en procesmatige risico’s overzichtelijk op een rij.'
                 },
                 {
                   title: 'Heldere conclusie',
-                  desc: 'Geschikt, opletten of niet passend — met onderbouwing en logische vervolgstappen.',
-                },
+                  desc: 'Geschikt, opletten of niet passend — met onderbouwing en logische vervolgstappen.'
+                }
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
                   <CheckCircle2 size={22} className="text-emerald-500 shrink-0 mt-1" />
@@ -97,16 +98,16 @@ export default function KavelRapportPage() {
               {[
                 {
                   title: 'Geen woningontwerp',
-                  desc: 'Het KavelRapport geeft inzicht in mogelijkheden, maar bevat geen plattegronden of ontwerpen.',
+                  desc: 'Het KavelRapport geeft inzicht in mogelijkheden, maar bevat geen plattegronden of ontwerpen.'
                 },
                 {
                   title: 'Geen vergunninggarantie',
-                  desc: 'De gemeente beslist altijd bij een vergunningaanvraag; dit rapport is een onderbouwde bureaustudie.',
+                  desc: 'De gemeente beslist altijd bij een vergunningaanvraag; dit rapport is een onderbouwde bureaustudie.'
                 },
                 {
                   title: 'Geen taxatie of bodemonderzoek',
-                  desc: 'Specialistische onderzoeken en officiële taxaties vallen buiten deze analyse.',
-                },
+                  desc: 'Specialistische onderzoeken en officiele taxaties vallen buiten deze analyse.'
+                }
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-4 opacity-80">
                   <X size={22} className="text-red-400 shrink-0 mt-1" />
@@ -138,7 +139,7 @@ export default function KavelRapportPage() {
                   'Wat mag er planologisch met deze woning?',
                   'Is ingrijpende verbouwing of vervangende nieuwbouw toegestaan of kansrijk?',
                   'Welke investeringsbandbreedte is realistisch voordat u koopt?',
-                  'Waar zitten de grootste risico?s bij aankoop?',
+                  'Waar zitten de grootste risico’s bij aankoop?'
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-slate-700">
                     <Check size={18} className="text-emerald-600 mt-1 shrink-0" />
@@ -147,15 +148,14 @@ export default function KavelRapportPage() {
                 ))}
               </ul>
               <p className="text-slate-500 text-sm">
-
-                Het KavelRapport™ vervangt geen bouwkundige keuring, maar voorkomt dat u een object koopt dat planologisch of financieel niet past bij uw plannen.
+                Het KavelRapport vervangt geen bouwkundige keuring, maar voorkomt dat u een object koopt dat planologisch of financieel niet past bij uw plannen.
               </p>
             </div>
             <div className="md:w-1/3 mt-8 md:mt-0">
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 h-full flex flex-col">
                 <h3 className="font-bold text-navy-900 text-lg mb-3">Direct intake starten</h3>
                 <p className="text-slate-600 text-sm mb-4 flex-1">
-                  Heeft u al een kavel of bestaande woning op het oogo Start de intake en ontvang een voorstel.
+                  Heeft u al een kavel of bestaande woning op het oog? Start de intake en ontvang een voorstel.
                 </p>
                 <Link
                   href="/kavelrapport/intake"
@@ -177,92 +177,11 @@ export default function KavelRapportPage() {
               Kies uw niveau van zekerheid
             </h2>
             <p className="text-slate-600">
-              Van een snelle oriëntatie tot volledige zekerheid vóór aankoop.
+              Van een snelle orientatie tot volledige zekerheid voor aankoop.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-
-            {/* KavelCheck */}
-            <div className="border border-slate-200 rounded-2xl p-8 flex flex-col bg-white">
-              <h3 className="font-serif text-2xl font-bold text-navy-900 mb-2">KavelCheck</h3>
-              <p className="text-slate-500 text-sm mb-4">Voor een eerste indruk</p>
-              <div className="text-4xl font-bold text-navy-900 mb-6">€ 39</div>
-
-              <ul className="space-y-3 mb-8 flex-1">
-                {[
-                  'Bestemmingsplan (hoog over)',
-                  'Bouwvlak & maxima (globaal)',
-                  'Top-3 aandachtspunten',
-                ].map(f => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-slate-700">
-                    <Check size={16} className="text-emerald-500 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-
-              <Link href="/aanbod" className="w-full py-3 border-2 border-slate-200 font-bold rounded-xl text-center">
-                Kies een kavel
-              </Link>
-            </div>
-
-            {/* KavelRapport */}
-            <div className="border-2 border-navy-900 rounded-2xl p-8 flex flex-col bg-navy-50 relative shadow-xl">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-navy-900 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
-                Meest gekozen
-              </div>
-
-              <h3 className="font-serif text-2xl font-bold text-navy-900 mb-2">
-                KavelRapport™
-              </h3>
-              <p className="text-slate-500 text-sm mb-4">Beslisdocument vóór het bod</p>
-              <div className="text-4xl font-bold text-navy-900 mb-6">€ 149</div>
-
-              <ul className="space-y-3 mb-8 flex-1">
-                {[
-                  'Alles uit KavelCheck',
-                  'Bouwmogelijkheden vertaald naar duidelijke grenzen',
-                  'Indicatieve investeringsbandbreedte',
-                  'Risicoanalyse + vervolgstappen',
-                ].map(f => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-navy-900">
-                    <ShieldCheck size={16} className="text-blue-600 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-
-              <Link href="/aanbod" className="w-full py-3 bg-navy-900 text-white font-bold rounded-xl text-center">
-                Start aanvraag
-              </Link>
-
-              <Link href="/kavelrapport/intake" className="mt-3 text-xs text-center text-slate-500 underline">
-                Ik heb al een eigen kavel/woning
-              </Link>
-            </div>
-
-            {/* Premium */}
-            <div className="border border-slate-200 rounded-2xl p-8 flex flex-col bg-white">
-              <h3 className="font-serif text-2xl font-bold text-navy-900 mb-2">Premium Review</h3>
-              <p className="text-slate-500 text-sm mb-4">Extra zekerheid met persoonlijke toelichting</p>
-              <div className="text-4xl font-bold text-navy-900 mb-6">€ 349</div>
-
-              <ul className="space-y-3 mb-8 flex-1">
-                {[
-                  'Alles uit KavelRapport',
-                  'Persoonlijke review door architect',
-                  '30 min strategiegesprek',
-                ].map(f => (
-                  <li key={f} className="flex items-center gap-2 text-sm text-slate-700">
-                    <Crown size={16} className="text-purple-500 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-
-              <Link href="/aanbod" className="w-full py-3 border-2 border-slate-200 font-bold rounded-xl text-center">
-                Kies een kavel
-              </Link>
-            </div>
-          </div>
+          <PricingSelector />
         </div>
       </section>
 
@@ -276,21 +195,21 @@ export default function KavelRapportPage() {
           <div className="space-y-4">
             {[
               {
-                q: 'Hoe snel ontvang ik het rapporto',
-                a: 'Na betaling gaan wij direct aan de slag. Voor een KavelCheck en KavelRapport streven we naar levering binnen 24 uur (op werkdagen). De Premium Review plannen we in overleg.',
+                q: 'Hoe snel ontvang ik het rapport?',
+                a: 'Na betaling gaan wij direct aan de slag. Voor een KavelCheck en KavelRapport streven we naar levering binnen 24 uur (op werkdagen). De Premium Review plannen we in overleg.'
               },
               {
-                q: 'Wat als de kavel onbebouwbaar blijkto',
-                a: 'Dat is waardevolle informatie! Het rapport behoedt u dan voor een miskoop. U krijgt in dat geval een negatief bouwadvies, helder onderbouwd.',
+                q: 'Wat als de kavel onbebouwbaar blijkt?',
+                a: 'Dat is waardevolle informatie! Het rapport behoedt u dan voor een miskoop. U krijgt in dat geval een negatief bouwadvies, helder onderbouwd.'
               },
               {
-                q: 'Is het KavelRapport ook geschikt voor bestaande woningeno',
-                a: 'Ja. Het KavelRapport™ is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risico’s van het object — niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.',
+                q: 'Is het KavelRapport ook geschikt voor bestaande woningen?',
+                a: 'Ja. Het KavelRapport is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risico’s van het object — niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.'
               },
               {
-                q: 'Ik heb zelf een kavel gevonden (niet op jullie site), kunnen jullie helpeno',
-                a: 'Absoluut. Start de intake voor een eigen kavel of stuur een e-mail naar info@kavelarchitect.nl voor een maatwerk analyse.',
-              },
+                q: 'Ik heb zelf een kavel gevonden (niet op jullie site), kunnen jullie helpen?',
+                a: 'Absoluut. Start de intake voor een eigen kavel of stuur een e-mail naar info@kavelarchitect.nl voor een maatwerk analyse.'
+              }
             ].map((faq, i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
                 <h4 className="font-bold text-navy-900 flex items-start gap-3">
@@ -310,7 +229,7 @@ export default function KavelRapportPage() {
           Twijfel niet achteraf.
         </h2>
         <p className="text-slate-300 mb-8 text-lg">
-          Begin met zekerheid vóór u een bod uitbrengt.
+          Begin met zekerheid voordat u een bod uitbrengt.
         </p>
         <Link
           href="/aanbod"

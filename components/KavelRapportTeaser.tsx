@@ -11,15 +11,15 @@ interface KavelRapportTeaserProps {
 
 /**
  * KavelRapportTeaser
- * - 3-tier pricing: decoy (cheap), target (default), anchor (expensive)
- * - Copy is "certainty before purchase" without overpromising deliverables
- * - Avoids discounts and money-back guarantees unless you truly support them operationally
+ * - 3-tier pricing: decoy (cheap), target (rapport), anchor (expensive)
+ * - Starts with NO preselection to avoid "weird default choice"
+ * - CTA disabled until user selects a tier
  */
 export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
     const [showModal, setShowModal] = useState(false);
-    const [selectedTier, setSelectedTier] = useState<ReportTier>('rapport');
+    const [selectedTier, setSelectedTier] = useState<ReportTier | null>(null);
 
-    // If sold, no report CTA (you can keep it if you want it as "reference report", but default is hide).
+    // If sold, no report CTA (default: hide)
     if (listing.status === 'sold') return null;
 
     const tiers = useMemo(
@@ -62,14 +62,13 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                     'Extra duiding op impact voor ontwerp en haalbaarheid',
                     'Korte toelichting/strategiemoment inbegrepen',
                 ],
-                fineprint:
-                    'Voor kopers die geen twijfel willen en extra duiding waarderen.',
+                fineprint: 'Voor kopers die geen twijfel willen en extra duiding waarderen.',
             },
         ],
         []
     );
 
-    const active = tiers.find((t) => t.key === selectedTier) ?? tiers[1];
+    const active = selectedTier ? tiers.find((t) => t.key === selectedTier) : null;
 
     return (
         <>
@@ -136,6 +135,15 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Selection indicator (subtle, but clear) */}
+                                    <div
+                                        className={[
+                                            'h-4 w-4 rounded-full border mt-1 shrink-0',
+                                            isActive ? 'bg-white border-white' : 'border-white/25',
+                                        ].join(' ')}
+                                        aria-hidden="true"
+                                    />
                                 </div>
 
                                 <div className="mt-3 space-y-2">
@@ -147,9 +155,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                     ))}
                                 </div>
 
-                                <div className="mt-3 text-[11px] text-slate-400 leading-relaxed">
-                                    {t.fineprint}
-                                </div>
+                                <div className="mt-3 text-[11px] text-slate-400 leading-relaxed">{t.fineprint}</div>
                             </button>
                         );
                     })}
@@ -158,15 +164,32 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                 {/* CTA */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                     <div className="text-slate-300 text-xs leading-relaxed">
-                        <span className="font-bold text-white">Gekozen:</span> {active.title} — € {active.price},-
-                        <div className="text-slate-400 mt-1">
-                            Transparant: dit is een analyse voor beslisinformatie, geen ontwerp of juridische garantie.
-                        </div>
+                        {!active ? (
+                            <>
+                                <span className="font-bold text-white">Kies een optie</span> om door te gaan naar betaling.
+                                <div className="text-slate-400 mt-1">
+                                    Transparant: dit is een analyse voor beslisinformatie, geen ontwerp of juridische garantie.
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <span className="font-bold text-white">Gekozen:</span> {active.title} — € {active.price},-
+                                <div className="text-slate-400 mt-1">
+                                    Transparant: dit is een analyse voor beslisinformatie, geen ontwerp of juridische garantie.
+                                </div>
+                            </>
+                        )}
                     </div>
 
                     <button
-                        onClick={() => setShowModal(true)}
-                        className="inline-flex items-center justify-center bg-white text-navy-900 px-6 py-3 rounded-xl font-bold hover:bg-slate-100 transition-colors shadow-lg"
+                        onClick={() => active && setShowModal(true)}
+                        disabled={!active}
+                        className={[
+                            'inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold shadow-lg transition-colors',
+                            active
+                                ? 'bg-white text-navy-900 hover:bg-slate-100'
+                                : 'bg-white/20 text-white/60 cursor-not-allowed',
+                        ].join(' ')}
                     >
                         <Lock size={16} className="mr-2" />
                         Verder naar betaling
@@ -179,7 +202,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                 </div>
             </div>
 
-            {showModal && (
+            {showModal && selectedTier && (
                 <PurchaseModal
                     listing={listing}
                     tier={selectedTier}

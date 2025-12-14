@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Bell, ShieldCheck, LayoutGrid, BookOpen, User } from 'lucide-react';
+import { Bell, ShieldCheck, LayoutGrid, BookOpen, User, Check, ArrowRight } from 'lucide-react';
 import KavelAlertForm from '@/components/KavelAlertForm';
 import CTASticky from '@/components/CTASticky';
 
@@ -148,6 +148,101 @@ export default function Home() {
                                                 </button>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* SERVICE SHOWCASE: KavelRapport */}
+            <section className="py-20 bg-slate-50 border-b border-slate-200">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="flex flex-col md:flex-row items-center gap-12">
+                        <div className="flex-1">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold uppercase tracking-widest rounded-full border border-yellow-200 mb-6">
+                                <ShieldCheck size={14} />
+                                Zekerheid vóór aankoop
+                            </div>
+                            <h2 className="font-serif text-4xl md:text-5xl text-navy-900 leading-tight mb-6">
+                                Weet wat u koopt <br />
+                                <span className="text-blue-600">vóór u een bod doet</span>.
+                            </h2>
+                            <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                                Een kavel kopen is complex. Mag uw droomhuis er eigenlijk wel staan?
+                                Met onze KavelChecks en Rapporten krijgt u direct inzicht in de juridische en financiële haalbaarheid.
+                            </p>
+
+                            <div className="space-y-4 mb-8">
+                                <div className="flex items-start">
+                                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mt-0.5 mr-3 shrink-0">
+                                        <Check size={14} />
+                                    </div>
+                                    <p className="text-slate-700"><strong>Bouwvolume check:</strong> Hoeveel m³ en m² mag u écht bouwen?</p>
+                                </div>
+                                <div className="flex items-start">
+                                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mt-0.5 mr-3 shrink-0">
+                                        <Check size={14} />
+                                    </div>
+                                    <p className="text-slate-700"><strong>Kostenraming:</strong> Realistisch budget voor grond + huis + bijkomende kosten.</p>
+                                </div>
+                                <div className="flex items-start">
+                                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mt-0.5 mr-3 shrink-0">
+                                        <Check size={14} />
+                                    </div>
+                                    <p className="text-slate-700"><strong>Architectenadvies:</strong> Is de zonligging en privacy optimaal?</p>
+                                </div>
+                            </div>
+
+                            <Link
+                                href="/aanbod"
+                                className="inline-flex items-center text-navy-900 font-bold border-b-2 border-navy-900 hover:text-blue-600 hover:border-blue-600 transition-colors pb-1"
+                            >
+                                Vind uw kavel en vraag rapport aan <ArrowRight size={18} className="ml-2" />
+                            </Link>
+                        </div>
+                        <div className="flex-1 w-full relative">
+                            {/* Visual representation of the report - Abstract */}
+                            <div className="aspect-[4/5] md:aspect-square bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 relative overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-20 -mt-20 blur-3xl opacity-50"></div>
+
+                                <div className="relative z-10 border-b-2 border-slate-100 pb-6 mb-6">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-white">
+                                            <ShieldCheck size={24} />
+                                        </div>
+                                        <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">
+                                            Positief Advies
+                                        </div>
+                                    </div>
+                                    <h3 className="font-serif text-2xl text-navy-900 font-bold">KavelRapport™</h3>
+                                    <p className="text-slate-500 text-sm">Locatie: Villapark Weg 1, Blaricum</p>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="bg-slate-50 p-4 rounded-xl">
+                                        <p className="text-xs text-slate-500 uppercase font-bold mb-1">Max. Bouwvolume</p>
+                                        <div className="flex items-end gap-2">
+                                            <span className="text-2xl font-bold text-navy-900">1.250 m³</span>
+                                            <span className="text-sm text-emerald-600 mb-1">Ruim voldoende</span>
+                                        </div>
+                                    </div>
+                                    <div className="bg-slate-50 p-4 rounded-xl">
+                                        <p className="text-xs text-slate-500 uppercase font-bold mb-1">Totale Investering</p>
+                                        <div className="flex items-end gap-2">
+                                            <span className="text-2xl font-bold text-navy-900">€ 1.85m</span>
+                                            <span className="text-sm text-slate-500 mb-1">incl. grond & bouw</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2">
+                                        <div className="flex -space-x-2 mb-2">
+                                            {[1, 2, 3].map(i => (
+                                                <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
+                                            ))}
+                                        </div>
+                                        <p className="text-xs text-slate-400">Reeds 50+ rapporten uitgegeven deze maand</p>
                                     </div>
                                 </div>
                             </div>

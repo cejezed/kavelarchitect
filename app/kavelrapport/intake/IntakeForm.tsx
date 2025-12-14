@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { AnalysisType, Goal, KavelrapportIntakeRequest, Stage, TimeHorizon } from '@/types/kavelrapport';
 
@@ -31,7 +32,11 @@ function validate(payload: KavelrapportIntakeRequest): string | null {
 }
 
 export default function IntakeForm() {
-  const [analysisType, setAnalysisType] = useState<AnalysisType>('plot');
+  const searchParams = useSearchParams();
+  const initialAnalysis = (searchParams?.get('analysisType') as AnalysisType) || 'plot';
+  const initialTier = searchParams?.get('tier') || '';
+
+  const [analysisType, setAnalysisType] = useState<AnalysisType>(initialAnalysis);
   const [stage, setStage] = useState<Stage>('orientation');
   const [timeHorizon, setTimeHorizon] = useState<TimeHorizon>('0_6');
   const [address, setAddress] = useState('');
@@ -42,6 +47,16 @@ export default function IntakeForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [selectedTier, setSelectedTier] = useState(initialTier);
+
+  useEffect(() => {
+    if (initialAnalysis) {
+      setAnalysisType(initialAnalysis);
+    }
+    if (initialTier) {
+      setSelectedTier(initialTier);
+    }
+  }, [initialAnalysis, initialTier]);
 
   const remaining = 500 - notes.length;
 
@@ -126,6 +141,9 @@ export default function IntakeForm() {
               <p className="text-slate-600 mt-2 text-sm">
                 Bureaustudie / planologische analyse voor aankoopbeslissing. Geen bouwkundige keuring, geen ontwerp, geen vergunninggarantie.
               </p>
+              {selectedTier && (
+                <p className="mt-2 text-sm font-semibold text-navy-900">Gekozen pakket: {selectedTier}</p>
+              )}
             </div>
             <Link
               href="/aanbod"

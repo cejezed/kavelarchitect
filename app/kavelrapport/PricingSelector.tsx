@@ -94,7 +94,10 @@ export default function PricingSelector() {
             >
               Start aanvraag
             </Link>
-            <Link href="/kavelrapport/intake" className="mt-3 text-xs text-center text-slate-500 underline inline-block w-full">
+            <Link
+              href={`/kavelrapport/intake?analysisType=existing_property&tier=${tier.key}`}
+              className="mt-3 text-xs text-center text-slate-500 underline inline-block w-full"
+            >
               Ik heb al een eigen kavel/woning
             </Link>
           </div>

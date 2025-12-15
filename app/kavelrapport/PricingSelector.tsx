@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Check } from 'lucide-react';
+import { Check, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const tiers = [
   {
@@ -36,9 +37,12 @@ const tiers = [
 
 export default function PricingSelector() {
   const [selectedTier, setSelectedTier] = useState<(typeof tiers)[number]['key']>('rapport');
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   return (
-    <div className="grid md:grid-cols-3 gap-8">
+    <>
+      <div className="grid md:grid-cols-3 gap-8">
       {tiers.map((tier) => {
         const isSelected = selectedTier === tier.key;
         const baseClasses =
@@ -81,25 +85,208 @@ export default function PricingSelector() {
               ))}
             </ul>
 
-            <Link
-              href="/aanbod"
-              className={`w-full py-3 font-bold rounded-xl text-center transition inline-block ${
-                isSelected
-                  ? 'bg-orange-500 text-white hover:bg-orange-600'
-                  : 'border border-slate-300 text-navy-900 hover:border-slate-400'
-              }`}
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedTier(tier.key);
+                  if (typeof window !== 'undefined') {
+                    localStorage.setItem('selectedTier', tier.key);
+                  }
+                  setShowModal(true);
+                }}
+                className={`w-full py-3 font-bold rounded-xl text-center transition inline-block ${
+                  isSelected
+                    ? 'bg-orange-500 text-white hover:bg-orange-600'
+                    : 'border border-slate-300 text-navy-900 hover:border-slate-400'
+                }`}
+              >
+                {`Start ${tier.title}`}
+              </button>
+              <Link
+                href={`/kavelrapport/intake?analysisType=existing_property&tier=${tier.key}`}
+                className="mt-3 text-xs text-center text-slate-500 underline inline-block w-full"
+              >
+                Ik heb al een eigen kavel/woning
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          disabled={!selectedTier}
+          className={`px-6 py-3 rounded-xl font-bold shadow ${
+            selectedTier
+              ? 'bg-orange-500 text-white hover:bg-orange-600'
+              : 'bg-slate-200 text-slate-500 cursor-not-allowed'
+          }`}
+        >
+          Start
+        </button>
+      </div>
+
+      {showModal && (
+        <StartModal
+          onClose={() => setShowModal(false)}
+          tier={selectedTier}
+          onSelectListing={(id) => {
+            router.push(`/aanbod/${id}?tier=${selectedTier}&from=kavelrapport`);
+            setShowModal(false);
+          }}
+          onStartOwn={(analysisType, address, link, email) => {
+            const params = new URLSearchParams({
+              analysisType,
+              tier: selectedTier,
+              address,
+              link,
+              email,
+            });
+            router.push(`/kavelrapport/intake?${params.toString()}`);
+            setShowModal(false);
+          }}
+        />
+      )}
+    </>
+  );
+}
+
+function StartModal({
+  onClose,
+  tier,
+  onSelectListing,
+  onStartOwn,
+}: {
+  onClose: () => void;
+  tier: string;
+  onSelectListing: (id: string) => void;
+  onStartOwn: (analysisType: 'plot' | 'existing_property', address: string, link: string, email: string) => void;
+}) {
+  const [mode, setMode] = useState<'aanbod' | 'own'>('aanbod');
+  const [listings, setListings] = useState<Array<{ kavel_id: string; seo_title: string; plaats: string }>>([]);
+  const [selectedListing, setSelectedListing] = useState('');
+  const [address, setAddress] = useState('');
+  const [link, setLink] = useState('');
+  const [email, setEmail] = useState('');
+  const [analysisType, setAnalysisType] = useState<'plot' | 'existing_property'>('existing_property');
+
+  // Fetch listings simple
+  useState(() => {
+    fetch('/api/published-listings')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setListings(
+            data.map((l: any) => ({
+              kavel_id: l.kavel_id,
+              seo_title: l.seo_title,
+              plaats: l.plaats,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  });
+
+  const disabledAanbod = mode === 'aanbod' && !selectedListing;
+  const disabledOwn = mode === 'own' && (!address || !link || !email);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center px-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-xl w-full p-6 relative">
+        <button className="absolute top-3 right-3 text-slate-400 hover:text-slate-700" onClick={onClose} aria-label="Sluiten">
+          <X size={18} />
+        </button>
+        <h3 className="text-lg font-bold text-navy-900 mb-4">Kies uw kavel</h3>
+
+        <div className="flex gap-2 mb-4">
+          <button
+            className={`flex-1 py-2 rounded-xl font-semibold border ${mode === 'aanbod' ? 'border-orange-500 text-orange-600' : 'border-slate-200 text-slate-700'}`}
+            onClick={() => setMode('aanbod')}
+          >
+            Kavel uit ons aanbod
+          </button>
+          <button
+            className={`flex-1 py-2 rounded-xl font-semibold border ${mode === 'own' ? 'border-orange-500 text-orange-600' : 'border-slate-200 text-slate-700'}`}
+            onClick={() => setMode('own')}
+          >
+            Eigen kavel / woning
+          </button>
+        </div>
+
+        {mode === 'aanbod' ? (
+          <div className="space-y-4">
+            <label className="text-sm font-semibold text-slate-700 block">Kavel kiezen</label>
+            <select
+              value={selectedListing}
+              onChange={(e) => setSelectedListing(e.target.value)}
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
             >
-              {`Start ${tier.title}`}
-            </Link>
-            <Link
-              href={`/kavelrapport/intake?analysisType=existing_property&tier=${tier.key}`}
-              className="mt-3 text-xs text-center text-slate-500 underline inline-block w-full"
+              <option value="">Selecteer een kavel</option>
+              {listings.map((l) => (
+                <option key={l.kavel_id} value={l.kavel_id}>
+                  {l.seo_title} — {l.plaats}
+                </option>
+              ))}
+            </select>
+            <button
+              disabled={disabledAanbod}
+              onClick={() => selectedListing && onSelectListing(selectedListing)}
+              className={`w-full py-3 rounded-xl font-bold ${disabledAanbod ? 'bg-slate-200 text-slate-500' : 'bg-orange-500 text-white hover:bg-orange-600'}`}
             >
-              Ik heb al een eigen kavel/woning
-            </Link>
+              Verder
+            </button>
           </div>
-        );
-      })}
+        ) : (
+          <div className="space-y-4">
+            <label className="text-sm font-semibold text-slate-700 block">Adres</label>
+            <input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+              placeholder="Straat, plaats"
+            />
+            <label className="text-sm font-semibold text-slate-700 block">Link (Funda/advertentie)</label>
+            <input
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+              placeholder="https://..."
+            />
+            <label className="text-sm font-semibold text-slate-700 block">E-mailadres</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
+              placeholder="naam@voorbeeld.nl"
+            />
+            <div className="flex gap-2">
+              <button
+                className={`flex-1 py-2 rounded-xl font-semibold border ${analysisType === 'plot' ? 'border-orange-500 text-orange-600' : 'border-slate-200 text-slate-700'}`}
+                onClick={() => setAnalysisType('plot')}
+              >
+                Bouwkavel
+              </button>
+              <button
+                className={`flex-1 py-2 rounded-xl font-semibold border ${analysisType === 'existing_property' ? 'border-orange-500 text-orange-600' : 'border-slate-200 text-slate-700'}`}
+                onClick={() => setAnalysisType('existing_property')}
+              >
+                Bestaande woning
+              </button>
+            </div>
+            <button
+              disabled={disabledOwn}
+              onClick={() => !disabledOwn && onStartOwn(analysisType, address, link, email)}
+              className={`w-full py-3 rounded-xl font-bold ${disabledOwn ? 'bg-slate-200 text-slate-500' : 'bg-orange-500 text-white hover:bg-orange-600'}`}
+            >
+              Verstuur
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -106,7 +106,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                 className={[
                                     'text-left rounded-2xl border transition-colors p-4 relative overflow-hidden',
                                     isActive
-                                        ? 'bg-white/10 border-white/30'
+                                        ? 'bg-orange-50 border-orange-300 shadow-lg'
                                         : 'bg-white/5 border-white/10 hover:bg-white/8 hover:border-white/20',
                                 ].join(' ')}
                                 aria-pressed={isActive}
@@ -114,7 +114,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex items-start gap-3">
                                         <div className="mt-0.5">
-                                            <Icon size={18} className={isActive ? 'text-white' : 'text-slate-200'} />
+                                            <Icon size={18} className={isActive ? 'text-orange-500' : 'text-slate-200'} />
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
@@ -135,17 +135,17 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                                 <span className="text-slate-400 text-xs">incl. btw</span>
                                             </div>
                                         </div>
-                                    </div>
+                                            </div>
 
-                                    {/* Selection indicator (subtle, but clear) */}
-                                    <div
-                                        className={[
-                                            'h-4 w-4 rounded-full border mt-1 shrink-0',
-                                            isActive ? 'bg-white border-white' : 'border-white/25',
-                                        ].join(' ')}
-                                        aria-hidden="true"
-                                    />
-                                </div>
+                                            {/* Selection indicator (subtle, but clear) */}
+                                            <div
+                                                className={[
+                                                    'h-4 w-4 rounded-full border mt-1 shrink-0',
+                                                    isActive ? 'bg-orange-400 border-orange-500' : 'border-white/25',
+                                                ].join(' ')}
+                                                aria-hidden="true"
+                                            />
+                                        </div>
 
                                 <div className="mt-3 space-y-2">
                                     {t.bullets.map((b) => (

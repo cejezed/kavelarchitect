@@ -155,12 +155,6 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 z-40 h-16 flex items-center px-6">
-        <Link href="/aanbod" className="flex items-center text-sm font-medium text-slate-500 hover:text-navy-900">
-          <ArrowLeft size={18} className="mr-2" /> Terug naar overzicht
-        </Link>
-      </nav>
-
       {/* Hero */}
       <div className="relative h-[60vh] w-full mt-16">
         <Image src={imageUrl} alt={listing.adres} fill className="object-cover" priority />

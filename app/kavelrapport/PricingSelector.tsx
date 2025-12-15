@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Check, ShieldCheck, Crown } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 const tiers = [
   {
@@ -42,10 +42,10 @@ export default function PricingSelector() {
       {tiers.map((tier) => {
         const isSelected = selectedTier === tier.key;
         const baseClasses =
-          'rounded-2xl p-8 flex flex-col transition border cursor-pointer';
+          'relative rounded-2xl p-8 flex flex-col transition border cursor-pointer shadow-sm';
         const selectedClasses = isSelected
-          ? 'border-orange-500 bg-orange-50 shadow-xl ring-2 ring-orange-200'
-          : 'border-slate-200 bg-white hover:border-navy-900 hover:shadow-md focus-within:border-navy-900 focus-within:shadow-md';
+          ? 'border-orange-500 bg-white shadow-lg ring-4 ring-orange-100'
+          : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md focus-within:border-slate-300 focus-within:shadow-md';
 
         return (
           <div
@@ -63,26 +63,19 @@ export default function PricingSelector() {
             className={`${baseClasses} ${selectedClasses} text-left`}
           >
             {tier.badge && (
-              <div className="mb-4 inline-flex px-3 py-1 rounded-full bg-navy-900 text-white text-xs font-bold uppercase">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold uppercase px-4 py-1 rounded-full shadow">
                 {tier.badge}
               </div>
             )}
 
-            <h3 className="font-serif text-2xl font-bold text-navy-900 mb-2">{tier.title}</h3>
-            <p className="text-slate-500 text-sm mb-4">{tier.subtitle}</p>
+            <h3 className="font-serif text-2xl font-bold text-navy-900 mb-1">{tier.title}</h3>
+            <p className="text-slate-500 text-sm italic mb-3">{tier.subtitle}</p>
             <div className="text-4xl font-bold text-navy-900 mb-6">{tier.price}</div>
 
             <ul className="space-y-3 mb-8 flex-1">
               {tier.bullets.map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm text-slate-700">
-                  {tier.key === 'premium' ? (
-                    <Crown size={16} className="text-purple-500 shrink-0" />
-                  ) : (
-                    <ShieldCheck
-                      size={16}
-                      className={tier.key === 'rapport' ? 'text-blue-600 shrink-0' : 'text-emerald-500 shrink-0'}
-                    />
-                  )}
+                  <Check size={16} className="text-emerald-500 shrink-0" />
                   {f}
                 </li>
               ))}
@@ -90,9 +83,13 @@ export default function PricingSelector() {
 
             <Link
               href="/aanbod"
-              className="w-full py-3 bg-navy-900 text-white font-bold rounded-xl text-center hover:bg-navy-800 transition inline-block"
+              className={`w-full py-3 font-bold rounded-xl text-center transition inline-block ${
+                isSelected
+                  ? 'bg-orange-500 text-white hover:bg-orange-600'
+                  : 'border border-slate-300 text-navy-900 hover:border-slate-400'
+              }`}
             >
-              Start aanvraag
+              {`Start ${tier.title}`}
             </Link>
             <Link
               href={`/kavelrapport/intake?analysisType=existing_property&tier=${tier.key}`}

@@ -34,21 +34,6 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/10 to-white/90"></div>
                 </div>
 
-                {/* Simple top nav with KavelRapport entry */}
-                <div className="absolute top-0 left-0 right-0 z-20">
-                    <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-end gap-6 text-sm font-semibold text-slate-700">
-                        <Link href="/kavelrapport" className="hover:text-navy-900">
-                            KavelRapport
-                        </Link>
-                        <Link href="/kennisbank" className="hover:text-navy-900">
-                            Kennisbank
-                        </Link>
-                        <Link href="/aanbod" className="inline-flex items-center gap-2 text-navy-900">
-                            Aanbod <ArrowRight size={14} />
-                        </Link>
-                    </div>
-                </div>
-
                 <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
 
                     <div className="order-1 lg:order-1 text-center lg:text-left">

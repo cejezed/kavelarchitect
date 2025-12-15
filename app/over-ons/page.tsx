@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2, Ruler, BrainCircuit, Users } from 'lucide-react';
+import { Ruler, BrainCircuit, Users } from 'lucide-react';
 
 export const metadata = {
     title: 'Over Ons | Architectenbureau Zwijsen',
@@ -12,13 +12,6 @@ export const metadata = {
 export default function AboutPage() {
     return (
         <div className="min-h-screen bg-white">
-            {/* Nav */}
-            <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 z-40 h-16 flex items-center px-6">
-                <Link href="/" className="flex items-center text-sm font-medium text-slate-500 hover:text-navy-900">
-                    <ArrowLeft size={18} className="mr-2" /> Terug naar Home
-                </Link>
-            </nav>
-
             {/* Hero Section */}
             <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">

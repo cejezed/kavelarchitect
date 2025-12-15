@@ -24,29 +24,31 @@ export default function NavBar() {
       </div>
 
       {open && (
-        <div className="mt-2 mx-4 rounded-2xl bg-white border border-slate-200 shadow-lg py-4 px-4 space-y-3">
-          <Link href="/" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-            Home
-          </Link>
-          <Link href="/aanbod" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-            Aanbod
-          </Link>
-          <Link href="/kavelrapport" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-            KavelRapport
-          </Link>
-          <Link href="/kennisbank" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-            Kennisbank
-          </Link>
-          <Link href="/over-ons" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-            Over ons
-          </Link>
-          <Link
-            href="/aanbod"
-            onClick={() => setOpen(false)}
-            className="block text-center mt-2 px-3 py-2 rounded-xl bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors"
-          >
-            Bekijk kavels
-          </Link>
+        <div className="fixed top-16 left-0 right-0 z-40 px-4 sm:px-6">
+          <div className="rounded-2xl bg-white border border-slate-200 shadow-2xl py-4 px-4 space-y-3">
+            <Link href="/" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+              Home
+            </Link>
+            <Link href="/aanbod" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+              Aanbod
+            </Link>
+            <Link href="/kavelrapport" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+              KavelRapport
+            </Link>
+            <Link href="/kennisbank" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+              Kennisbank
+            </Link>
+            <Link href="/over-ons" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+              Over ons
+            </Link>
+            <Link
+              href="/aanbod"
+              onClick={() => setOpen(false)}
+              className="block text-center mt-2 px-3 py-2 rounded-xl bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors"
+            >
+              Bekijk kavels
+            </Link>
+          </div>
         </div>
       )}
       {/* Spacer to offset fixed header */}

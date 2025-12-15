@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { ArrowLeft, Bell } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { AanbodFilter } from '../../components/AanbodFilter';
 import { FloatingAlertButton } from '../../components/FloatingAlertButton';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
@@ -48,14 +48,6 @@ export default async function AanbodPage() {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 z-50 p-4">
-                <div className="max-w-7xl mx-auto flex items-center">
-                    <Link href="/" className="flex items-center text-sm font-medium text-slate-500 hover:text-navy-900">
-                        <ArrowLeft size={18} className="mr-2" /> Terug naar Home
-                    </Link>
-                </div>
-            </nav>
-
             <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pt-20 md:pt-24">
                 <div className="text-center max-w-4xl mx-auto mb-8 md:mb-12">
                     <h1 className="font-serif text-2xl md:text-4xl font-bold text-slate-900 mb-2 md:mb-4">Beschikbare Grond</h1>

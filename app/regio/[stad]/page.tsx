@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, Bell, MapPin, Building2, Mail } from 'lucide-react';
+import { Bell, MapPin, Building2, Mail } from 'lucide-react';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 import Image from 'next/image';
@@ -86,15 +86,6 @@ export default async function RegioPage({ params }: { params: { stad: string } }
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-slate-200 p-4">
-        <div className="max-w-7xl mx-auto flex items-center">
-          <Link href="/aanbod" className="flex items-center text-sm font-medium text-slate-500 hover:text-navy-900">
-            <ArrowLeft size={18} className="mr-2" /> Terug naar overzicht
-          </Link>
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-6">

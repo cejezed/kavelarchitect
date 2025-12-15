@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import type { Listing } from '@/lib/api';
+import { PurchaseModal, type ReportTier } from '@/components/PurchaseModal';
 
 const tiers = [
   {
@@ -38,6 +40,8 @@ const tiers = [
 export default function PricingSelector() {
   const [selectedTier, setSelectedTier] = useState<(typeof tiers)[number]['key']>('rapport');
   const [showModal, setShowModal] = useState(false);
+  const [purchaseListing, setPurchaseListing] = useState<Listing | null>(null);
+  const [showPurchase, setShowPurchase] = useState(false);
   const router = useRouter();
 
   return (
@@ -131,10 +135,10 @@ export default function PricingSelector() {
       {showModal && (
         <StartModal
           onClose={() => setShowModal(false)}
-          tier={selectedTier}
-          onSelectListing={(id) => {
-            router.push(`/aanbod/${id}?tier=${selectedTier}&from=kavelrapport`);
+          onSelectListing={(listing) => {
+            setPurchaseListing(listing);
             setShowModal(false);
+            setShowPurchase(true);
           }}
           onStartOwn={(analysisType, address, link, email) => {
             const params = new URLSearchParams({
@@ -149,47 +153,51 @@ export default function PricingSelector() {
           }}
         />
       )}
+
+      {showPurchase && purchaseListing && (
+        <PurchaseModal
+          listing={purchaseListing}
+          tier={selectedTier as ReportTier}
+          onClose={() => {
+            setShowPurchase(false);
+            setPurchaseListing(null);
+          }}
+        />
+      )}
     </>
   );
 }
 
 function StartModal({
   onClose,
-  tier,
   onSelectListing,
   onStartOwn,
 }: {
   onClose: () => void;
-  tier: string;
-  onSelectListing: (id: string) => void;
+  onSelectListing: (listing: Listing) => void;
   onStartOwn: (analysisType: 'plot' | 'existing_property', address: string, link: string, email: string) => void;
 }) {
   const [mode, setMode] = useState<'aanbod' | 'own'>('aanbod');
-  const [listings, setListings] = useState<Array<{ kavel_id: string; seo_title: string; plaats: string }>>([]);
-  const [selectedListing, setSelectedListing] = useState('');
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [selectedListingId, setSelectedListingId] = useState('');
   const [address, setAddress] = useState('');
   const [link, setLink] = useState('');
   const [email, setEmail] = useState('');
   const [analysisType, setAnalysisType] = useState<'plot' | 'existing_property'>('existing_property');
 
   // Fetch listings simple
-  useState(() => {
+  useEffect(() => {
     fetch('/api/published-listings')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setListings(
-            data.map((l: any) => ({
-              kavel_id: l.kavel_id,
-              seo_title: l.seo_title,
-              plaats: l.plaats,
-            }))
-          );
+          setListings(data);
         }
       })
       .catch(() => {});
-  });
+  }, []);
 
+  const selectedListing = listings.find((l) => l.kavel_id === selectedListingId) || null;
   const disabledAanbod = mode === 'aanbod' && !selectedListing;
   const disabledOwn = mode === 'own' && (!address || !link || !email);
 
@@ -220,8 +228,8 @@ function StartModal({
           <div className="space-y-4">
             <label className="text-sm font-semibold text-slate-700 block">Kavel kiezen</label>
             <select
-              value={selectedListing}
-              onChange={(e) => setSelectedListing(e.target.value)}
+              value={selectedListingId}
+              onChange={(e) => setSelectedListingId(e.target.value)}
               className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm"
             >
               <option value="">Selecteer een kavel</option>

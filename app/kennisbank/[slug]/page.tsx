@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, Calendar, User, Share2 } from 'lucide-react';
+import { Calendar, User, Share2 } from 'lucide-react';
 import InlineCTA from '@/components/InlineCTA';
 import { getArticle, getArticles } from '../../../lib/api';
 
@@ -79,13 +79,6 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
 
     return (
         <div className="min-h-screen bg-white pb-20">
-            {/* Nav */}
-            <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-slate-200 z-40 h-16 flex items-center px-6">
-                <Link href="/kennisbank" className="flex items-center text-sm font-medium text-slate-500 hover:text-navy-900">
-                    <ArrowLeft size={18} className="mr-2" /> Terug naar Kennisbank
-                </Link>
-            </nav>
-
             {/* Header */}
             <header className="pt-32 pb-10 max-w-3xl mx-auto px-6 text-center">
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article.title.rendered }} />

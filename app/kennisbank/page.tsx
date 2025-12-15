@@ -39,14 +39,6 @@ export default async function KennisbankPage() {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <nav className="bg-white border-b border-slate-200 p-4">
-                <div className="max-w-7xl mx-auto flex items-center">
-                    <Link href="/" className="flex items-center text-sm font-medium text-slate-500 hover:text-navy-900">
-                        <ArrowLeft size={18} className="mr-2" /> Terug naar Home
-                    </Link>
-                </div>
-            </nav>
-
             <main className="max-w-7xl mx-auto px-6 py-16">
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <span className="text-blue-600 font-bold tracking-widest text-xs uppercase mb-4 block">Academy</span>

@@ -106,7 +106,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                 className={[
                                     'text-left rounded-2xl border transition-colors p-4 relative overflow-hidden',
                                     isActive
-                                        ? 'bg-orange-50 border-orange-300 shadow-lg'
+                                        ? 'border-orange-400 bg-white/5 shadow-lg'
                                         : 'bg-white/5 border-white/10 hover:bg-white/8 hover:border-white/20',
                                 ].join(' ')}
                                 aria-pressed={isActive}
@@ -137,15 +137,15 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                         </div>
                                             </div>
 
-                                            {/* Selection indicator (subtle, but clear) */}
-                                            <div
-                                                className={[
-                                                    'h-4 w-4 rounded-full border mt-1 shrink-0',
-                                                    isActive ? 'bg-orange-400 border-orange-500' : 'border-white/25',
-                                                ].join(' ')}
-                                                aria-hidden="true"
-                                            />
-                                        </div>
+                                    {/* Selection indicator (subtle, but clear) */}
+                                    <div
+                                        className={[
+                                            'h-4 w-4 rounded-full border mt-1 shrink-0',
+                                            isActive ? 'bg-orange-400 border-orange-500' : 'border-white/25',
+                                        ].join(' ')}
+                                        aria-hidden="true"
+                                    />
+                                </div>
 
                                 <div className="mt-3 space-y-2">
                                     {t.bullets.map((b) => (
@@ -188,7 +188,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                         className={[
                             'inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold shadow-lg transition-colors',
                             active
-                                ? 'bg-white text-navy-900 hover:bg-slate-100'
+                                ? 'bg-orange-500 text-white hover:bg-orange-600'
                                 : 'bg-white/20 text-white/60 cursor-not-allowed',
                         ].join(' ')}
                     >

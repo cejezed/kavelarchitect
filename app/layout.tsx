@@ -5,6 +5,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { PHProvider } from './providers';
 import RegioFooter from '@/components/RegioFooter';
+import NavBar from '@/components/NavBar';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,6 +74,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Suspense fallback={null}>
           <PHProvider>
+            <NavBar />
             {children}
             <RegioFooter />
           </PHProvider>

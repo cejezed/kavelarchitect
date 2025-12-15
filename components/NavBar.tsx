@@ -24,7 +24,7 @@ export default function NavBar() {
       </div>
 
       {open && (
-        <div className="fixed top-16 left-0 right-0 z-40 px-4 sm:px-6">
+        <div className="fixed top-16 right-4 sm:right-6 z-40 w-[280px] max-w-[90vw]">
           <div className="rounded-2xl bg-white border border-slate-200 shadow-2xl py-4 px-4 space-y-3">
             <Link href="/" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
               Home

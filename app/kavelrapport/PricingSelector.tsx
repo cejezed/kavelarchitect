@@ -42,10 +42,10 @@ export default function PricingSelector() {
       {tiers.map((tier) => {
         const isSelected = selectedTier === tier.key;
         const baseClasses =
-          'rounded-2xl p-8 flex flex-col transition border focus-within:border-navy-900 cursor-pointer';
+          'rounded-2xl p-8 flex flex-col transition border cursor-pointer';
         const selectedClasses = isSelected
-          ? 'border-navy-900 bg-navy-50 shadow-xl'
-          : 'border-slate-200 bg-white hover:border-navy-900 hover:shadow-md';
+          ? 'border-orange-500 bg-orange-50 shadow-xl ring-2 ring-orange-200'
+          : 'border-slate-200 bg-white hover:border-navy-900 hover:shadow-md focus-within:border-navy-900 focus-within:shadow-md';
 
         return (
           <div

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ShieldCheck, Check, CheckCircle2, Crown, ArrowRight, HelpCircle, X } from 'lucide-react';
+import { ShieldCheck, Check, CheckCircle2, Crown, ArrowRight, HelpCircle, X, Scale, AlertTriangle, Search } from 'lucide-react';
 import PricingSelector from './PricingSelector';
 
 export const metadata = {
@@ -48,6 +48,28 @@ export default function KavelRapportPage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* PROBLEEM STELLING */}
+      <section className="py-14 bg-white border-b border-slate-200">
+        <div className="max-w-5xl mx-auto px-6">
+          <h3 className="font-serif text-3xl font-bold text-navy-900 mb-6">Waarom kavels vaak duurder uitpakken dan gedacht</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              { text: 'Bouwregels worden verkeerd geïnterpreteerd', icon: Scale },
+              { text: 'Vergunningsvrij blijkt toch niet zo vrij', icon: AlertTriangle },
+              { text: 'Risico’s komen pas na aankoop boven tafel', icon: Search },
+            ].map(({ text, icon: Icon }) => (
+              <div key={text} className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+                <Icon className="w-6 h-6 text-red-500 mt-0.5" />
+                <p className="text-sm text-slate-700 leading-relaxed">{text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-sm font-semibold text-navy-900">
+            Het KavelRapport voorkomt deze verrassingen — voordat u beslist.
+          </p>
         </div>
       </section>
 

@@ -215,18 +215,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             </div>
           </div>
 
-          {/* Market Heat Indicator */}
-          <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 flex items-start animate-in fade-in slide-in-from-bottom-2 duration-700 delay-300">
-            <div className="bg-orange-100 p-2 rounded-full mr-4 text-orange-600">
-              <Flame size={20} />
-            </div>
-            <div>
-              <h4 className="font-bold text-orange-900 text-sm md:text-base">Veel interesse in deze regio</h4>
-              <p className="text-orange-800/80 text-xs md:text-sm mt-1">
-                Er zijn momenteel <strong>{Math.floor(Math.random() * 4) + 2} andere geïnteresseerden</strong> die kijken naar kavels in {listing.plaats}.
-              </p>
-            </div>
-          </div>
+          {/* Market heat indicator removed */}
 
           {/* Description */}
           <div className="prose prose-lg prose-slate max-w-none">

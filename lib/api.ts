@@ -178,7 +178,16 @@ export async function registerCustomer(data: CustomerInput) {
 }
 
 // --- WORDPRESS INTEGRATION ---
-const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://cms.kavelarchitect.nl/wp-json/wp/v2';
+export const WORDPRESS_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://cms.kavelarchitect.nl/wp-json/wp/v2';
+export const WORDPRESS_SITE_URL = (() => {
+  try {
+    const url = new URL(WORDPRESS_API_URL);
+    return `${url.protocol}//${url.host}`;
+  } catch (error) {
+    console.warn('Invalid WORDPRESS_API_URL, cannot derive site URL');
+    return '';
+  }
+})();
 
 export interface BlogPost {
   id: number;

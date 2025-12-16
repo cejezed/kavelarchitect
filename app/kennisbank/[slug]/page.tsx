@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Calendar, User, Share2 } from 'lucide-react';
 import InlineCTA from '@/components/InlineCTA';
-import { getArticle, getArticles } from '../../../lib/api';
+import { getArticle, getArticles, WORDPRESS_SITE_URL } from '../../../lib/api';
+import ElementorContent from '@/components/ElementorContent';
 
 // --- 1. GENERATE METADATA FOR SEO ---
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -114,7 +115,11 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         </div>
                     )}
 
-                    <div className="prose prose-lg prose-slate max-w-none font-serif text-slate-700 leading-loose" dangerouslySetInnerHTML={{ __html: article.content.rendered }} />
+                    <ElementorContent
+                        html={article.content.rendered}
+                        postId={article.id}
+                        siteUrl={WORDPRESS_SITE_URL}
+                    />
 
                     {/* SCROLL TRIGGERED CTA (Client Component) */}
                     <InlineCTA />

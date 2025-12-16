@@ -32,7 +32,7 @@ export default function ElementorContent({ html, postId, siteUrl }: ElementorCon
 
     return (
         <div
-            className="elementor-content [&_*]:max-w-full"
+            className="elementor-content prose prose-lg prose-slate max-w-none font-serif [&_*]:max-w-full"
             dangerouslySetInnerHTML={{ __html: html }}
         />
     );

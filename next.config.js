@@ -33,9 +33,23 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cms.kavelarchitect.nl',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.zwijsen.net',
       }
     ],
   },
+  // Optimize CSS and JavaScript
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Enable compression
+  compress: true,
+  // Optimize production builds
+  productionBrowserSourceMaps: false,
+  // Enable SWC minification (faster than Terser)
+  swcMinify: true,
 };
 
 module.exports = nextConfig;

@@ -71,6 +71,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        {/* Critical CSS inline for immediate rendering */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          /* Critical above-the-fold styles */
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+          body {
+            background-color: #F8FAFC;
+            color: #0F172A;
+            font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+          }
+          /* Prevent layout shift */
+          img, video { max-width: 100%; height: auto; display: block; }
+          a { color: inherit; text-decoration: none; }
+        `}} />
+      </head>
       <body className={inter.className}>
         <Suspense fallback={null}>
           <PHProvider>

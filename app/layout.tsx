@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: 'KavelArchitect',
     images: [
       {
-        url: '/hero-bg.png', // Fallback image
+        url: '/hero-bg.jpg', // Fallback image
         width: 1200,
         height: 630,
         alt: 'KavelArchitect',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "KavelArchitect | Vind uw Droomkavel",
     description: "De enige zoekservice voor bouwkavels met architecten-check.",
-    images: ['/hero-bg.png'],
+    images: ['/hero-bg.jpg'],
   },
   robots: {
     index: true,

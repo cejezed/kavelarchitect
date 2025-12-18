@@ -25,7 +25,7 @@ export default function Home() {
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/hero-bg.png"
+                        src="/hero-bg.jpg"
                         alt="Luxe vrijstaande woning en architectuur voorbeeld"
                         fill
                         priority
@@ -125,12 +125,12 @@ export default function Home() {
 
                                         {/* Mock Kavel Card */}
                                         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                            {/* Card Image with gradient */}
-                                            <div className="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600">
-                                                <div className="absolute inset-0 bg-[url('/hero-bg.png')] bg-cover opacity-20"></div>
-                                                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-900">
-                                                    Nieuw
-                                                </div>
+                                        {/* Card Image with gradient */}
+                                        <div className="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600">
+                                            <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover opacity-20"></div>
+                                            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-900">
+                                                Nieuw
+                                            </div>
                                                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
                                                     <p className="text-white text-xs font-medium mb-1">Blaricum, Noord-Holland</p>
                                                     <h3 className="text-white font-bold text-lg">Villapark Oost</h3>

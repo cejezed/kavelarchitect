@@ -1,48 +1,97 @@
-'use client';
-
 import Link from 'next/link';
 import { MapPin } from 'lucide-react';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-// Top wealthy municipalities in Netherlands (Gooi & Vechtstreek, Zuid-Kennemerland, etc.)
-const FEATURED_CITIES = [
-  // Gooi & Vechtstreek
-  { name: 'Blaricum', slug: 'blaricum', provincie: 'Noord-Holland' },
-  { name: 'Laren', slug: 'laren', provincie: 'Noord-Holland' },
-  { name: 'Hilversum', slug: 'hilversum', provincie: 'Noord-Holland' },
-  { name: 'Huizen', slug: 'huizen', provincie: 'Noord-Holland' },
-  { name: 'Naarden', slug: 'naarden', provincie: 'Noord-Holland' },
+// Helper function to map city name to province
+function getProvinceForCity(cityName: string): string {
+  const provinceMap: Record<string, string> = {
+    // Noord-Holland
+    'blaricum': 'Noord-Holland',
+    'laren': 'Noord-Holland',
+    'hilversum': 'Noord-Holland',
+    'huizen': 'Noord-Holland',
+    'naarden': 'Noord-Holland',
+    'bloemendaal': 'Noord-Holland',
+    'heemstede': 'Noord-Holland',
+    'haarlem': 'Noord-Holland',
+    'amsterdam': 'Noord-Holland',
+    'amstelveen': 'Noord-Holland',
+    'bussum': 'Noord-Holland',
+    'weesp': 'Noord-Holland',
 
-  // Zuid-Kennemerland & Bollenstreek
-  { name: 'Bloemendaal', slug: 'bloemendaal', provincie: 'Noord-Holland' },
-  { name: 'Heemstede', slug: 'heemstede', provincie: 'Noord-Holland' },
-  { name: 'Haarlem', slug: 'haarlem', provincie: 'Noord-Holland' },
-  { name: 'Wassenaar', slug: 'wassenaar', provincie: 'Zuid-Holland' },
-  { name: 'Noordwijk', slug: 'noordwijk', provincie: 'Zuid-Holland' },
+    // Zuid-Holland
+    'wassenaar': 'Zuid-Holland',
+    'noordwijk': 'Zuid-Holland',
+    'voorschoten': 'Zuid-Holland',
+    'leidschendam': 'Zuid-Holland',
+    'zoetermeer': 'Zuid-Holland',
+    'den haag': 'Zuid-Holland',
+    'rotterdam': 'Zuid-Holland',
+    'leiden': 'Zuid-Holland',
+    'delft': 'Zuid-Holland',
+    'voorburg': 'Zuid-Holland',
+    'rijswijk': 'Zuid-Holland',
+    'nieuwkoop': 'Zuid-Holland',
 
-  // Den Haag regio
-  { name: 'Voorschoten', slug: 'voorschoten', provincie: 'Zuid-Holland' },
-  { name: 'Leidschendam', slug: 'leidschendam', provincie: 'Zuid-Holland' },
-  { name: 'Zoetermeer', slug: 'zoetermeer', provincie: 'Zuid-Holland' },
+    // Utrecht
+    'bunnik': 'Utrecht',
+    'de bilt': 'Utrecht',
+    'zeist': 'Utrecht',
+    'utrecht': 'Utrecht',
+    'woerden': 'Utrecht',
+    'amersfoort': 'Utrecht',
+    'nieuwegein': 'Utrecht',
+    'houten': 'Utrecht',
 
-  // Utrecht regio
-  { name: 'Bunnik', slug: 'bunnik', provincie: 'Utrecht' },
-  { name: 'De Bilt', slug: 'de-bilt', provincie: 'Utrecht' },
-  { name: 'Zeist', slug: 'zeist', provincie: 'Utrecht' },
+    // Noord-Brabant
+    'oisterwijk': 'Noord-Brabant',
+    'eersel': 'Noord-Brabant',
+    'eindhoven': 'Noord-Brabant',
+    'tilburg': 'Noord-Brabant',
+    'breda': 'Noord-Brabant',
+    's-hertogenbosch': 'Noord-Brabant',
 
-  // Noord-Brabant
-  { name: 'Oisterwijk', slug: 'oisterwijk', provincie: 'Noord-Brabant' },
-  { name: 'Eersel', slug: 'eersel', provincie: 'Noord-Brabant' },
-];
+    // Overige provincies
+    'arnhem': 'Gelderland',
+    'nijmegen': 'Gelderland',
+    'apeldoorn': 'Gelderland',
+    'enschede': 'Overijssel',
+    'zwolle': 'Overijssel',
+    'groningen': 'Groningen',
+    'leeuwarden': 'Friesland',
+  };
 
-export default function RegioFooter() {
+  return provinceMap[cityName.toLowerCase()] || 'Overig';
+}
+
+export default async function RegioFooter() {
+  // Fetch all unique cities from published listings
+  const { data: cityData } = await supabaseAdmin
+    .from('listings')
+    .select('plaats')
+    .eq('status', 'published');
+
+  const uniqueCityNames = cityData
+    ? Array.from(new Set(cityData.map(item => item.plaats)))
+        .filter(Boolean)
+        .sort()
+    : [];
+
+  // Create city objects with slug and province
+  const cities = uniqueCityNames.map(cityName => ({
+    name: cityName,
+    slug: cityName.toLowerCase().replace(/\s+/g, '-'),
+    provincie: getProvinceForCity(cityName)
+  }));
+
   // Group cities by provincie
-  const citiesByProvince = FEATURED_CITIES.reduce((acc, city) => {
+  const citiesByProvince = cities.reduce((acc, city) => {
     if (!acc[city.provincie]) {
       acc[city.provincie] = [];
     }
     acc[city.provincie].push(city);
     return acc;
-  }, {} as Record<string, typeof FEATURED_CITIES>);
+  }, {} as Record<string, typeof cities>);
 
   return (
     <footer className="bg-navy-900 text-white pt-16 pb-8">

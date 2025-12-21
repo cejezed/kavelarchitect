@@ -311,25 +311,34 @@ export default function Home() {
                             </p>
                         </div>
                     </div>
+                    <div className="text-center mt-12">
+                        <Link
+                            href="/diensten"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
+                        >
+                            Bekijk alle diensten
+                            <ArrowRight size={20} />
+                        </Link>
+                    </div>
                 </div>
             </section>
 
             {/* SOFT ESCAPES */}
             <section className="py-16 bg-white">
                 <div className="max-w-4xl mx-auto px-6">
-                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Twijfelt u nog? Ontdek eerst onze gidsen:</p>
+                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Meer informatie nodig?</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <Link href="/aanbod" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
                             <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
                                 <LayoutGrid size={20} />
                             </div>
-                            <span className="font-bold text-slate-900 block">Bekijk Aanbod</span>
+                            <span className="font-bold text-slate-900 block">Kavels</span>
                         </Link>
-                        <Link href="/kavelrapport" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
+                        <Link href="/diensten" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
                             <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
                                 <ShieldCheck size={20} />
                             </div>
-                            <span className="font-bold text-slate-900 block">KavelRapport</span>
+                            <span className="font-bold text-slate-900 block">Diensten</span>
                         </Link>
                         <Link href="/kennisbank" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
                             <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">

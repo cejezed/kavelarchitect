@@ -30,10 +30,10 @@ export default function NavBar() {
               Home
             </Link>
             <Link href="/aanbod" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Kavelaanbod
+              Kavels
             </Link>
-            <Link href="/kavelrapport" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              KavelRapport
+            <Link href="/diensten" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+              Diensten
             </Link>
             <Link href="/kennisbank" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
               Kennisbank

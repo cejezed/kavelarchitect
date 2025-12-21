@@ -41,11 +41,12 @@ export default function Home() {
                             Exclusief voor Zelfbouwers
                         </div>
                         <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-6">
-                            Bouwkavel kopen in Nederland <br />
+                            Bouwkavels zoeken in Nederland <br />
                             <span className="text-navy-900">met architectenbegeleiding</span>
                         </h1>
                         <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
-                            Wij bewaken dagelijks het aanbod en sturen u direct kavels die passen bij uw regio, budget en woonwensen.
+                            Vind bouwgrond en bouwkavels te koop in heel Nederland. Wij bewaken dagelijks het kavelaanbod
+                            en helpen u met professioneel architectenadvies bij het zoeken, beoordelen en kopen van uw ideale bouwkavel.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <button
@@ -180,12 +181,13 @@ export default function Home() {
                                 Zekerheid vóór aankoop
                             </div>
                             <h2 className="font-serif text-4xl md:text-5xl text-navy-900 leading-tight mb-6">
-                                Bouwgrond kopen met zekerheid <br />
+                                Bouwkavel beoordelen <br />
                                 <span className="text-blue-600">vóór u een bod doet</span>
                             </h2>
                             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                                Een kavel kopen is complex. Mag uw droomhuis er eigenlijk wel staan?
-                                Met onze KavelChecks en Rapporten krijgt u direct inzicht in de juridische en financiële haalbaarheid.
+                                Een bouwkavel kopen zonder professionele beoordeling is risicovol. Mag uw droomhuis er wel staan?
+                                Wat zijn de bouwmogelijkheden? Met ons KavelRapport krijgt u als architect direct inzicht in
+                                bestemmingsplan, bouwregels en financiële haalbaarheid voordat u koopt.
                             </p>
 
                             <div className="space-y-4 mb-8">

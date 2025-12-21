@@ -23,14 +23,14 @@ export default function KavelRapportPage() {
             </div>
 
             <h1 className="font-serif text-4xl md:text-6xl text-white leading-tight mb-6">
-              Bouwkavel kopen <br />
-              <span className="text-blue-400">met architectenadvies</span>
+              Bouwkavel beoordeling <br />
+              <span className="text-blue-400">door ervaren architect</span>
             </h1>
 
             <p className="text-lg text-slate-300 mb-8 max-w-lg leading-relaxed">
-              Het bestemmingsplan is complex en wordt vaak verkeerd geïnterpreteerd.
-              Het KavelRapport vertaalt regels en risico's naar heldere beslisinformatie,
-              zodat u weet waar u aan toe bent voordat u een bod doet.
+              Voorkom kostbare fouten bij het kopen van bouwgrond. Ons KavelRapport beoordeelt
+              bestemmingsplan, bouwmogelijkheden en financiële haalbaarheid, zodat u precies weet
+              wat u kunt bouwen voordat u een bouwkavel koopt.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
@@ -78,7 +78,7 @@ export default function KavelRapportPage() {
         <div className="grid md:grid-cols-2 gap-16">
           <div>
             <h2 className="font-serif text-3xl font-bold text-navy-900 mb-6">
-              Bouwgrond beoordeling door architect
+              Wat u krijgt bij een bouwkavel beoordeling
             </h2>
 
             <ul className="space-y-4">

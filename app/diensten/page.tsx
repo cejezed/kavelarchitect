@@ -145,60 +145,60 @@ export default function DienstenPage() {
                 key={service.id}
                 className="bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow"
               >
-                <div className="grid md:grid-cols-12 gap-8">
+                <div className="grid md:grid-cols-12 gap-0 md:gap-8">
                   {/* Left: Icon & Title */}
-                  <div className={`md:col-span-4 bg-gradient-to-br ${service.color} text-white p-8 md:p-10 flex flex-col justify-center`}>
-                    <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm">
-                      <Icon size={32} className="text-white" />
+                  <div className={`md:col-span-4 bg-gradient-to-br ${service.color} text-white p-6 md:p-10 flex flex-col justify-center`}>
+                    <div className="w-14 h-14 md:w-16 md:h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-4 md:mb-6 backdrop-blur-sm">
+                      <Icon size={28} className="text-white md:w-8 md:h-8" />
                     </div>
-                    <h2 className="font-serif text-3xl font-bold mb-3">
+                    <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2 md:mb-3">
                       {service.title}
                     </h2>
-                    <p className="text-lg text-white/90 leading-relaxed">
+                    <p className="text-base md:text-lg text-white/90 leading-relaxed">
                       {service.tagline}
                     </p>
                   </div>
 
                   {/* Right: Description & Benefits */}
-                  <div className="md:col-span-8 p-8 md:p-10">
-                    <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+                  <div className="md:col-span-8 p-6 md:p-10">
+                    <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed">
                       {service.description}
                     </p>
 
-                    <div className="mb-8">
-                      <h3 className="font-bold text-navy-900 mb-4">Wat u krijgt:</h3>
-                      <ul className="space-y-3">
+                    <div className="mb-6 md:mb-8">
+                      <h3 className="font-bold text-navy-900 mb-3 md:mb-4 text-sm md:text-base">Wat u krijgt:</h3>
+                      <ul className="space-y-2 md:space-y-3">
                         {service.benefits.map((benefit, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <Check size={20} className="text-emerald-600 shrink-0 mt-0.5" />
-                            <span className="text-slate-700">{benefit}</span>
+                          <li key={i} className="flex items-start gap-2 md:gap-3">
+                            <Check size={18} className="text-emerald-600 shrink-0 mt-0.5" />
+                            <span className="text-slate-700 text-sm md:text-base">{benefit}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                       {service.external ? (
                         <a
                           href={service.ctaLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${service.color} text-white font-bold rounded-xl hover:shadow-lg transition-all`}
+                          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r ${service.color} text-white font-bold text-sm md:text-base rounded-xl hover:shadow-lg transition-all`}
                         >
                           {service.ctaText}
-                          <ArrowRight size={20} />
+                          <ArrowRight size={18} />
                         </a>
                       ) : (
                         <Link
                           href={service.ctaLink}
-                          className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${service.color} text-white font-bold rounded-xl hover:shadow-lg transition-all`}
+                          className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r ${service.color} text-white font-bold text-sm md:text-base rounded-xl hover:shadow-lg transition-all`}
                         >
                           {service.ctaText}
-                          <ArrowRight size={20} />
+                          <ArrowRight size={18} />
                         </Link>
                       )}
                       {service.price && (
-                        <span className="text-2xl font-bold text-navy-900">{service.price}</span>
+                        <span className="text-xl md:text-2xl font-bold text-navy-900">{service.price}</span>
                       )}
                     </div>
                   </div>
@@ -268,17 +268,17 @@ export default function DienstenPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-emerald-700 font-bold rounded-xl hover:bg-emerald-50 transition-all shadow-lg"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-emerald-700 font-bold text-sm md:text-base rounded-xl hover:bg-emerald-50 transition-all shadow-lg"
             >
               Activeer Regio-Alert (Gratis)
-              <ArrowRight size={20} />
+              <ArrowRight size={18} />
             </Link>
             <Link
               href="/kavelrapport"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-all shadow-lg"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-navy-900 text-white font-bold text-sm md:text-base rounded-xl hover:bg-navy-800 transition-all shadow-lg"
             >
               Bestel KavelRapport (vanaf €39)
-              <ArrowRight size={20} />
+              <ArrowRight size={18} />
             </Link>
           </div>
 

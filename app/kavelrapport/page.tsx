@@ -36,13 +36,13 @@ export default function KavelRapportPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/aanbod"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-navy-900 font-bold text-lg rounded-xl hover:bg-slate-100 transition-all shadow-lg"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-white text-navy-900 font-bold text-base md:text-lg rounded-xl hover:bg-slate-100 transition-all shadow-lg"
               >
                 Check een kavel uit ons aanbod <ArrowRight size={18} className="ml-2" />
               </Link>
               <Link
                 href="/kavelrapport/intake"
-                className="inline-flex items-center justify-center px-8 py-4 bg-transparent border border-slate-600 text-white font-bold text-lg rounded-xl hover:bg-white/10 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-slate-400 text-white font-bold text-base md:text-lg rounded-xl hover:bg-white/10 transition-all"
               >
                 Ik heb al een kavel/woning
               </Link>
@@ -52,30 +52,30 @@ export default function KavelRapportPage() {
       </section>
 
       {/* PROBLEEM STELLING */}
-      <section className="py-14 bg-white border-b border-slate-200">
+      <section className="py-10 md:py-14 bg-white border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-6">
-          <h3 className="font-serif text-3xl font-bold text-navy-900 mb-6">Waarom kavels vaak duurder uitpakken dan gedacht</h3>
-          <div className="grid md:grid-cols-3 gap-4">
+          <h3 className="font-serif text-2xl md:text-3xl font-bold text-navy-900 mb-4 md:mb-6">Waarom kavels vaak duurder uitpakken dan gedacht</h3>
+          <div className="grid md:grid-cols-3 gap-3 md:gap-4">
             {[
               { text: 'Bouwregels worden verkeerd geïnterpreteerd', icon: Scale },
               { text: 'Vergunningsvrij blijkt toch niet zo vrij', icon: AlertTriangle },
-              { text: 'Risico’s komen pas na aankoop boven tafel', icon: Search },
+              { text: 'Risico\'s komen pas na aankoop boven tafel', icon: Search },
             ].map(({ text, icon: Icon }) => (
-              <div key={text} className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
-                <Icon className="w-6 h-6 text-red-500 mt-0.5" />
-                <p className="text-sm text-slate-700 leading-relaxed">{text}</p>
+              <div key={text} className="bg-slate-50 border border-slate-200 rounded-xl md:rounded-2xl p-3 md:p-4 flex items-start gap-2 md:gap-3">
+                <Icon className="w-5 h-5 md:w-6 md:h-6 text-red-500 mt-0.5 shrink-0" />
+                <p className="text-xs md:text-sm text-slate-700 leading-relaxed">{text}</p>
               </div>
             ))}
           </div>
-          <p className="mt-4 text-sm font-semibold text-navy-900">
+          <p className="mt-3 md:mt-4 text-xs md:text-sm font-semibold text-navy-900">
             Het KavelRapport voorkomt deze verrassingen — voordat u beslist.
           </p>
         </div>
       </section>
 
       {/* WAT U KRIJGT / WAT HET NIET IS */}
-      <section className="py-20 max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-16">
+      <section className="py-12 md:py-20 max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-16">
           <div>
             <h2 className="font-serif text-3xl font-bold text-navy-900 mb-6">
               Wat u krijgt bij een bouwkavel beoordeling

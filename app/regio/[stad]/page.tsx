@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Bell, MapPin, Building2, Mail, CheckCircle2, Users, Award, TrendingUp } from 'lucide-react';
+import { Bell, MapPin, Building2, Mail, CheckCircle2, Users, Award, TrendingUp, ShieldCheck, Ruler, Check, ArrowRight } from 'lucide-react';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 import Image from 'next/image';
@@ -26,18 +26,31 @@ const getRegionContent = (cityName: string) => ({
     ]
   },
 
-  cases: [
+  services: [
     {
-      title: "Moderne Villa in Bosrijke Omgeving",
-      description: `Via ons netwerk vond familie De Jong een prachtige kavel in ${cityName} die nooit op Funda stond. Van haalbaarheidscheck tot vergunning hebben we het hele proces begeleid.`,
-      result: "Besparing van 6 maanden zoektijd",
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop"
+      icon: ShieldCheck,
+      title: "KavelRapport™",
+      description: `Laat uw kavel in ${cityName} professioneel beoordelen voordat u koopt. Wij analyseren het bestemmingsplan, bouwmogelijkheden en risico's binnen 48 uur.`,
+      features: ["Bestemmingsplan analyse", "Bouwvolume check", "Risico-inventarisatie", "Financiële haalbaarheid"],
+      link: "/kavelrapport",
+      linkText: "Meer over KavelRapport"
     },
     {
-      title: "Energieneutrale Nieuwbouw",
-      description: `Door vroege toegang tot een off-market kavel konden we het ontwerp volledig aanpassen aan de wensen van de opdrachtgever, inclusief optimale zonoriëntatie.`,
-      result: "EPC 0.0 behaald met zonnepanelen",
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop"
+      icon: Bell,
+      title: "Regio-Alert voor ${cityName}",
+      description: `Ontvang direct een notificatie zodra er een nieuwe kavel beschikbaar komt in ${cityName}. Ook voor off-market kavels die niet op Funda verschijnen.`,
+      features: ["Exclusieve off-market toegang", "Direct bericht bij nieuwe kavels", "Gratis haalbaarheidscheck", "Persoonlijke matching"],
+      link: `/?regio=${cityName.toLowerCase().replace(/\s+/g, '-')}`,
+      linkText: "Activeer Alert"
+    },
+    {
+      icon: Ruler,
+      title: "Architectenbegeleiding",
+      description: `Van schetsontwerp tot vergunningaanvraag - volledige begeleiding door Architectenbureau Zwijsen bij het bouwen van uw droomhuis in ${cityName}.`,
+      features: ["Schetsontwerp en haalbaarheid", "Vergunningsaanvraag", "Definitief ontwerp", "Kostenraming en planning"],
+      link: "https://www.zwijsen.net/contact",
+      linkText: "Start Traject",
+      external: true
     }
   ],
 
@@ -218,13 +231,13 @@ export default async function RegioPage({ params }: { params: { stad: string } }
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaSearchBox) }}
       />
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 text-white py-20">
+      <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 text-white py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center gap-3 mb-6">
-            <MapPin size={32} className="text-blue-400" />
-            <h1 className="font-serif text-4xl md:text-5xl font-bold">Bouwkavel kopen in {cityName}</h1>
+          <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+            <MapPin size={24} className="text-blue-400 md:w-8 md:h-8" />
+            <h1 className="font-serif text-3xl md:text-5xl font-bold">Bouwkavel kopen in {cityName}</h1>
           </div>
-          <p className="text-xl text-slate-200 max-w-2xl mb-8">
+          <p className="text-lg md:text-xl text-slate-200 max-w-2xl mb-6 md:mb-8">
             {hasListings
               ? `${listings.length} ${listings.length === 1 ? 'bouwkavel' : 'bouwkavels'} beschikbaar in ${cityName}`
               : `Exclusieve toegang tot off-market kavels in ${cityName}`
@@ -232,7 +245,7 @@ export default async function RegioPage({ params }: { params: { stad: string } }
           </p>
           <Link
             href={`/?regio=${params.stad}`}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy-900 font-bold rounded-xl hover:bg-blue-50 transition-colors shadow-xl"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-navy-900 font-bold text-sm md:text-base rounded-xl hover:bg-blue-50 transition-colors shadow-xl"
           >
             <Bell size={20} />
             Activeer Regio Alert
@@ -259,20 +272,20 @@ export default async function RegioPage({ params }: { params: { stad: string } }
       </section>
 
       {/* Off-Market Promise Section */}
-      <section className="bg-gradient-to-br from-navy-900 to-blue-900 text-white py-16">
+      <section className="bg-gradient-to-br from-navy-900 to-blue-900 text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold mb-4">{content.offMarketPromise.title}</h2>
-            <p className="text-xl text-slate-200 max-w-3xl mx-auto">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="font-serif text-2xl md:text-4xl font-bold mb-3 md:mb-4">{content.offMarketPromise.title}</h2>
+            <p className="text-base md:text-xl text-slate-200 max-w-3xl mx-auto">
               {content.offMarketPromise.description}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
             {content.offMarketPromise.stats.map((stat, i) => (
-              <div key={i} className="text-center bg-white/10 rounded-2xl p-8 backdrop-blur-sm">
-                <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-2">{stat.number}</div>
-                <div className="text-slate-200">{stat.label}</div>
+              <div key={i} className="text-center bg-white/10 rounded-xl md:rounded-2xl p-6 md:p-8 backdrop-blur-sm">
+                <div className="text-3xl md:text-5xl font-bold text-blue-400 mb-2">{stat.number}</div>
+                <div className="text-sm md:text-base text-slate-200">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -280,7 +293,7 @@ export default async function RegioPage({ params }: { params: { stad: string } }
           <div className="text-center">
             <Link
               href={`/?regio=${params.stad}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy-900 font-bold rounded-xl hover:bg-blue-50 transition-colors shadow-xl"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-navy-900 font-bold text-sm md:text-base rounded-xl hover:bg-blue-50 transition-colors shadow-xl"
             >
               <Bell size={20} />
               Krijg toegang tot off-market kavels
@@ -289,38 +302,59 @@ export default async function RegioPage({ params }: { params: { stad: string } }
         </div>
       </section>
 
-      {/* Cases Section */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center mb-12">
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">
-            Succesverhalen in {cityName}
+      {/* Services Section */}
+      <section className="max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="font-serif text-2xl md:text-4xl font-bold text-navy-900 mb-3 md:mb-4">
+            Onze diensten voor {cityName}
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Zo hebben wij anderen geholpen hun droomhuis te realiseren
+          <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
+            Complete ondersteuning bij het zoeken, beoordelen en bouwen op uw kavel
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {content.cases.map((caseItem, i) => (
-            <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-              <div className="relative h-64">
-                <Image
-                  src={caseItem.image}
-                  alt={caseItem.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3">{caseItem.title}</h3>
-                <p className="text-slate-600 mb-4 leading-relaxed">{caseItem.description}</p>
-                <div className="flex items-center gap-2 text-emerald-600 font-semibold">
-                  <Award size={20} />
-                  <span>{caseItem.result}</span>
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+          {content.services.map((service, i) => {
+            const Icon = service.icon;
+            return (
+              <div key={i} className="bg-white rounded-xl md:rounded-2xl p-6 md:p-8 shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-navy-900 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+                  <Icon size={24} className="text-white md:w-7 md:h-7" />
                 </div>
+                <h3 className="font-serif text-xl md:text-2xl font-bold text-navy-900 mb-2 md:mb-3">{service.title}</h3>
+                <p className="text-sm md:text-base text-slate-600 mb-4 md:mb-6 leading-relaxed">{service.description}</p>
+
+                <ul className="space-y-2 mb-4 md:mb-6">
+                  {service.features.map((feature, j) => (
+                    <li key={j} className="flex items-start gap-2 text-xs md:text-sm text-slate-700">
+                      <Check size={14} className="text-emerald-500 shrink-0 mt-0.5 md:w-4 md:h-4" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {service.external ? (
+                  <a
+                    href={service.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm md:text-base text-navy-900 font-bold hover:text-emerald-600 transition-colors"
+                  >
+                    {service.linkText}
+                    <ArrowRight size={16} className="md:w-[18px] md:h-[18px]" />
+                  </a>
+                ) : (
+                  <Link
+                    href={service.link}
+                    className="inline-flex items-center gap-2 text-sm md:text-base text-navy-900 font-bold hover:text-emerald-600 transition-colors"
+                  >
+                    {service.linkText}
+                    <ArrowRight size={16} className="md:w-[18px] md:h-[18px]" />
+                  </Link>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

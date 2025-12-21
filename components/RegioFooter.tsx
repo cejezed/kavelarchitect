@@ -98,12 +98,12 @@ export default function RegioFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/aanbod" className="text-slate-400 hover:text-white transition-colors">
-                  Kavelaanbod
+                  Kavels
                 </Link>
               </li>
               <li>
-                <Link href="/kavelrapport" className="text-slate-400 hover:text-white transition-colors">
-                  KavelRapport
+                <Link href="/diensten" className="text-slate-400 hover:text-white transition-colors">
+                  Diensten
                 </Link>
               </li>
               <li>

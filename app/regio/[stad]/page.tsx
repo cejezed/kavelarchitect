@@ -4,6 +4,7 @@ import { Bell, MapPin, Building2, Mail, CheckCircle2, Users, Award, TrendingUp }
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 import Image from 'next/image';
+import StickyCTA from '@/components/StickyCTA';
 
 // Region-specific content
 const getRegionContent = (cityName: string) => ({
@@ -19,7 +20,7 @@ const getRegionContent = (cityName: string) => ({
     title: "Toegang tot Off-Market Kavels",
     description: `In ${cityName} komen regelmatig kavels beschikbaar die nooit op Funda verschijnen. Via ons netwerk van lokale makelaars, projectontwikkelaars en particuliere verkopen hebben wij als eerste toegang tot deze kavels.`,
     stats: [
-      { number: "70%", label: "van kavels wordt off-market verkocht" },
+      { number: "Exclusieve", label: "leads uit ons netwerk van makelaars" },
       { number: "2-4 weken", label: "eerder dan publieke advertenties" },
       { number: "100%", label: "gratis voor u, geen kosten" },
     ]
@@ -139,8 +140,83 @@ export default async function RegioPage({ params }: { params: { stad: string } }
 
   const hasListings = listings && listings.length > 0;
 
+  // Schema.org structured data
+  const schemaLocalBusiness = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    'name': 'KavelArchitect - Bouwkavels in ' + cityName,
+    'image': 'https://kavelarchitect.nl/hero-bg.jpg',
+    'description': `Vind bouwkavels in ${cityName} met professionele begeleiding van Architectenbureau Zwijsen. Exclusieve toegang tot off-market kavels.`,
+    'url': `https://kavelarchitect.nl/regio/${params.stad}`,
+    'telephone': '+31-6-12345678',
+    'email': 'info@kavelarchitect.nl',
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': cityName,
+      'addressCountry': 'NL'
+    },
+    'areaServed': {
+      '@type': 'City',
+      'name': cityName
+    },
+    'priceRange': '€€',
+    'serviceType': 'Bouwkavel bemiddeling en architectuur begeleiding'
+  };
+
+  const schemaBreadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Home',
+        'item': 'https://kavelarchitect.nl'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Regio\'s',
+        'item': 'https://kavelarchitect.nl/regio'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': cityName,
+        'item': `https://kavelarchitect.nl/regio/${params.stad}`
+      }
+    ]
+  };
+
+  const schemaSearchBox = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'url': 'https://kavelarchitect.nl',
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': {
+        '@type': 'EntryPoint',
+        'urlTemplate': 'https://kavelarchitect.nl/aanbod?q={search_term_string}'
+      },
+      'query-input': 'required name=search_term_string'
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaLocalBusiness) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaBreadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaSearchBox) }}
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -441,6 +517,9 @@ export default async function RegioPage({ params }: { params: { stad: string } }
           </div>
         </section>
       </div>
+
+      {/* Sticky CTA - appears after 50% scroll */}
+      <StickyCTA cityName={cityName} citySlug={params.stad} />
     </div>
   );
 }

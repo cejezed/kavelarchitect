@@ -38,7 +38,7 @@ const services: Service[] = [
     ctaText: 'Start KavelRapport',
     ctaLink: '/kavelrapport',
     color: 'from-navy-900 to-blue-900',
-    price: 'Vanaf €497'
+    price: 'Vanaf €39'
   },
   {
     id: 'zoekservice',
@@ -75,7 +75,7 @@ const services: Service[] = [
     ctaLink: 'https://www.zwijsen.net/contact',
     color: 'from-blue-600 to-blue-700',
     external: true,
-    price: 'Vanaf €2.950'
+    price: 'Op aanvraag'
   },
   {
     id: 'bestaande-woning',
@@ -111,7 +111,7 @@ const services: Service[] = [
     ctaText: 'Boek Sessie',
     ctaLink: '/kennisbank',
     color: 'from-slate-700 to-slate-800',
-    price: '€297'
+    price: 'Op aanvraag'
   }
 ];
 
@@ -277,7 +277,7 @@ export default function DienstenPage() {
               href="/kavelrapport"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-all shadow-lg"
             >
-              Bestel KavelRapport (€497)
+              Bestel KavelRapport (vanaf €39)
               <ArrowRight size={20} />
             </Link>
           </div>

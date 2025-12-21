@@ -54,15 +54,15 @@ export default function Home() {
                                     posthog?.capture?.('cta_kavelalert_hero_click');
                                     setShowWizard(true);
                                 }}
-                                className="inline-flex items-center justify-center px-8 py-4 bg-navy-900 text-white font-bold text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
+                                className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
                             >
-                                <Bell size={20} className="mr-3" />
+                                <Bell size={20} className="mr-2 sm:mr-3" />
                                 Activeer Mijn Gratis KavelAlert
                             </button>
                             <Link
                                 href="/kavelrapport"
                                 onClick={() => posthog?.capture?.('cta_kavelrapport_hero_click')}
-                                className="inline-flex items-center justify-center px-8 py-4 border-2 border-navy-900 text-navy-900 font-bold text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
+                                className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
                             >
                                 Bekijk KavelRapport
                                 <ArrowRight size={18} className="ml-2" />

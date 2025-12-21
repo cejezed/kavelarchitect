@@ -23,8 +23,8 @@ export default function KavelRapportPage() {
             </div>
 
             <h1 className="font-serif text-4xl md:text-6xl text-white leading-tight mb-6">
-              Koop geen kavel <br />
-              <span className="text-blue-400">zonder zekerheid.</span>
+              Bouwkavel kopen <br />
+              <span className="text-blue-400">met architectenadvies</span>
             </h1>
 
             <p className="text-lg text-slate-300 mb-8 max-w-lg leading-relaxed">
@@ -78,7 +78,7 @@ export default function KavelRapportPage() {
         <div className="grid md:grid-cols-2 gap-16">
           <div>
             <h2 className="font-serif text-3xl font-bold text-navy-900 mb-6">
-              Wat u precies krijgt
+              Bouwgrond beoordeling door architect
             </h2>
 
             <ul className="space-y-4">
@@ -150,7 +150,7 @@ export default function KavelRapportPage() {
           <div className="md:flex md:items-start md:justify-between gap-10">
             <div className="md:w-2/3">
               <h2 className="font-serif text-3xl font-bold text-navy-900 mb-4">
-                Overweegt u een verouderde woning te kopen?
+                Kavel met bestaande woning kopen
               </h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
                 Ook bij bestaande woningen met een slecht energielabel of een matige bouwkundige staat is zekerheid voor aankoop cruciaal.

@@ -41,8 +41,8 @@ export default function Home() {
                             Exclusief voor Zelfbouwers
                         </div>
                         <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-6">
-                            Eindeloos zoeken op Funda? <br />
-                            <span className="text-navy-900">Vind sneller de juiste kavel.</span>
+                            Bouwkavel kopen in Nederland <br />
+                            <span className="text-navy-900">met architectenbegeleiding</span>
                         </h1>
                         <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
                             Wij bewaken dagelijks het aanbod en sturen u direct kavels die passen bij uw regio, budget en woonwensen.
@@ -180,8 +180,8 @@ export default function Home() {
                                 Zekerheid vóór aankoop
                             </div>
                             <h2 className="font-serif text-4xl md:text-5xl text-navy-900 leading-tight mb-6">
-                                Weet wat u koopt <br />
-                                <span className="text-blue-600">vóór u een bod doet</span>.
+                                Bouwgrond kopen met zekerheid <br />
+                                <span className="text-blue-600">vóór u een bod doet</span>
                             </h2>
                             <p className="text-lg text-slate-600 mb-6 leading-relaxed">
                                 Een kavel kopen is complex. Mag uw droomhuis er eigenlijk wel staan?
@@ -269,6 +269,44 @@ export default function Home() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* SEO SECTION - Regional Targeting */}
+            <section className="py-16 bg-slate-50 border-y border-slate-200">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="max-w-3xl mx-auto text-center mb-12">
+                        <h2 className="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">
+                            Bouwkavels in heel Nederland
+                        </h2>
+                        <p className="text-lg text-slate-600 leading-relaxed">
+                            Of u nu op zoek bent naar een bouwkavel in Noord-Holland, Utrecht, Zuid-Holland of Noord-Brabant -
+                            wij helpen u met deskundig architectenadvies bij het vinden en beoordelen van uw ideale kavel.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                        <div className="bg-white rounded-xl p-6 border border-slate-200">
+                            <h3 className="font-bold text-navy-900 mb-3">Bouwkavel kopen met architect</h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                Professionele begeleiding bij het vinden en beoordelen van bouwgrond,
+                                met inzicht in bestemmingsplannen en bouwmogelijkheden.
+                            </p>
+                        </div>
+                        <div className="bg-white rounded-xl p-6 border border-slate-200">
+                            <h3 className="font-bold text-navy-900 mb-3">Bouwgrond in gewilde regio's</h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                Exclusieve toegang tot off-market kavels in populaire gemeenten
+                                zoals Blaricum, Heemstede, Zeist en omstreken.
+                            </p>
+                        </div>
+                        <div className="bg-white rounded-xl p-6 border border-slate-200">
+                            <h3 className="font-bold text-navy-900 mb-3">Kavel met architectenbegeleiding</h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">
+                                Van haalbaarheidscheck tot vergunningaanvraag -
+                                één aanspreekpunt voor uw bouwproject.
+                            </p>
                         </div>
                     </div>
                 </div>

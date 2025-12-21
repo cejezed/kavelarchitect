@@ -30,7 +30,7 @@ export default function NavBar() {
               Home
             </Link>
             <Link href="/aanbod" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Aanbod
+              Kavelaanbod
             </Link>
             <Link href="/kavelrapport" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
               KavelRapport
@@ -39,14 +39,15 @@ export default function NavBar() {
               Kennisbank
             </Link>
             <Link href="/over-ons" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Over ons
+              Over Ons
             </Link>
+            <hr className="border-slate-200 my-2" />
             <Link
               href="/aanbod"
               onClick={() => setOpen(false)}
               className="block text-center mt-2 px-3 py-2 rounded-xl bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors"
             >
-              Bekijk kavels
+              Bekijk Kavels
             </Link>
           </div>
         </div>

@@ -1,14 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
-
-// Featured cities for programmatic SEO
-const FEATURED_CITIES = [
-  'blaricum', 'laren', 'hilversum', 'huizen', 'naarden',
-  'bloemendaal', 'heemstede', 'haarlem', 'wassenaar', 'noordwijk',
-  'voorschoten', 'leidschendam', 'zoetermeer',
-  'bunnik', 'de-bilt', 'zeist',
-  'oisterwijk', 'eersel',
-];
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://kavelarchitect.nl';
@@ -16,6 +8,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all published listings and articles
   const listings = await getListings();
   const articles = await getArticles();
+
+  // Fetch all unique cities from published listings for regio pages
+  const { data: cityData } = await supabaseAdmin
+    .from('listings')
+    .select('plaats')
+    .eq('status', 'published');
+
+  const uniqueCities = cityData
+    ? Array.from(new Set(cityData.map(item => item.plaats)))
+        .filter(Boolean)
+        .map(city => city.toLowerCase().replace(/\s+/g, '-'))
+    : [];
 
   // Static pages with priority and change frequency
   const staticPages: MetadataRoute.Sitemap = [
@@ -73,8 +77,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // Programmatic SEO regio pages
-  const regioUrls: MetadataRoute.Sitemap = FEATURED_CITIES.map((city) => ({
+  // Programmatic SEO regio pages - dynamically generated from all published cities
+  const regioUrls: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
     url: `${baseUrl}/regio/${city}`,
     lastModified: new Date(),
     changeFrequency: 'daily',

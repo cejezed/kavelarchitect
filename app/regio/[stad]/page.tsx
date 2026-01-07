@@ -5,6 +5,9 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 import Image from 'next/image';
 import StickyCTA from '@/components/StickyCTA';
+import FAQAccordion from '@/components/FAQAccordion';
+import RegioAnalytics from '@/components/RegioAnalytics';
+import { getRegionFAQs, generateFAQSchema } from '@/lib/region-faq-data';
 
 // Region-specific content
 const getRegionContent = (cityName: string) => ({
@@ -92,25 +95,42 @@ export async function generateStaticParams() {
   }));
 }
 
-// Generate SEO metadata
+// Generate SEO metadata - Yoast-optimized
 export async function generateMetadata({ params }: { params: { stad: string } }): Promise<Metadata> {
   const cityName = params.stad.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
-  const title = `Bouwkavel kopen ${cityName} | KavelArchitect`;
-  const description = `Bouwkavels te koop in ${cityName}. Actueel overzicht van beschikbare kavels en exclusieve off-market mogelijkheden. Expert begeleiding van Architectenbureau Zwijsen.`;
+  // Determine region for better targeting
+  const isVechtstreek = ['Loenen aan de Vecht', 'Breukelen', 'Maarssen', 'Nieuwersluis'].includes(cityName);
+  const isGooi = ['Hilversum', 'Laren', 'Blaricum', 'Bussum'].includes(cityName);
+
+  let regionSuffix = '';
+  if (isVechtstreek) regionSuffix = ' Vechtstreek';
+  else if (isGooi) regionSuffix = ' Het Gooi';
+
+  // Optimized title: <60 chars, keyword-rich, compelling
+  const title = `Architect ${cityName} | Nieuwbouw Verbouw${regionSuffix}`;
+
+  // Optimized description: <160 chars, call-to-action, keyword-rich
+  const description = `Architect ${cityName}: bouwkavels + ontwerpbegeleiding. Off-market toegang, welstandsadvies${regionSuffix}. Gratis haalbaarheidscheck →`;
+
   const canonicalUrl = `https://kavelarchitect.nl/regio/${params.stad}`;
 
   return {
     title,
     description,
     keywords: [
+      `architect ${cityName}`,
       `bouwkavel ${cityName}`,
+      `nieuwbouw ${cityName}`,
+      `verbouw ${cityName}`,
       `kavel kopen ${cityName}`,
       `bouwgrond ${cityName}`,
       `zelfbouw ${cityName}`,
-      'bouwkavel te koop',
-      'architect',
-      'nieuwbouw',
+      'architectenbureau',
+      'welstandsadvies',
+      'off-market kavels',
+      ...(isVechtstreek ? ['architect Vechtstreek', 'nieuwbouw Vechtstreek'] : []),
+      ...(isGooi ? ['architect Het Gooi', 'nieuwbouw Het Gooi'] : []),
     ],
     alternates: {
       canonical: canonicalUrl,
@@ -122,6 +142,12 @@ export async function generateMetadata({ params }: { params: { stad: string } })
       siteName: 'KavelArchitect',
       locale: 'nl_NL',
       type: 'website',
+      images: [{
+        url: 'https://kavelarchitect.nl/hero-bg.jpg',
+        width: 1200,
+        height: 630,
+        alt: `Architect ${cityName} - Nieuwbouw en Verbouw`
+      }]
     },
     twitter: {
       card: 'summary_large_image',
@@ -134,8 +160,14 @@ export async function generateMetadata({ params }: { params: { stad: string } })
       googleBot: {
         index: true,
         follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
       },
     },
+    other: {
+      'last-modified': '2026-01-07', // Freshness signal
+    }
   };
 }
 
@@ -153,13 +185,69 @@ export default async function RegioPage({ params }: { params: { stad: string } }
 
   const hasListings = listings && listings.length > 0;
 
-  // Schema.org structured data
+  // Get FAQ data for this region
+  const faqs = getRegionFAQs(cityName);
+
+  // Schema.org structured data - Enhanced for rich snippets
+  const schemaWebPage = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    'name': `Architect ${cityName} | Nieuwbouw Verbouw`,
+    'description': `Architect ${cityName}: bouwkavels + ontwerpbegeleiding. Off-market toegang, welstandsadvies. Gratis haalbaarheidscheck.`,
+    'url': `https://kavelarchitect.nl/regio/${params.stad}`,
+    'inLanguage': 'nl-NL',
+    'isPartOf': {
+      '@type': 'WebSite',
+      'name': 'KavelArchitect',
+      'url': 'https://kavelarchitect.nl'
+    },
+    'breadcrumb': {
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://kavelarchitect.nl'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'Regio\'s',
+          'item': 'https://kavelarchitect.nl/regio'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
+          'name': cityName,
+          'item': `https://kavelarchitect.nl/regio/${params.stad}`
+        }
+      ]
+    },
+    'about': {
+      '@type': 'Service',
+      'serviceType': 'Architectuur en Bouwkavel Bemiddeling',
+      'provider': {
+        '@type': 'ProfessionalService',
+        'name': 'KavelArchitect',
+        'url': 'https://kavelarchitect.nl'
+      },
+      'areaServed': {
+        '@type': 'City',
+        'name': cityName,
+        'addressCountry': 'NL'
+      }
+    },
+    'lastReviewed': '2026-01-07',
+    'dateModified': '2026-01-07'
+  };
+
   const schemaLocalBusiness = {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    'name': 'KavelArchitect - Bouwkavels in ' + cityName,
+    '@type': 'LocalBusiness',
+    'name': `KavelArchitect ${cityName}`,
     'image': 'https://kavelarchitect.nl/hero-bg.jpg',
-    'description': `Vind bouwkavels in ${cityName} met professionele begeleiding van Architectenbureau Zwijsen. Exclusieve toegang tot off-market kavels.`,
+    'description': `Architectenbureau gespecialiseerd in nieuwbouw en bouwkavels in ${cityName}. Exclusieve toegang tot off-market kavels en volledige ontwerpbegeleiding.`,
     'url': `https://kavelarchitect.nl/regio/${params.stad}`,
     'telephone': '+31-6-12345678',
     'email': 'info@kavelarchitect.nl',
@@ -168,79 +256,82 @@ export default async function RegioPage({ params }: { params: { stad: string } }
       'addressLocality': cityName,
       'addressCountry': 'NL'
     },
+    'geo': {
+      '@type': 'GeoCoordinates',
+      'addressCountry': 'NL'
+    },
     'areaServed': {
       '@type': 'City',
       'name': cityName
     },
-    'priceRange': '€€',
-    'serviceType': 'Bouwkavel bemiddeling en architectuur begeleiding'
-  };
-
-  const schemaBreadcrumb = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': [
-      {
-        '@type': 'ListItem',
-        'position': 1,
-        'name': 'Home',
-        'item': 'https://kavelarchitect.nl'
-      },
-      {
-        '@type': 'ListItem',
-        'position': 2,
-        'name': 'Regio\'s',
-        'item': 'https://kavelarchitect.nl/regio'
-      },
-      {
-        '@type': 'ListItem',
-        'position': 3,
-        'name': cityName,
-        'item': `https://kavelarchitect.nl/regio/${params.stad}`
-      }
-    ]
-  };
-
-  const schemaSearchBox = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    'url': 'https://kavelarchitect.nl',
-    'potentialAction': {
-      '@type': 'SearchAction',
-      'target': {
-        '@type': 'EntryPoint',
-        'urlTemplate': 'https://kavelarchitect.nl/aanbod?q={search_term_string}'
-      },
-      'query-input': 'required name=search_term_string'
+    'priceRange': '€€€',
+    'serviceType': ['Architectuur', 'Bouwkavel Bemiddeling', 'Nieuwbouw Begeleiding', 'Welstandsadvies'],
+    'hasOfferCatalog': {
+      '@type': 'OfferCatalog',
+      'name': 'Diensten',
+      'itemListElement': [
+        {
+          '@type': 'Offer',
+          'itemOffered': {
+            '@type': 'Service',
+            'name': 'KavelRapport',
+            'description': 'Professionele beoordeling van bouwkavels'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': {
+            '@type': 'Service',
+            'name': 'Off-Market Toegang',
+            'description': 'Exclusieve toegang tot niet-publieke bouwkavels'
+          }
+        },
+        {
+          '@type': 'Offer',
+          'itemOffered': {
+            '@type': 'Service',
+            'name': 'Architectenbegeleiding',
+            'description': 'Volledige ontwerpbegeleiding van schets tot vergunning'
+          }
+        }
+      ]
     }
   };
 
+  // FAQ Schema for rich snippets
+  const schemaFAQ = generateFAQSchema(cityName);
+
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Structured Data */}
+      {/* Structured Data - Enhanced for Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaWebPage) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaLocalBusiness) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaBreadcrumb) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaFAQ) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaSearchBox) }}
-      />
-      {/* Hero Section */}
+
+      {/* Analytics Tracking */}
+      <RegioAnalytics cityName={cityName} />
+
+      {/* Hero Section - H1 optimized for SEO */}
       <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 text-white py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-            <MapPin size={24} className="text-blue-400 md:w-8 md:h-8" />
-            <h1 className="font-serif text-3xl md:text-5xl font-bold">Bouwkavel kopen in {cityName}</h1>
-          </div>
+          {/* H1 at top of viewport for SEO */}
+          <h1 className="font-serif text-3xl md:text-5xl font-bold mb-4 md:mb-6">
+            <MapPin size={24} className="text-blue-400 md:w-8 md:h-8 inline-block mr-2 md:mr-3 align-middle" />
+            Architect {cityName} | Nieuwbouw & Verbouw
+          </h1>
           <p className="text-lg md:text-xl text-slate-200 max-w-2xl mb-6 md:mb-8">
             {hasListings
-              ? `${listings.length} ${listings.length === 1 ? 'bouwkavel' : 'bouwkavels'} beschikbaar in ${cityName}`
-              : `Exclusieve toegang tot off-market kavels in ${cityName}`
+              ? `${listings.length} ${listings.length === 1 ? 'bouwkavel' : 'bouwkavels'} beschikbaar • Off-market toegang • Welstandsadvies`
+              : `Exclusieve toegang tot off-market kavels • Gratis haalbaarheidscheck • Lokale expertise`
             }
           </p>
           <Link
@@ -248,7 +339,7 @@ export default async function RegioPage({ params }: { params: { stad: string } }
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-white text-navy-900 font-bold text-sm md:text-base rounded-xl hover:bg-blue-50 transition-colors shadow-xl"
           >
             <Bell size={20} />
-            Activeer Regio Alert
+            Gratis Haalbaarheidscheck
           </Link>
         </div>
       </section>
@@ -399,8 +490,9 @@ export default async function RegioPage({ params }: { params: { stad: string } }
                     <div className="relative h-48">
                       <Image
                         src={imageUrl}
-                        alt={listing.adres}
+                        alt={`Architect ${cityName} - Bouwkavel ${listing.adres} - ${listing.oppervlakte}m² nieuwbouw project`}
                         fill
+                        loading="lazy"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-3 right-3 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
@@ -517,6 +609,9 @@ export default async function RegioPage({ params }: { params: { stad: string } }
             </div>
           </div>
         )}
+
+        {/* FAQ Section - For Rich Snippets */}
+        <FAQAccordion faqs={faqs} cityName={cityName} />
 
         {/* Final CTA Section - Always show */}
         <section className="mt-16 mb-8">

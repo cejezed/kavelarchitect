@@ -86,13 +86,13 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
         if (!contactOk) {
             const contactBody = await contactResult.json().catch(() => ({}));
             console.warn('CF7 contact failed', contactBody);
+            posthog.capture('kavelalert_contact_error');
+            setError('Het versturen is mislukt. Probeer het later opnieuw.');
+            return;
         }
 
         if (registerResult.success) {
             posthog.capture('kavelalert_submission_success');
-            if (!contactOk) {
-                posthog.capture('kavelalert_contact_error');
-            }
             setStep('success');
         } else {
             posthog.capture('kavelalert_submission_error', { error: registerResult.message });

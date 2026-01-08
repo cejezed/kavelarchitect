@@ -32,8 +32,11 @@ function buildMessage(body: any) {
   const parts: string[] = [];
 
   if (body.provincies) parts.push(`Regio(s): ${formatList(body.provincies)}`);
+  if (body.provincie) parts.push(`Regio: ${body.provincie}`);
+  if (body.plaats) parts.push(`Plaats: ${body.plaats}`);
   if (body.min_oppervlakte) parts.push(`Min. oppervlakte: ${body.min_oppervlakte} m2`);
   if (body.bouwbudget) parts.push(`Budget: ${body.bouwbudget}`);
+  if (body.maxPrijs) parts.push(`Max prijs: ${body.maxPrijs}`);
   if (body.type_wens) parts.push(`Woningtype: ${body.type_wens}`);
   if (body.tijdslijn) parts.push(`Tijdslijn: ${body.tijdslijn}`);
   if (body.kavel_type) parts.push(`Kavel type: ${body.kavel_type}`);
@@ -86,16 +89,18 @@ export async function POST(req: Request) {
     const name = body.name || body['your-name'] || email.split('@')[0] || 'KavelAlert';
     const phone = body.telefoonnummer || body.phone || body['your-phone'] || '';
     const message = body['your-message'] || buildMessage(body);
+    const region = formatList(body.provincies || body.regio || body.provincie) || '';
+    const location = body.locatie || body.plaats || body.location || '';
 
     const formData = new FormData();
     formData.append('your-name', name);
     formData.append('your-email', email);
     formData.append('your-phone', phone);
     formData.append('your-message', message);
-    formData.append('regio', formatList(body.provincies || body.regio) || '');
-    formData.append('locatie', body.locatie || '');
+    formData.append('regio', region);
+    formData.append('locatie', location);
     formData.append('project-type', body.type_wens || body['project-type'] || '');
-    formData.append('budget', body.bouwbudget || body.budget || '');
+    formData.append('budget', body.bouwbudget || body.budget || body.maxPrijs || '');
     formData.append('timeframe', body.tijdslijn || body.timeframe || '');
     formData.append('has-location', body['has-location'] || (body.provincies ? 'ja' : 'nee'));
     formData.append('form-type', formType || 'kavelalert');

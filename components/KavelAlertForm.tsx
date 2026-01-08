@@ -49,25 +49,54 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
     setError('');
 
     try {
-        const res = await registerCustomer({
-            email: formData.email,
-            provincies: formData.provincies.split(',').map(s => s.trim()),
-            min_oppervlakte: Number(formData.min_oppervlakte),
-            bouwbudget: formData.bouwbudget,
-            bouwstijl: formData.type_wens,
-            tijdslijn: formData.tijdslijn,
-            kavel_type: formData.kavel_type,
-            telefoonnummer: formData.telefoonnummer,
-            opmerkingen: formData.opmerkingen,
-            early_access_rapport: formData.early_access_rapport
-        });
-        
-        if (res.success) {
+        const [registerResult, contactResult] = await Promise.all([
+            registerCustomer({
+                email: formData.email,
+                provincies: formData.provincies.split(',').map(s => s.trim()).filter(Boolean),
+                min_oppervlakte: Number(formData.min_oppervlakte),
+                bouwbudget: formData.bouwbudget,
+                bouwstijl: formData.type_wens,
+                tijdslijn: formData.tijdslijn,
+                kavel_type: formData.kavel_type,
+                telefoonnummer: formData.telefoonnummer,
+                opmerkingen: formData.opmerkingen,
+                early_access_rapport: formData.early_access_rapport
+            }),
+            fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    formType: 'kavelalert',
+                    email: formData.email,
+                    telefoonnummer: formData.telefoonnummer,
+                    provincies: formData.provincies.split(',').map(s => s.trim()).filter(Boolean),
+                    min_oppervlakte: Number(formData.min_oppervlakte),
+                    bouwbudget: formData.bouwbudget,
+                    type_wens: formData.type_wens,
+                    tijdslijn: formData.tijdslijn,
+                    kavel_type: formData.kavel_type,
+                    opmerkingen: formData.opmerkingen,
+                    early_access_rapport: formData.early_access_rapport,
+                    honeypot: ''
+                })
+            })
+        ]);
+
+        const contactOk = contactResult.ok;
+        if (!contactOk) {
+            const contactBody = await contactResult.json().catch(() => ({}));
+            console.warn('CF7 contact failed', contactBody);
+        }
+
+        if (registerResult.success) {
             posthog.capture('kavelalert_submission_success');
+            if (!contactOk) {
+                posthog.capture('kavelalert_contact_error');
+            }
             setStep('success');
         } else {
-            posthog.capture('kavelalert_submission_error', { error: res.message });
-            setError(res.message || 'Er ging iets mis.');
+            posthog.capture('kavelalert_submission_error', { error: registerResult.message });
+            setError(registerResult.message || 'Er ging iets mis.');
         }
     } catch (err) {
         setError('Kon niet verbinden met the server.');

@@ -6,8 +6,8 @@ import { supabase } from '../lib/supabase';
 // Use environment variable for API URL (Vercel) or fallback to localhost
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8765/api';
 
-// Check if we should use Supabase directly (for Vercel deployment)
-const USE_SUPABASE_DIRECT = import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Force API usage to avoid RLS blocking pending listings in the dashboard.
+const USE_SUPABASE_DIRECT = false;
 
 // --- MOCK DATA FALLBACK (Used if backend is offline) ---
 let mockListings: Listing[] = [

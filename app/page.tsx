@@ -1,15 +1,33 @@
 'use client'; // Needed for interactive Wizard modal state
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import posthog from 'posthog-js';
 import { Bell, ShieldCheck, LayoutGrid, BookOpen, User, Check, ArrowRight } from 'lucide-react';
 import KavelAlertForm from '@/components/KavelAlertForm';
 import CTASticky from '@/components/CTASticky';
+import { trackKavelAlertClick } from '@/lib/analytics';
 
 export default function Home() {
     const [showWizard, setShowWizard] = useState(false);
+    const [ctaVariant, setCtaVariant] = useState<'alert' | 'rapport'>('alert');
+
+    useEffect(() => {
+        const stored = window.localStorage.getItem('cta_variant');
+        const variant = stored === 'alert' || stored === 'rapport'
+            ? stored
+            : Math.random() < 0.5
+                ? 'alert'
+                : 'rapport';
+
+        if (!stored) {
+            window.localStorage.setItem('cta_variant', variant);
+        }
+
+        setCtaVariant(variant);
+        posthog?.capture?.('cta_ab_variant_exposed', { variant });
+    }, []);
 
     return (
         <main className="min-h-screen bg-white">
@@ -41,32 +59,59 @@ export default function Home() {
                             Exclusief voor Zelfbouwers
                         </div>
                         <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-6">
-                            Bouwkavels zoeken in Nederland <br />
-                            <span className="text-navy-900">met architectenbegeleiding</span>
+                            Bouwkavels Nederland <br />
+                            <span className="text-navy-900">met Architectenbegeleiding</span>
                         </h1>
                         <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
                             Vind bouwgrond en bouwkavels te koop in heel Nederland. Wij bewaken dagelijks het kavelaanbod
                             en helpen u met professioneel architectenadvies bij het zoeken, beoordelen en kopen van uw ideale bouwkavel.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <button
-                                onClick={() => {
-                                    posthog?.capture?.('cta_kavelalert_hero_click');
-                                    setShowWizard(true);
-                                }}
-                                className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
-                            >
-                                <Bell size={20} className="mr-2 sm:mr-3" />
-                                Activeer Mijn Gratis KavelAlert
-                            </button>
-                            <Link
-                                href="/kavelrapport"
-                                onClick={() => posthog?.capture?.('cta_kavelrapport_hero_click')}
-                                className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
-                            >
-                                Bekijk KavelRapport
-                                <ArrowRight size={18} className="ml-2" />
-                            </Link>
+                            {ctaVariant === 'rapport' ? (
+                                <>
+                                    <Link
+                                        href="/kavelrapport"
+                                        onClick={() => posthog?.capture?.('cta_kavelrapport_ab_click', { variant: 'rapport' })}
+                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
+                                    >
+                                        Gratis Rapport
+                                        <ArrowRight size={18} className="ml-2" />
+                                    </Link>
+                                    <button
+                                        onClick={() => {
+                                            posthog?.capture?.('cta_kavelalert_hero_click', { variant: 'rapport' });
+                                            trackKavelAlertClick('home_hero');
+                                            setShowWizard(true);
+                                        }}
+                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
+                                    >
+                                        <Bell size={20} className="mr-2 sm:mr-3" />
+                                        Activeer Mijn Gratis KavelAlert
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button
+                                        onClick={() => {
+                                            posthog?.capture?.('cta_kavelalert_hero_click', { variant: 'alert' });
+                                            trackKavelAlertClick('home_hero');
+                                            setShowWizard(true);
+                                        }}
+                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
+                                    >
+                                        <Bell size={20} className="mr-2 sm:mr-3" />
+                                        Activeer Mijn Gratis KavelAlert
+                                    </button>
+                                    <Link
+                                        href="/kavelrapport"
+                                        onClick={() => posthog?.capture?.('cta_kavelrapport_hero_click', { variant: 'alert' })}
+                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
+                                    >
+                                        Bekijk KavelRapport
+                                        <ArrowRight size={18} className="ml-2" />
+                                    </Link>
+                                </>
+                            )}
                         </div>
                         <div className="mt-8 flex items-center justify-center lg:justify-start gap-2 text-xs text-slate-400">
                             <ShieldCheck size={14} />
@@ -128,7 +173,15 @@ export default function Home() {
                                         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                                         {/* Card Image with gradient */}
                                         <div className="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600">
-                                            <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover opacity-20"></div>
+                                            <Image
+                                                src="/hero-bg.jpg"
+                                                alt=""
+                                                fill
+                                                loading="lazy"
+                                                sizes="(max-width: 768px) 60vw, 240px"
+                                                className="object-cover opacity-20"
+                                                aria-hidden="true"
+                                            />
                                             <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-900">
                                                 Nieuw
                                             </div>

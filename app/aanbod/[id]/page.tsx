@@ -133,7 +133,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           {
             '@type': 'ListItem',
             'position': 2,
-            'name': 'Aanbod',
+            'name': 'Kavels',
             'item': 'https://kavelarchitect.nl/aanbod'
           },
           {
@@ -181,6 +181,20 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           <p className="text-xl opacity-90">{listing.adres}, {listing.plaats}</p>
         </div>
       </div>
+
+      <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 pt-6 text-xs text-slate-500">
+        <ol className="flex flex-wrap items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-slate-700">Home</Link>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li>
+            <Link href="/aanbod" className="hover:text-slate-700">Kavels</Link>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li className="text-slate-700">{listing.seo_title}</li>
+        </ol>
+      </nav>
 
       <div className="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-12">
 

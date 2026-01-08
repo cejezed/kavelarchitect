@@ -10,8 +10,40 @@ export const metadata = {
 };
 
 export default function AboutPage() {
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://kavelarchitect.nl'
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Over Ons',
+                item: 'https://kavelarchitect.nl/over-ons'
+            }
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-white">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
+            <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 pt-20 text-xs text-slate-500">
+                <ol className="flex flex-wrap items-center gap-2">
+                    <li>
+                        <Link href="/" className="hover:text-slate-700">Home</Link>
+                    </li>
+                    <li aria-hidden="true">›</li>
+                    <li className="text-slate-700">Over Ons</li>
+                </ol>
+            </nav>
             {/* Hero Section */}
             <section className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-16 items-center">

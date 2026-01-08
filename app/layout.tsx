@@ -2,6 +2,7 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { PHProvider } from './providers';
 import RegioFooter from '@/components/RegioFooter';
@@ -18,6 +19,33 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
   display: 'swap',
 });
+
+const gaId = process.env.NEXT_PUBLIC_GA4_ID;
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'KavelArchitect',
+  url: 'https://kavelarchitect.nl',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://kavelarchitect.nl/search?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'KavelArchitect',
+  url: 'https://kavelarchitect.nl',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Bastertlaan 3',
+    addressLocality: 'Loenen',
+    addressCountry: 'NL',
+  },
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kavelarchitect.nl'),
@@ -87,6 +115,31 @@ export default function RootLayout({
           img, video { max-width: 100%; height: auto; display: block; }
           a { color: inherit; text-decoration: none; }
         `}} />
+        <link rel="preload" as="image" href="/hero-bg.jpg" fetchPriority="high" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        {gaId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaId}', { page_path: window.location.pathname });
+              `}
+            </Script>
+          </>
+        ) : null}
       </head>
       <body className={inter.className}>
         <Suspense fallback={null}>

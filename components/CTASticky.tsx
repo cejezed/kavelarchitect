@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import posthog from 'posthog-js';
 import { Bell } from 'lucide-react';
+import { trackKavelAlertClick } from '@/lib/analytics';
 
 export default function CTASticky({ onOpen }: { onOpen: () => void }) {
   const [visible, setVisible] = useState(false);
@@ -22,6 +23,7 @@ export default function CTASticky({ onOpen }: { onOpen: () => void }) {
         <button
           onClick={() => {
             posthog?.capture?.('cta_sticky_alert_click');
+            trackKavelAlertClick('home_sticky');
             onOpen();
           }}
           className="w-full py-4 bg-navy-900 text-white font-bold text-lg rounded-xl shadow-2xl flex items-center justify-center"

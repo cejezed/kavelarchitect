@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { trackKennismakingClick, trackScrollDepth, trackTimeOnPage } from '@/lib/analytics';
+import { trackKennismakingClick, trackKavelAlertClick, trackScrollDepth, trackTimeOnPage } from '@/lib/analytics';
 
 interface RegioAnalyticsProps {
     cityName: string;
@@ -56,6 +56,9 @@ export default function RegioAnalytics({ cityName }: RegioAnalyticsProps) {
                 // Track kennismaking/alert clicks
                 if (href?.includes('regio=') || text.includes('Alert') || text.includes('Haalbaarheidscheck')) {
                     trackKennismakingClick(cityName, text);
+                }
+                if (text.includes('Alert')) {
+                    trackKavelAlertClick(text);
                 }
             }
         };

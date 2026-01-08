@@ -10,7 +10,7 @@ export default function RegioFooter() {
             Bekijk het actuele aanbod van bouwkavels per gemeente, inclusief exclusieve off-market kavels.
           </p>
           <Link
-            href="/aanbod"
+            href="/regio"
             className="inline-flex items-center text-sm font-bold text-white border-b border-white/60 hover:border-white"
           >
             Bekijk alle regio's

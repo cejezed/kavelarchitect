@@ -74,7 +74,7 @@ export default function Home() {
                                         onClick={() => posthog?.capture?.('cta_kavelrapport_ab_click', { variant: 'rapport' })}
                                         className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
                                     >
-                                        Gratis Rapport
+                                        Bekijk KavelRapport
                                         <ArrowRight size={18} className="ml-2" />
                                     </Link>
                                     <button

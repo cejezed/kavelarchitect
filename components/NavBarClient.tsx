@@ -3,18 +3,14 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Menu, X } from 'lucide-react';
-
-type City = {
-  name: string;
-  slug: string;
-  provincie: string;
-};
+import type { City } from '@/lib/regions';
 
 interface NavBarClientProps {
   citiesByProvince: Record<string, City[]>;
+  topCities: City[];
 }
 
-export default function NavBarClient({ citiesByProvince }: NavBarClientProps) {
+export default function NavBarClient({ citiesByProvince, topCities }: NavBarClientProps) {
   const [open, setOpen] = useState(false);
 
   const provinceEntries = useMemo(() => {
@@ -57,6 +53,9 @@ export default function NavBarClient({ citiesByProvince }: NavBarClientProps) {
                 <Link href="/over-ons" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
                   Over Ons
                 </Link>
+                <Link href="/regio" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+                  Regio's
+                </Link>
                 <Link
                   href="/aanbod"
                   onClick={() => setOpen(false)}
@@ -72,26 +71,52 @@ export default function NavBarClient({ citiesByProvince }: NavBarClientProps) {
                 </div>
                 <div className="max-h-[60vh] overflow-auto pr-1">
                   <div className="grid gap-4 md:grid-cols-2">
-                    {provinceEntries.map(([province, cities]) => (
-                      <div key={province}>
-                        <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2">
-                          {province}
-                        </p>
-                        <ul className="space-y-1">
-                          {cities.map((city) => (
-                            <li key={city.slug}>
+                    <div>
+                      <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2">
+                        Populaire regio's
+                      </p>
+                      <ul className="space-y-1">
+                        {topCities.map((city) => (
+                          <li key={city.slug}>
+                            <Link
+                              href={`/regio/${city.slug}`}
+                              onClick={() => setOpen(false)}
+                              className="text-xs text-slate-600 hover:text-navy-900 transition-colors"
+                            >
+                              Bouwkavel {city.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        href="/regio"
+                        onClick={() => setOpen(false)}
+                        className="mt-3 inline-flex text-xs font-semibold text-navy-900 hover:text-emerald-600 transition-colors"
+                      >
+                        Alle regio's bekijken
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2">
+                        Provincies
+                      </p>
+                      <ul className="space-y-1">
+                        {provinceEntries.map(([province, cities]) => {
+                          const provinceSlug = province.toLowerCase().replace(/\s+/g, '-');
+                          return (
+                            <li key={province}>
                               <Link
-                                href={`/regio/${city.slug}`}
+                                href={`/regio#${provinceSlug}`}
                                 onClick={() => setOpen(false)}
                                 className="text-xs text-slate-600 hover:text-navy-900 transition-colors"
                               >
-                                Bouwkavel {city.name}
+                                {province} ({cities.length})
                               </Link>
                             </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                          );
+                        })}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>

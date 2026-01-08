@@ -109,7 +109,7 @@ const services: Service[] = [
       'Valkuilen en kansen in uw zoekgebied'
     ],
     ctaText: 'Boek Sessie',
-    ctaLink: '/kennisbank',
+    ctaLink: 'https://www.zwijsen.net/contact',
     color: 'from-slate-700 to-slate-800',
     price: 'Op aanvraag'
   }

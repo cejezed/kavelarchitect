@@ -22,20 +22,37 @@ export function InlineKavelAlert({ provincie, plaats, prijs, autoExpand = false,
         setIsSubmitting(true);
 
         try {
-            // Call the KavelAlert API (reuse existing endpoint)
-            const response = await fetch('/api/customers', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email,
-                    provincie: provincie || '',
-                    plaats: plaats || '',
-                    maxPrijs: prijs ? Math.round(prijs * 1.2) : undefined, // 20% above current price
-                    source: 'sold_listing_inline'
+            const maxPrijs = prijs ? Math.round(prijs * 1.2) : undefined;
+            const [customerResponse, contactResponse] = await Promise.all([
+                fetch('/api/customers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        provincie: provincie || '',
+                        plaats: plaats || '',
+                        maxPrijs,
+                        source: 'sold_listing_inline'
+                    })
+                }),
+                fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        formType: 'kavelalert',
+                        email,
+                        provincie: provincie || '',
+                        plaats: plaats || '',
+                        maxPrijs,
+                        honeypot: ''
+                    })
                 })
-            });
+            ]);
 
-            if (response.ok) {
+            if (contactResponse.ok) {
+                if (!customerResponse.ok) {
+                    console.warn('Customer registration failed');
+                }
                 setIsSuccess(true);
                 // Track with PostHog if available
                 if (typeof window !== 'undefined' && (window as any).posthog) {

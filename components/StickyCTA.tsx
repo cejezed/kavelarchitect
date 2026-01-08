@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Bell, X } from 'lucide-react';
+import { trackKavelAlertClick } from '@/lib/analytics';
 
 interface StickyCTAProps {
   cityName: string;
@@ -53,6 +54,7 @@ export default function StickyCTA({ cityName, citySlug }: StickyCTAProps) {
             <div className="flex items-center gap-3">
               <Link
                 href={`/?regio=${citySlug}`}
+                onClick={() => trackKavelAlertClick(`regio_sticky_${citySlug}`)}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-700 font-bold rounded-lg hover:bg-emerald-50 transition-colors shadow-lg whitespace-nowrap"
               >
                 <Bell size={18} />

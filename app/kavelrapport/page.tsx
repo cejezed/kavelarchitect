@@ -9,8 +9,90 @@ export const metadata = {
 };
 
 export default function KavelRapportPage() {
+  const faqs = [
+    {
+      q: 'Wat kost KavelRapport?',
+      a: 'De prijs hangt af van het type rapport (KavelCheck, KavelRapport of Premium Review). Bekijk de actuele tarieven op deze pagina voor de meest recente prijzen.'
+    },
+    {
+      q: 'Hoe snel ontvang ik het rapport?',
+      a: 'Na betaling gaan wij direct aan de slag. Voor een KavelCheck en KavelRapport streven we naar levering binnen 24 uur (op werkdagen). De Premium Review plannen we in overleg.'
+    },
+    {
+      q: 'Wat als de kavel onbebouwbaar blijkt?',
+      a: 'Dat is waardevolle informatie! Het rapport behoedt u dan voor een miskoop. U krijgt in dat geval een negatief bouwadvies, helder onderbouwd.'
+    },
+    {
+      q: 'Is het KavelRapport ook geschikt voor bestaande woningen?',
+      a: 'Ja. Het KavelRapport is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risico’s van het object — niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.'
+    },
+    {
+      q: 'Ik heb zelf een kavel gevonden (niet op jullie site), kunnen jullie helpen?',
+      a: 'Absoluut. Start de intake voor een eigen kavel of stuur een e-mail naar info@kavelarchitect.nl voor een maatwerk analyse.'
+    }
+  ];
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a
+      }
+    }))
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://kavelarchitect.nl'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Diensten',
+        item: 'https://kavelarchitect.nl/diensten'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'KavelRapport',
+        item: 'https://kavelarchitect.nl/kavelrapport'
+      }
+    ]
+  };
+
   return (
     <main className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 pt-20 text-xs text-slate-500">
+        <ol className="flex flex-wrap items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-slate-700">Home</Link>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li>
+            <Link href="/diensten" className="hover:text-slate-700">Diensten</Link>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li className="text-slate-700">KavelRapport</li>
+        </ol>
+      </nav>
 
       {/* HERO */}
       <section className="relative pt-32 pb-20 bg-navy-900 overflow-hidden">
@@ -215,24 +297,7 @@ export default function KavelRapportPage() {
           </h2>
 
           <div className="space-y-4">
-            {[
-              {
-                q: 'Hoe snel ontvang ik het rapport?',
-                a: 'Na betaling gaan wij direct aan de slag. Voor een KavelCheck en KavelRapport streven we naar levering binnen 24 uur (op werkdagen). De Premium Review plannen we in overleg.'
-              },
-              {
-                q: 'Wat als de kavel onbebouwbaar blijkt?',
-                a: 'Dat is waardevolle informatie! Het rapport behoedt u dan voor een miskoop. U krijgt in dat geval een negatief bouwadvies, helder onderbouwd.'
-              },
-              {
-                q: 'Is het KavelRapport ook geschikt voor bestaande woningen?',
-                a: 'Ja. Het KavelRapport is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risico’s van het object — niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.'
-              },
-              {
-                q: 'Ik heb zelf een kavel gevonden (niet op jullie site), kunnen jullie helpen?',
-                a: 'Absoluut. Start de intake voor een eigen kavel of stuur een e-mail naar info@kavelarchitect.nl voor een maatwerk analyse.'
-              }
-            ].map((faq, i) => (
+            {faqs.map((faq, i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
                 <h4 className="font-bold text-navy-900 flex items-start gap-3">
                   <HelpCircle size={20} className="text-slate-300 shrink-0 mt-0.5" />

@@ -78,6 +78,7 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
 
     const imageUrl = article._embedded?.['wp:featuredmedia']?.[0]?.source_url;
     const date = new Date(article.date).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+    const breadcrumbTitle = article.title.rendered.replace(/<[^>]*>/g, '');
 
     // Extract city names from article content for contextual region links
     const popularCities = ['Blaricum', 'Laren', 'Heemstede', 'Zeist', 'Wassenaar', 'Noordwijk'];
@@ -89,8 +90,50 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
     // Get recent listings for internal linking
     const featuredListings = recentListings.slice(0, 2);
 
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://kavelarchitect.nl'
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Kennisbank',
+                item: 'https://kavelarchitect.nl/kennisbank'
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: breadcrumbTitle,
+                item: `https://kavelarchitect.nl/kennisbank/${params.slug}`
+            }
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-white pb-20">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
+            <nav aria-label="Breadcrumb" className="max-w-3xl mx-auto px-6 pt-10 text-xs text-slate-500">
+                <ol className="flex flex-wrap items-center gap-2">
+                    <li>
+                        <Link href="/" className="hover:text-slate-700">Home</Link>
+                    </li>
+                    <li aria-hidden="true">›</li>
+                    <li>
+                        <Link href="/kennisbank" className="hover:text-slate-700">Kennisbank</Link>
+                    </li>
+                    <li aria-hidden="true">›</li>
+                    <li className="text-slate-700">{breadcrumbTitle}</li>
+                </ol>
+            </nav>
             {/* Header */}
             <header className="pt-32 pb-10 max-w-3xl mx-auto px-6 text-center">
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article.title.rendered }} />

@@ -2,7 +2,7 @@ const WP_API_URL = process.env.WP_ZWIJSEN_URL;
 const WP_USER = process.env.WP_ZWIJSEN_USER;
 const WP_PASSWORD = process.env.WP_ZWIJSEN_PASS;
 
-export async function createWordPressPost(listing: any) {
+export async function createWordPressPost(listing: any, contentOverride?: string) {
     if (!WP_API_URL || !WP_USER || !WP_PASSWORD) {
         console.warn('WordPress credentials missing, skipping WP post creation');
         return null;
@@ -45,7 +45,7 @@ export async function createWordPressPost(listing: any) {
     // 2. Create Post
     const postData = {
         title: listing.seo_title || listing.adres,
-        content: listing.seo_article_html || listing.seo_summary || 'Geen omschrijving.',
+        content: contentOverride || listing.seo_article_html || listing.seo_summary || 'Geen omschrijving.',
         status: 'publish',
         featured_media: featuredMediaId,
         meta: {

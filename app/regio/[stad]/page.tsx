@@ -213,12 +213,18 @@ export default async function RegioPage({ params }: { params: { stad: string } }
         {
           '@type': 'ListItem',
           'position': 2,
+          'name': 'Kavels',
+          'item': 'https://kavelarchitect.nl/aanbod'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 3,
           'name': 'Regio\'s',
           'item': 'https://kavelarchitect.nl/regio'
         },
         {
           '@type': 'ListItem',
-          'position': 3,
+          'position': 4,
           'name': cityName,
           'item': `https://kavelarchitect.nl/regio/${params.stad}`
         }
@@ -319,6 +325,20 @@ export default async function RegioPage({ params }: { params: { stad: string } }
 
       {/* Analytics Tracking */}
       <RegioAnalytics cityName={cityName} />
+
+      <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto px-6 pt-6 text-xs text-slate-500">
+        <ol className="flex flex-wrap items-center gap-2">
+          <li>
+            <Link href="/" className="hover:text-slate-700">Home</Link>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li>
+            <Link href="/aanbod" className="hover:text-slate-700">Kavels</Link>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li className="text-slate-700">Regio's</li>
+        </ol>
+      </nav>
 
       {/* Hero Section - H1 optimized for SEO */}
       <section className="bg-gradient-to-br from-navy-900 via-navy-800 to-blue-900 text-white py-12 md:py-20">

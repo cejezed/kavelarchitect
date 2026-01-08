@@ -1,59 +1,98 @@
-'use client';
+import NavBarClient from './NavBarClient';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+type City = {
+  name: string;
+  slug: string;
+  provincie: string;
+};
 
-export default function NavBar() {
-  const [open, setOpen] = useState(false);
+function getProvinceForCity(cityName: string): string {
+  const provinceMap: Record<string, string> = {
+    // Noord-Holland
+    'blaricum': 'Noord-Holland',
+    'laren': 'Noord-Holland',
+    'hilversum': 'Noord-Holland',
+    'huizen': 'Noord-Holland',
+    'naarden': 'Noord-Holland',
+    'bloemendaal': 'Noord-Holland',
+    'heemstede': 'Noord-Holland',
+    'haarlem': 'Noord-Holland',
+    'amsterdam': 'Noord-Holland',
+    'amstelveen': 'Noord-Holland',
+    'bussum': 'Noord-Holland',
+    'weesp': 'Noord-Holland',
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="h-14 mt-4 flex items-center justify-end">
-          <div className="p-2 rounded-full bg-white/90 backdrop-blur border border-slate-200 shadow-sm">
-            <button
-              className="p-2 rounded-full text-slate-700"
-              onClick={() => setOpen((v) => !v)}
-              aria-label="Toggle menu"
-            >
-              {open ? <X size={18} /> : <Menu size={18} />}
-            </button>
-          </div>
-        </div>
-      </div>
+    // Zuid-Holland
+    'wassenaar': 'Zuid-Holland',
+    'noordwijk': 'Zuid-Holland',
+    'voorschoten': 'Zuid-Holland',
+    'leidschendam': 'Zuid-Holland',
+    'zoetermeer': 'Zuid-Holland',
+    'den haag': 'Zuid-Holland',
+    'rotterdam': 'Zuid-Holland',
+    'leiden': 'Zuid-Holland',
+    'delft': 'Zuid-Holland',
+    'voorburg': 'Zuid-Holland',
+    'rijswijk': 'Zuid-Holland',
+    'nieuwkoop': 'Zuid-Holland',
 
-      {open && (
-        <div className="fixed top-16 right-4 sm:right-6 z-40 w-[280px] max-w-[90vw]">
-          <div className="rounded-2xl bg-white border border-slate-200 shadow-2xl py-4 px-4 space-y-3">
-            <Link href="/" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Home
-            </Link>
-            <Link href="/aanbod" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Kavels
-            </Link>
-            <Link href="/diensten" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Diensten
-            </Link>
-            <Link href="/kennisbank" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Kennisbank
-            </Link>
-            <Link href="/over-ons" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-              Over Ons
-            </Link>
-            <hr className="border-slate-200 my-2" />
-            <Link
-              href="/aanbod"
-              onClick={() => setOpen(false)}
-              className="block text-center mt-2 px-3 py-2 rounded-xl bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors"
-            >
-              Bekijk Kavels
-            </Link>
-          </div>
-        </div>
-      )}
-      {/* Spacer to offset fixed header */}
-      <div className="h-16" />
-    </header>
-  );
+    // Utrecht
+    'bunnik': 'Utrecht',
+    'de bilt': 'Utrecht',
+    'zeist': 'Utrecht',
+    'utrecht': 'Utrecht',
+    'woerden': 'Utrecht',
+    'amersfoort': 'Utrecht',
+    'nieuwegein': 'Utrecht',
+    'houten': 'Utrecht',
+
+    // Noord-Brabant
+    'oisterwijk': 'Noord-Brabant',
+    'eersel': 'Noord-Brabant',
+    'eindhoven': 'Noord-Brabant',
+    'tilburg': 'Noord-Brabant',
+    'breda': 'Noord-Brabant',
+    's-hertogenbosch': 'Noord-Brabant',
+
+    // Overige provincies
+    'arnhem': 'Gelderland',
+    'nijmegen': 'Gelderland',
+    'apeldoorn': 'Gelderland',
+    'enschede': 'Overijssel',
+    'zwolle': 'Overijssel',
+    'groningen': 'Groningen',
+    'leeuwarden': 'Friesland',
+  };
+
+  return provinceMap[cityName.toLowerCase()] || 'Overig';
+}
+
+export default async function NavBar() {
+  const { data: cityData } = await supabaseAdmin
+    .from('listings')
+    .select('plaats')
+    .eq('status', 'published');
+
+  const uniqueCityNames = cityData
+    ? Array.from(new Set(cityData.map((item) => item.plaats)))
+        .filter(Boolean)
+        .sort()
+    : [];
+
+  const cities: City[] = uniqueCityNames.map((cityName) => ({
+    name: cityName,
+    slug: cityName.toLowerCase().replace(/\s+/g, '-'),
+    provincie: getProvinceForCity(cityName),
+  }));
+
+  const citiesByProvince = cities.reduce((acc, city) => {
+    if (!acc[city.provincie]) {
+      acc[city.provincie] = [];
+    }
+    acc[city.provincie].push(city);
+    return acc;
+  }, {} as Record<string, City[]>);
+
+  return <NavBarClient citiesByProvince={citiesByProvince} />;
 }

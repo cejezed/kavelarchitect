@@ -6,6 +6,9 @@ import { FloatingAlertButton } from '../../components/FloatingAlertButton';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 export const metadata = {
     title: 'Kavelaanbod | KavelArchitect - Bouwkavels in heel Nederland',
     description: 'Actueel overzicht van bouwkavels in Nederland. Vind uw ideale kavel voor zelfbouw met expert begeleiding van Architectenbureau Zwijsen.',
@@ -46,9 +49,41 @@ export default async function AanbodPage() {
 
     const listings: Listing[] = data || [];
 
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://kavelarchitect.nl'
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Kavels',
+                item: 'https://kavelarchitect.nl/aanbod'
+            }
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-slate-50">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
             <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pt-20 md:pt-24">
+                <nav aria-label="Breadcrumb" className="mb-6 text-xs text-slate-500">
+                    <ol className="flex flex-wrap items-center gap-2">
+                        <li>
+                            <Link href="/" className="hover:text-slate-700">Home</Link>
+                        </li>
+                        <li aria-hidden="true">›</li>
+                        <li className="text-slate-700">Kavels</li>
+                    </ol>
+                </nav>
                 <div className="text-center max-w-4xl mx-auto mb-8 md:mb-12">
                     <h1 className="font-serif text-2xl md:text-4xl font-bold text-slate-900 mb-2 md:mb-4">Beschikbare Grond</h1>
                     <p className="text-slate-600 text-sm md:text-base mb-4 md:mb-6">Dagelijks geactualiseerd aanbod.</p>

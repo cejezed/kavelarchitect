@@ -8,11 +8,11 @@ declare global {
     }
 }
 
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_ID || '';
 
 // Initialize GA4
 export const initGA = () => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = function gtag() {
@@ -26,7 +26,7 @@ export const initGA = () => {
 
 // Track page views
 export const trackPageView = (url: string) => {
-    if (typeof window === 'undefined' || !window.gtag) return;
+    if (typeof window === 'undefined' || !window.gtag || !GA_MEASUREMENT_ID) return;
 
     window.gtag('config', GA_MEASUREMENT_ID, {
         page_path: url,
@@ -40,13 +40,17 @@ export const trackEvent = (
     label?: string,
     value?: number
 ) => {
-    if (typeof window === 'undefined' || !window.gtag) return;
+    if (typeof window === 'undefined' || !window.gtag || !GA_MEASUREMENT_ID) return;
 
     window.gtag('event', action, {
         event_category: category,
         event_label: label,
         value: value,
     });
+};
+
+export const trackKavelAlertClick = (label?: string) => {
+    trackEvent('kavelalert_click', 'conversion', label);
 };
 
 // Specific event trackers for KavelArchitect

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { findMatchesForListing } from '@/lib/matching';
 import { createWordPressPost } from '@/lib/wordpress';
+import { buildKavelArchitectArticle, buildKavelArchitectSummary, buildZwijsenArticle } from '@/lib/listingCopy';
 import { Resend } from 'resend';
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -22,10 +23,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             return NextResponse.json({ success: false, message: "Kavel niet gevonden" }, { status: 404 });
         }
 
+        const kavelArchitectSummary = buildKavelArchitectSummary(listing);
+        const kavelArchitectArticle = buildKavelArchitectArticle(listing);
+        const zwijsenArticle = buildZwijsenArticle(listing);
+
         // 2. Publish to WordPress (if selected)
         if (sites && sites.includes('zwijsen')) {
             try {
-                await createWordPressPost(listing);
+                await createWordPressPost(listing, zwijsenArticle);
             } catch (error: any) {
                 console.error('WordPress publish failed:', error);
                 // Continue execution, don't block DB update
@@ -38,6 +43,11 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             published_sites: sites,
             updated_at: new Date().toISOString()
         };
+
+        if (sites && sites.includes('kavelarchitect') && listing.status !== 'published') {
+            updateData.seo_summary = kavelArchitectSummary;
+            updateData.seo_article_html = kavelArchitectArticle;
+        }
 
         if (analysis) {
             updateData.specs = {
@@ -74,7 +84,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
               <p>We hebben een nieuwe kavel gevonden die past bij uw zoekprofiel:</p>
               <div style="background: #F8FAFC; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <h3 style="margin:0;">${listing.adres}, ${listing.plaats}</h3>
-                <p style="margin: 5px 0; color: #64748B;">${listing.seo_summary || 'Geen omschrijving beschikbaar.'}</p>
+                <p style="margin: 5px 0; color: #64748B;">${kavelArchitectSummary || listing.seo_summary || 'Geen omschrijving beschikbaar.'}</p>
                 <ul style="font-size: 14px; color: #334155;">
                   <li><strong>Prijs:</strong> ${listing.prijs ? `€ ${listing.prijs.toLocaleString()}` : 'Op aanvraag'}</li>
                   <li><strong>Oppervlakte:</strong> ${listing.oppervlakte} m²</li>

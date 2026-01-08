@@ -22,7 +22,7 @@ function validate(payload: KavelrapportIntakeRequest): string | null {
 
   if (!analysisType || !['plot', 'existing_property'].includes(analysisType)) return 'Kies wat u wilt laten analyseren.';
   if (!address.trim()) return 'Adres is verplicht.';
-  if (!link.trim()) return 'Link is verplicht.';
+  if (analysisType === 'plot' && !link.trim()) return 'Link is verplicht.';
   if (!['orientation', 'considering_offer', 'offer_made'].includes(stage)) return 'Kies een fase.';
   if (!['0_6', '6_12', '12_plus'].includes(timeHorizon)) return 'Kies een horizon.';
   if (!email.trim() || !emailRegex.test(email)) return 'Vul een geldig e-mailadres in.';
@@ -196,7 +196,7 @@ export default function IntakeForm() {
                   <div>
                     <label className="text-sm font-semibold text-slate-700 block mb-1">Link naar advertentie / dossier</label>
                     <input
-                      required
+                      required={analysisType === 'plot'}
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
                       className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:border-navy-900"

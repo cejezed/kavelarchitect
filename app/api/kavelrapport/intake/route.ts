@@ -12,6 +12,56 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validStage: Stage[] = ['orientation', 'considering_offer', 'offer_made'];
 const validHorizon: TimeHorizon[] = ['0_6', '6_12', '12_plus'];
 const validGoal: Goal[] = ['renovate', 'rebuild', 'unsure'];
+const wordpressUrl = process.env.WORDPRESS_URL;
+const intakeFormId = process.env.CF7_INTAKE_FORM_ID || process.env.CF7_FORM_ID;
+
+function buildCf7Message(payload: KavelrapportIntakeRequest) {
+  return [
+    `Analyse type: ${payload.analysisType}`,
+    `Adres: ${payload.address}`,
+    payload.link ? `Link: ${payload.link}` : null,
+    `Fase: ${payload.stage}`,
+    `Tijdshorizon: ${payload.timeHorizon}`,
+    `Email: ${payload.email}`,
+    payload.goal ? `Doel: ${payload.goal}` : null,
+    payload.notes ? `Opmerkingen: ${payload.notes}` : null,
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
+async function sendToCf7(payload: KavelrapportIntakeRequest) {
+  if (!wordpressUrl || !intakeFormId) {
+    console.warn('CF7 intake not configured - skipping WP send');
+    return;
+  }
+
+  const endpoint = `${wordpressUrl.replace(/\/$/, '')}/wp-json/contact-form-7/v1/contact-forms/${intakeFormId}/feedback`;
+  const formData = new FormData();
+  formData.append('your-name', payload.email.split('@')[0] || 'KavelRapport intake');
+  formData.append('your-email', payload.email);
+  formData.append('your-phone', '');
+  formData.append('your-message', buildCf7Message(payload));
+  formData.append('locatie', payload.address);
+  formData.append('regio', '');
+  formData.append('project-type', payload.analysisType);
+  formData.append('budget', '');
+  formData.append('timeframe', payload.timeHorizon);
+  formData.append('has-location', 'ja');
+  formData.append('form-type', 'kavelrapport-intake');
+  formData.append('_wpcf7_unit_tag', `wpcf7-${intakeFormId}-${Date.now()}`);
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    body: formData,
+    headers: { Accept: 'application/json' },
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    console.error('CF7 intake failed', data);
+  }
+}
 
 function errorResponse(message: string, status = 400) {
   return NextResponse.json({ ok: false, error: message }, { status });
@@ -31,7 +81,9 @@ function validate(body: any): { ok: true; data: KavelrapportIntakeRequest } | { 
 
   if (!analysisType || !['plot', 'existing_property'].includes(analysisType)) return { ok: false, error: 'analysisType verplicht' };
   if (!address || typeof address !== 'string' || !address.trim()) return { ok: false, error: 'Adres is verplicht' };
-  if (!link || typeof link !== 'string' || !link.trim()) return { ok: false, error: 'Link is verplicht' };
+  if (analysisType === 'plot' && (!link || typeof link !== 'string' || !link.trim())) {
+    return { ok: false, error: 'Link is verplicht' };
+  }
   if (!validStage.includes(stage)) return { ok: false, error: 'Ongeldige fase' };
   if (!validHorizon.includes(timeHorizon)) return { ok: false, error: 'Ongeldige tijdshorizon' };
   if (!email || typeof email !== 'string' || !emailRegex.test(email)) return { ok: false, error: 'Ongeldig e-mailadres' };
@@ -41,7 +93,7 @@ function validate(body: any): { ok: true; data: KavelrapportIntakeRequest } | { 
   const payload: KavelrapportIntakeRequest = {
     analysisType,
     address: address.trim(),
-    link: link.trim(),
+    link: (link || '').trim(),
     stage,
     timeHorizon,
     email: email.trim(),
@@ -86,6 +138,9 @@ export async function POST(req: Request) {
     } else {
       console.warn('Supabase credentials missing - intake not persisted');
     }
+
+    // Send to CF7
+    await sendToCf7(payload);
 
     // Emails (if Resend configured)
     const adminEmail = process.env.INTAKE_ADMIN_EMAIL || process.env.RESEND_FROM || 'info@kavelarchitect.nl';

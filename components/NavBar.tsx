@@ -25,7 +25,7 @@ export default async function NavBar() {
 
   const citiesByProvince = groupCitiesByProvince(cities);
   const topCities = [...cities]
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'nl'))
+    .sort((a, b) => (b.count ?? 0) - (a.count ?? 0) || a.name.localeCompare(b.name, 'nl'))
     .slice(0, 12);
 
   return <NavBarClient citiesByProvince={citiesByProvince} topCities={topCities} />;

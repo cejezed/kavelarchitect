@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { ListingCard } from './ListingCard';
 import { Listing } from '@/lib/api';
+import KavelAlertOverlay from './KavelAlertOverlay';
 
 interface SimilarListingsProps {
     currentListing: Listing;
@@ -103,12 +104,10 @@ export function SimilarListings({ currentListing }: SimilarListingsProps) {
                 {currentListing.status === 'sold' && (
                     <div className="text-center mt-8">
                         <p className="text-sm text-slate-500 mb-4">Niet gevonden waar je naar zoekt?</p>
-                        <a
-                            href="/#kavelalert"
+                        <KavelAlertOverlay
+                            buttonText="Activeer KavelAlert voor Nieuwe Kavels"
                             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-lg"
-                        >
-                            Activeer KavelAlert voor Nieuwe Kavels
-                        </a>
+                        />
                     </div>
                 )}
             </div>

@@ -12,7 +12,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const validStage: Stage[] = ['orientation', 'considering_offer', 'offer_made'];
 const validHorizon: TimeHorizon[] = ['0_6', '6_12', '12_plus'];
 const validGoal: Goal[] = ['renovate', 'rebuild', 'unsure'];
-const wordpressUrl = process.env.WORDPRESS_URL;
+const wordpressUrl = process.env.WORDPRESS_INTAKE_URL || process.env.WORDPRESS_URL;
 const intakeFormId = process.env.CF7_INTAKE_FORM_ID || process.env.CF7_FORM_ID;
 
 function buildCf7Message(payload: KavelrapportIntakeRequest) {

@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
 const rateLimit = new Map<string, { count: number; ts: number }>();
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 function getClientIp(req: Request) {
   const forwarded = req.headers.get('x-forwarded-for');
@@ -119,6 +121,48 @@ export async function POST(req: Request) {
     if (!response.ok) {
       return NextResponse.json(
         { success: false, message: 'CF7 request failed', details: data },
+        { status: 502 }
+      );
+    }
+
+    if (data?.status === 'validation_failed') {
+      return NextResponse.json(
+        { success: false, message: data?.message || 'Validatie mislukt', details: data },
+        { status: 400 }
+      );
+    }
+
+    if (data?.status === 'mail_failed') {
+      const adminEmail =
+        process.env.CONTACT_ADMIN_EMAIL ||
+        process.env.INTAKE_ADMIN_EMAIL ||
+        process.env.RESEND_FROM ||
+        'info@kavelarchitect.nl';
+      const fromEmail = process.env.RESEND_FROM || 'no-reply@kavelarchitect.nl';
+
+      if (resend && adminEmail && fromEmail) {
+        const summary = buildMessage(body);
+        const name = body.name || body['your-name'] || email.split('@')[0] || 'KavelAlert';
+        await resend.emails.send({
+          from: fromEmail,
+          to: adminEmail,
+          subject: 'Nieuwe KavelAlert aanvraag',
+          html: `
+            <h2>Nieuwe KavelAlert aanvraag</h2>
+            <ul>
+              <li><strong>Naam:</strong> ${name}</li>
+              <li><strong>Email:</strong> ${email}</li>
+              <li><strong>Telefoon:</strong> ${phone || '-'}</li>
+            </ul>
+            <pre style="white-space:pre-wrap;">${summary}</pre>
+          `,
+        });
+
+        return NextResponse.json({ success: true, data, fallback: 'resend' });
+      }
+
+      return NextResponse.json(
+        { success: false, message: 'CF7 mail_failed and Resend not configured', details: data },
         { status: 502 }
       );
     }

@@ -409,6 +409,9 @@ export default async function RegioPage({ params }: { params: { stad: string } }
               <Bell size={20} />
               Krijg toegang tot off-market kavels
             </Link>
+            <p className="text-xs md:text-sm text-slate-300 mt-4">
+              Gratis & vrijblijvend • Geen verplichtingen • Direct opzegbaar
+            </p>
           </div>
         </div>
       </section>

@@ -315,7 +315,7 @@ export default function DienstenPage() {
           </div>
 
           <p className="text-sm text-emerald-100 font-medium">
-            Gratis • Direct antwoord • 100+ regio's • Architectengarantie
+            Gratis & vrijblijvend • Geen verplichtingen • 100+ regio's • Architectengarantie
           </p>
         </div>
       </section>

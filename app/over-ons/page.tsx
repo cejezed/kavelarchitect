@@ -83,13 +83,13 @@ export default function AboutPage() {
             {/* The Founder / Authority */}
             <section className="bg-slate-50 py-24">
                 <div className="max-w-4xl mx-auto px-6 text-center">
-                    <div className="w-24 h-24 bg-white rounded-full mx-auto mb-8 overflow-hidden border-4 border-white shadow-lg relative">
+                    <div className="w-50 h-50 md:w-40 md:h-40 bg-white rounded-full mx-auto mb-8 overflow-hidden border-4 border-white shadow-lg relative">
                         {/* Placeholder portret */}
                         <Image
-                            src="https://images.unsplash.com/photo-1556157382-97eda2d62296?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                            alt="Jules Zwijsen"
+                            src="/jules-zwijsen.jpg"
+                            alt="Jules Zwijsen, Architect & Oprichter"
                             fill
-                            className="object-cover"
+                            className="object-cover object-center"
                         />
                     </div>
                     <h2 className="font-serif text-3xl font-bold text-navy-900 mb-2">Jules Zwijsen</h2>
@@ -101,11 +101,11 @@ export default function AboutPage() {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-slate-200 pt-12">
                         <div>
-                            <p className="text-4xl font-serif font-bold text-navy-900">15+</p>
+                            <p className="text-4xl font-serif font-bold text-navy-900">25+</p>
                             <p className="text-xs text-slate-500 uppercase mt-2">Jaar Ervaring</p>
                         </div>
                         <div>
-                            <p className="text-4xl font-serif font-bold text-navy-900">200+</p>
+                            <p className="text-4xl font-serif font-bold text-navy-900">100+</p>
                             <p className="text-xs text-slate-500 uppercase mt-2">Projecten Gerealiseerd</p>
                         </div>
                         <div>

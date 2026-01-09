@@ -113,9 +113,14 @@ export default function Home() {
                                 </>
                             )}
                         </div>
-                        <div className="mt-8 flex items-center justify-center lg:justify-start gap-2 text-xs text-slate-400">
-                            <ShieldCheck size={14} />
-                            <span>Powered by Architectenbureau Zwijsen</span>
+                        <div className="mt-6 text-center lg:text-left">
+                            <p className="text-sm text-slate-600 font-medium mb-2">
+                                ✓ Gratis & vrijblijvend • Geen verplichtingen • Direct opzegbaar
+                            </p>
+                            <div className="flex items-center justify-center lg:justify-start gap-2 text-xs text-slate-400">
+                                <ShieldCheck size={14} />
+                                <span>Powered by Architectenbureau Zwijsen</span>
+                            </div>
                         </div>
                     </div>
 

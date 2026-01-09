@@ -87,7 +87,7 @@ export async function POST(req: Request) {
     const formEndpoint = `${wordpressUrl.replace(/\/$/, '')}/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`;
 
     const name = body.name || body['your-name'] || email.split('@')[0] || 'KavelAlert';
-    const phone = body.telefoonnummer || body.phone || body['your-phone'] || '-';
+    const phone = body.telefoonnummer || body.phone || body['your-phone'] || '';
     const message = body['your-message'] || buildMessage(body);
     const region = formatList(body.provincies || body.regio || body.provincie) || '';
     const location = body.locatie || body.plaats || body.location || '';
@@ -95,7 +95,9 @@ export async function POST(req: Request) {
     const formData = new FormData();
     formData.append('your-name', name);
     formData.append('your-email', email);
-    formData.append('your-phone', phone);
+    if (phone) {
+      formData.append('your-phone', phone);
+    }
     formData.append('your-message', message);
     formData.append('regio', region);
     formData.append('locatie', location);

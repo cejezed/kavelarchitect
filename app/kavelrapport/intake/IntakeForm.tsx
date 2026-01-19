@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import type { AnalysisType, Goal, KavelrapportIntakeRequest, Stage, TimeHorizon } from '@/types/kavelrapport';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +32,7 @@ function validate(payload: KavelrapportIntakeRequest): string | null {
 }
 
 export default function IntakeForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialAnalysis = (searchParams?.get('analysisType') as AnalysisType) || 'plot';
   const initialTier = searchParams?.get('tier') || '';
@@ -46,7 +47,6 @@ export default function IntakeForm() {
   const [goal, setGoal] = useState<Goal | ''>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
   const [selectedTier, setSelectedTier] = useState(initialTier);
 
   useEffect(() => {
@@ -92,37 +92,14 @@ export default function IntakeForm() {
       if (!res.ok || !data.ok) {
         throw new Error(data.error || 'Er ging iets mis. Probeer het opnieuw.');
       }
-      setSuccess(true);
+      // Redirect naar bedankpagina
+      router.push('/kavelrapport/intake/bedankt');
     } catch (err: any) {
       setError(err.message || 'Er ging iets mis. Probeer het opnieuw.');
     } finally {
       setLoading(false);
     }
   };
-
-  if (success) {
-    return (
-      <main className="min-h-screen bg-slate-50 px-6 py-16 flex items-center justify-center">
-        <div className="max-w-xl w-full bg-white rounded-3xl shadow-lg border border-slate-200 p-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mb-6">
-            <CheckCircle2 size={32} />
-          </div>
-          <h1 className="font-serif text-3xl font-bold text-navy-900 mb-4">Bedankt.</h1>
-          <p className="text-slate-600 mb-8">
-            U ontvangt per e-mail een voorstel en vervolgstappen.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/kavelrapport" className="px-5 py-3 rounded-xl border border-slate-200 text-navy-900 font-semibold hover:border-navy-900">
-              Terug naar overzicht
-            </Link>
-            <Link href="/aanbod" className="px-5 py-3 rounded-xl bg-navy-900 text-white font-semibold hover:bg-navy-800">
-              Bekijk kavels
-            </Link>
-          </div>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-16">

@@ -3,13 +3,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, X, Check, MapPin, Award } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, X, MapPin } from 'lucide-react';
 import { registerCustomer } from '@/lib/api';
 import posthog from 'posthog-js';
 
 type Step = 'intro' | 'location' | 'ambition' | 'intention' | 'lead' | 'success';
 
 export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
   const [step, setStep] = useState<Step>('location');
   const [formData, setFormData] = useState({
     provincies: '',
@@ -87,13 +89,34 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
             const contactBody = await contactResult.json().catch(() => ({}));
             console.warn('CF7 contact failed', contactBody);
             posthog.capture('kavelalert_contact_error');
-            setError('Het versturen is mislukt. Probeer het later opnieuw.');
+            const invalidFields = Array.isArray(contactBody?.details?.invalid_fields)
+                ? contactBody.details.invalid_fields
+                : [];
+            if (invalidFields.length > 0) {
+                const fieldLabels: Record<string, string> = {
+                    'your-name': 'Naam',
+                    'your-email': 'E-mailadres',
+                    'your-phone': 'Telefoon',
+                    'your-message': 'Bericht',
+                };
+                const issues = invalidFields
+                    .map((field: any) => {
+                        const label = fieldLabels[field.field] || field.field || 'Veld';
+                        const message = field.message || 'Ongeldige waarde';
+                        return `${label}: ${message}`;
+                    })
+                    .join(' | ');
+                setError(issues);
+            } else {
+                setError(contactBody?.message || 'Het versturen is mislukt. Controleer de velden.');
+            }
             return;
         }
 
         if (registerResult.success) {
             posthog.capture('kavelalert_submission_success');
-            setStep('success');
+            // Redirect naar bedankpagina
+            router.push('/bedankt');
         } else {
             posthog.capture('kavelalert_submission_error', { error: registerResult.message });
             setError(registerResult.message || 'Er ging iets mis.');
@@ -104,44 +127,6 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
         setIsSubmitting(false);
     }
   };
-
-  if (step === 'success') {
-      return (
-        <div className="max-w-xl w-full bg-white shadow-2xl rounded-3xl p-8 md:p-12 text-center animate-in fade-in zoom-in duration-300">
-            <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8">
-                <Check size={40} />
-            </div>
-            <h2 className="text-3xl font-serif font-bold text-navy-900 mb-4">Alert Geactiveerd!</h2>
-            <p className="text-slate-600 mb-8">
-                U ontvangt een e-mail zodra we een match hebben.
-            </p>
-            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6 text-left mb-8">
-                 <div className="flex items-start">
-                      <div className="p-2 bg-navy-900 text-white rounded-lg mr-4 mt-1">
-                        <Award size={20} />
-                      </div>
-                      <div>
-                          <h4 className="font-bold text-navy-900 text-lg">Coming Soon: KavelRapport™</h4>
-                          <p className="text-sm text-slate-600 mt-1">
-                              U staat op de lijst voor 50% korting bij lancering (Q2 2025).
-                          </p>
-                          <Link
-                            href="/kavelrapport"
-                            onClick={() => posthog?.capture?.('kavelrapport_link_success_click')}
-                            className="text-sm text-blue-700 font-semibold inline-flex items-center gap-1 mt-3 underline underline-offset-4"
-                          >
-                            Lees meer over alle rapporten
-                            <ArrowRight size={16} />
-                          </Link>
-                      </div>
-                 </div>
-            </div>
-            <button onClick={onClose} className="text-slate-400 hover:text-slate-900 font-medium text-xs uppercase tracking-widest">
-                Sluiten
-            </button>
-        </div>
-      );
-  }
 
   return (
     <div className="w-full h-full md:h-auto md:max-h-[90vh] md:max-w-xl bg-white md:rounded-3xl shadow-2xl flex flex-col overflow-hidden">

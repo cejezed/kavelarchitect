@@ -17,6 +17,8 @@ export interface Listing {
   seo_article_html: string;
   status: string;
   published_sites?: string[];
+  created_at?: string; // Timestamp from database
+  updated_at?: string; // Timestamp from database
   specs?: {
     maxVolume?: string;
     maxHeight?: string;

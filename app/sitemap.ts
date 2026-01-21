@@ -17,8 +17,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const uniqueCities = cityData
     ? Array.from(new Set(cityData.map(item => item.plaats)))
-        .filter(Boolean)
-        .map(city => city.toLowerCase().replace(/\s+/g, '-'))
+      .filter(Boolean)
+      .map(city => city.toLowerCase().replace(/\s+/g, '-'))
     : [];
 
   // Static pages with priority and change frequency
@@ -67,11 +67,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic listing pages
+  // Dynamic listing pages - use actual modified dates for better indexing
   const listingUrls: MetadataRoute.Sitemap = listings.map((listing) => ({
     url: `${baseUrl}/aanbod/${listing.kavel_id}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
+    lastModified: listing.created_at ? new Date(listing.created_at) : new Date(),
+    changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));
 

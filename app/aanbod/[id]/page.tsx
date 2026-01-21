@@ -93,12 +93,13 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
         'description': listing.seo_summary,
         'image': [imageUrl],
         'url': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`,
-        'datePosted': new Date().toISOString(),
+        'datePosted': listing.created_at || new Date().toISOString(),
+        'dateModified': listing.updated_at || listing.created_at || new Date().toISOString(),
         'offer': {
           '@type': 'Offer',
           'price': listing.prijs,
           'priceCurrency': 'EUR',
-          'availability': 'https://schema.org/InStock',
+          'availability': listing.status === 'sold' ? 'https://schema.org/Sold' : 'https://schema.org/InStock',
           'category': 'purchase'
         },
         'itemOffered': {

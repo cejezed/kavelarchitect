@@ -6,10 +6,10 @@ import { ArrowLeft, CheckCircle, XCircle, Clock, Package, Search, Users } from '
 
 interface Listing {
     kavel_id: string;
-    adres: string;
-    plaats: string;
-    provincie: string;
-    prijs: number;
+    adres: string | null;
+    plaats: string | null;
+    provincie: string | null;
+    prijs: number | null;
     status: string;
     created_at: string;
 }
@@ -58,8 +58,8 @@ export default function AdminStatusPage() {
 
     const filteredListings = listings.filter(listing => {
         const matchesSearch = searchQuery === '' ||
-            listing.adres.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            listing.plaats.toLowerCase().includes(searchQuery.toLowerCase());
+            (listing.adres && listing.adres.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (listing.plaats && listing.plaats.toLowerCase().includes(searchQuery.toLowerCase()));
 
         const matchesFilter = filterStatus === 'all' || listing.status === filterStatus;
 
@@ -192,7 +192,7 @@ export default function AdminStatusPage() {
                                                     className="text-blue-600 hover:text-blue-800 font-medium"
                                                     target="_blank"
                                                 >
-                                                    {listing.adres}
+                                                    {listing.adres || `Bouwgrond ${listing.plaats || listing.kavel_id}`}
                                                 </Link>
                                             </td>
                                             <td className="px-6 py-4 text-slate-600">{listing.plaats}</td>

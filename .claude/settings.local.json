@@ -13,7 +13,17 @@
       "Bash(npm run build:*)",
       "Bash(git push:*)",
       "Bash(git restore:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c \"taskkill /F /PID 178496\")",
+      "Bash(python dashboard_server.py:*)",
+      "Bash(netstat:*)",
+      "Bash(powershell:*)",
+      "Bash(timeout 2 type \"C:\\\\Users\\\\jules\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\e--Funda-Wordpress\\\\tasks\\\\bc5c79c.output\")",
+      "Bash(dir dashboard.html)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

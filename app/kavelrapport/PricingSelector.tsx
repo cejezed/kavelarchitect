@@ -235,7 +235,7 @@ function StartModal({
               <option value="">Selecteer een kavel</option>
               {listings.map((l) => (
                 <option key={l.kavel_id} value={l.kavel_id}>
-                  {l.seo_title} — {l.plaats}
+                  {(l.seo_title_ka || l.seo_title || l.adres)} — {l.plaats}
                 </option>
               ))}
             </select>

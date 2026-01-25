@@ -93,7 +93,7 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                 const match =
                     listing.adres?.toLowerCase().includes(query) ||
                     listing.plaats?.toLowerCase().includes(query) ||
-                    listing.seo_title?.toLowerCase().includes(query);
+                    (listing.seo_title_ka || listing.seo_title || '').toLowerCase().includes(query);
                 if (!match) return false;
             }
 

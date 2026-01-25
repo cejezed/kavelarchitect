@@ -394,7 +394,10 @@ app.patch('/api/listings/:id', async (req, res) => {
 
     // Filter allowed fields
     const allowedFields = [
-        'specs', 'seo_title', 'seo_summary', 'seo_article_html',
+        'specs',
+        'seo_title', 'seo_summary', 'seo_article_html',
+        'seo_title_ka', 'seo_summary_ka', 'seo_article_html_ka',
+        'seo_title_zw', 'seo_summary_zw', 'seo_article_html_zw',
         'prijs', 'oppervlakte', 'adres', 'plaats', 'postcode', 'provincie'
     ];
     const filteredUpdates = Object.keys(updates)

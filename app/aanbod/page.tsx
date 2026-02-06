@@ -1,9 +1,9 @@
 
 import Link from 'next/link';
 import { Bell } from 'lucide-react';
-import { AanbodFilter } from '../../components/AanbodFilter';
-import { FloatingAlertButton } from '../../components/FloatingAlertButton';
-import { AanbodMap } from '../../components/AanbodMap';
+import { AanbodFilter } from '@/components/AanbodFilter';
+import { FloatingAlertButton } from '@/components/FloatingAlertButton';
+import { AanbodMap } from '@/components/AanbodMap';
 import { getListings, type Listing } from '@/lib/api';
 
 export const dynamic = 'force-dynamic';
@@ -40,76 +40,92 @@ export const metadata = {
 };
 
 export default async function AanbodPage() {
-    const listings = await getListings();
+    try {
+        const listingsResult = await getListings();
+        const listings = Array.isArray(listingsResult) ? listingsResult : [];
 
-    const breadcrumbJsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-            {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Home',
-                item: 'https://kavelarchitect.nl'
-            },
-            {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Kavels',
-                item: 'https://kavelarchitect.nl/aanbod'
-            }
-        ]
-    };
+        const breadcrumbJsonLd = {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: 'Home',
+                    item: 'https://kavelarchitect.nl'
+                },
+                {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: 'Kavels',
+                    item: 'https://kavelarchitect.nl/aanbod'
+                }
+            ]
+        };
 
-    return (
-        <div className="min-h-screen bg-slate-50">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-            />
-            <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pt-20 md:pt-24">
-                <nav aria-label="Breadcrumb" className="mb-6 text-xs text-slate-500">
-                    <ol className="flex flex-wrap items-center gap-2">
-                        <li>
-                            <Link href="/" className="hover:text-slate-700">Home</Link>
-                        </li>
-                        <li aria-hidden="true">›</li>
-                        <li className="text-slate-700">Kavels</li>
-                    </ol>
-                </nav>
-                <div className="text-center max-w-4xl mx-auto mb-8 md:mb-12">
-                    <h1 className="font-serif text-2xl md:text-4xl font-bold text-slate-900 mb-2 md:mb-4">Beschikbare Grond</h1>
-                    <p className="text-slate-600 text-sm md:text-base mb-4 md:mb-6">Dagelijks geactualiseerd aanbod.</p>
+        return (
+            <div className="min-h-screen bg-slate-50">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+                />
+                <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pt-20 md:pt-24">
+                    <nav aria-label="Breadcrumb" className="mb-6 text-xs text-slate-500">
+                        <ol className="flex flex-wrap items-center gap-2">
+                            <li>
+                                <Link href="/" className="hover:text-slate-700">Home</Link>
+                            </li>
+                            <li aria-hidden="true">›</li>
+                            <li className="text-slate-700">Kavels</li>
+                        </ol>
+                    </nav>
+                    <div className="text-center max-w-4xl mx-auto mb-8 md:mb-12">
+                        <h1 className="font-serif text-2xl md:text-4xl font-bold text-slate-900 mb-2 md:mb-4">Beschikbare Grond</h1>
+                        <p className="text-slate-600 text-sm md:text-base mb-4 md:mb-6">Dagelijks geactualiseerd aanbod.</p>
 
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
-                        <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-emerald-900">
-                            <strong>{listings.filter((l: Listing) => l.status === 'published').length}</strong> kavels beschikbaar
+                        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
+                            <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-emerald-900">
+                                <strong>{listings.filter((l: Listing) => l.status === 'published').length}</strong> kavels beschikbaar
+                            </div>
+                            <div className="bg-red-50 border border-red-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-red-900">
+                                <strong>{listings.filter((l: Listing) => l.status === 'sold').length}</strong> verkocht
+                            </div>
+                            <Link
+                                href="/"
+                                className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-navy-900 text-white font-bold text-sm md:text-base rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
+                            >
+                                <Bell size={18} className="mr-2" />
+                                Activeer KavelAlert
+                            </Link>
                         </div>
-                        <div className="bg-red-50 border border-red-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-red-900">
-                            <strong>{listings.filter((l: Listing) => l.status === 'sold').length}</strong> verkocht
-                        </div>
-                        <Link
-                            href="/"
-                            className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-navy-900 text-white font-bold text-sm md:text-base rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
-                        >
-                            <Bell size={18} className="mr-2" />
-                            Activeer KavelAlert
-                        </Link>
                     </div>
+
+                    <section className="mb-8 md:mb-12">
+                        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Kaartweergave</h2>
+                        <p className="text-slate-600 text-sm md:text-base mb-4">
+                            Bekijk de kavels op de kaart en klik door naar de detailpagina.
+                        </p>
+                        <AanbodMap listings={listings} />
+                    </section>
+
+                    <AanbodFilter initialListings={listings} />
+                </main>
+
+                <FloatingAlertButton />
+            </div>
+        );
+    } catch (error) {
+        console.error('Critical error in AanbodPage:', error);
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 pt-20">
+                <div className="text-center p-8 bg-white rounded-2xl shadow-sm border border-slate-200 max-w-md">
+                    <h1 className="text-2xl font-bold text-slate-900 mb-4">Er is iets misgegaan</h1>
+                    <p className="text-slate-600 mb-6">We konden de kavels momenteel niet laden. Probeer het later opnieuw.</p>
+                    <Link href="/" className="inline-block px-6 py-3 bg-navy-900 text-white font-bold rounded-xl hover:bg-blue-600 transition-colors">
+                        Terug naar Home
+                    </Link>
                 </div>
-
-                <section className="mb-8 md:mb-12">
-                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Kaartweergave</h2>
-                    <p className="text-slate-600 text-sm md:text-base mb-4">
-                        Bekijk de kavels op de kaart en klik door naar de detailpagina.
-                    </p>
-                    <AanbodMap listings={listings} />
-                </section>
-
-                <AanbodFilter initialListings={listings} />
-            </main>
-
-            <FloatingAlertButton />
-        </div>
-    );
+            </div>
+        );
+    }
 }

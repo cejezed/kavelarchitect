@@ -117,7 +117,6 @@ export default function RootLayout({
           img, video { max-width: 100%; height: auto; display: block; }
           a { color: inherit; text-decoration: none; }
         `}} />
-        <link rel="preload" as="image" href="/hero-bg.jpg" fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}

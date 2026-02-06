@@ -108,20 +108,22 @@ async function fetchWithTimeout(resource: string, options: any = {}) {
   return response;
 }
 
+import { supabaseAdmin } from './supabaseAdmin';
+
 export async function getListings(): Promise<Listing[]> {
   // For server-side, use Supabase directly
   if (typeof window === 'undefined') {
     try {
-      const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
-      const { data } = await supabaseAdmin
+      const { data, error } = await supabaseAdmin
         .from('listings')
         .select('*')
-        .in('status', ['published', 'sold']) // Allow sold listings too
+        .in('status', ['published', 'sold'])
         .order('created_at', { ascending: false });
 
+      if (error) throw error;
       return (data as Listing[]) || [];
     } catch (error) {
-      console.warn('Supabase fetch failed, using mock data', error);
+      console.error('Supabase getListings failed:', error);
       return MOCK_LISTINGS;
     }
   }
@@ -133,33 +135,32 @@ export async function getListings(): Promise<Listing[]> {
       next: { tags: ['listings'] }
     });
 
-    if (!res.ok) throw new Error('Failed to fetch data');
+    if (!res.ok) throw new Error(`Fetch failed with status ${res.status}`);
     const data = await res.json();
-    return data.length > 0 ? data : MOCK_LISTINGS;
+    return Array.isArray(data) && data.length > 0 ? data : MOCK_LISTINGS;
   } catch (error) {
-    console.warn('Backend fetch failed (or offline), using mock data');
+    console.error('Client getListings failed:', error);
     return MOCK_LISTINGS;
   }
 }
 
 export async function getListing(id: string): Promise<Listing | undefined> {
-  // Direct fetch for single item (More efficient & robust)
   if (typeof window === 'undefined') {
     try {
-      const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
-      const { data } = await supabaseAdmin
+      const { data, error } = await supabaseAdmin
         .from('listings')
         .select('*')
         .eq('kavel_id', id)
-        .single();
+        .maybeSingle(); // maybeSingle is safer than single() as it doesn't throw if not found
 
-      return (data as Listing) || undefined;
+      if (error) throw error;
+      if (data) return data as Listing;
     } catch (error) {
-      console.error(`Failed to fetch listing ${id}:`, error);
-      // Fallback to searching in mock data if DB fails
+      console.error(`Supabase getListing for ${id} failed:`, error);
     }
   }
 
+  // Fallback to listings array (which might be mock data)
   const listings = await getListings();
   return listings.find(l => l.kavel_id === id);
 }

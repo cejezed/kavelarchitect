@@ -1,35 +1,24 @@
-// Google Analytics 4 event tracking utilities
-// For behavioral signals and conversion tracking
+// Google Tag Manager event tracking utilities
+// Sends events to dataLayer for GA4 (and other) tags in GTM
 
 declare global {
     interface Window {
-        gtag?: (...args: any[]) => void;
         dataLayer?: any[];
     }
 }
 
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_ID || '';
-
-// Initialize GA4
-export const initGA = () => {
-    if (typeof window === 'undefined' || !GA_MEASUREMENT_ID) return;
-
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag() {
-        window.dataLayer?.push(arguments);
-    };
-    window.gtag('js', new Date());
-    window.gtag('config', GA_MEASUREMENT_ID, {
-        page_path: window.location.pathname,
-    });
-};
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || '';
 
 // Track page views
 export const trackPageView = (url: string) => {
-    if (typeof window === 'undefined' || !window.gtag || !GA_MEASUREMENT_ID) return;
+    if (typeof window === 'undefined' || !GTM_ID) return;
 
-    window.gtag('config', GA_MEASUREMENT_ID, {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'page_view',
         page_path: url,
+        page_location: window.location.href,
+        page_title: document.title,
     });
 };
 
@@ -40,9 +29,11 @@ export const trackEvent = (
     label?: string,
     value?: number
 ) => {
-    if (typeof window === 'undefined' || !window.gtag || !GA_MEASUREMENT_ID) return;
+    if (typeof window === 'undefined' || !GTM_ID) return;
 
-    window.gtag('event', action, {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: action,
         event_category: category,
         event_label: label,
         value: value,

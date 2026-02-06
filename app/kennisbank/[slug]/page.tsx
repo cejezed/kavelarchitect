@@ -307,7 +307,7 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                                                 className="group bg-white border border-slate-200 rounded-xl p-4 hover:border-navy-900 hover:shadow-md transition-all"
                                             >
                                                 <p className="font-bold text-navy-900 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1">
-                                                    {listing.adres}, {listing.plaats}
+                                                    {listing.adres || 'Bouwgrond'}{listing.plaats ? `, ${listing.plaats}` : ''}
                                                 </p>
                                                 <p className="text-sm text-slate-600 mb-2">
                                                     {listing.oppervlakte} m² • {listing.prijs ? `€${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag'}

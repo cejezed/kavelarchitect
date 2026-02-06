@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Bell } from 'lucide-react';
 import { AanbodFilter } from '../../components/AanbodFilter';
 import { FloatingAlertButton } from '../../components/FloatingAlertButton';
+import { AanbodMap } from '../../components/AanbodMap';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import type { Listing } from '@/lib/api';
 
@@ -104,6 +105,14 @@ export default async function AanbodPage() {
                         </Link>
                     </div>
                 </div>
+
+                <section className="mb-8 md:mb-12">
+                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Kaartweergave</h2>
+                    <p className="text-slate-600 text-sm md:text-base mb-4">
+                        Bekijk de kavels op de kaart en klik door naar de detailpagina.
+                    </p>
+                    <AanbodMap listings={listings} />
+                </section>
 
                 <AanbodFilter initialListings={listings} />
             </main>

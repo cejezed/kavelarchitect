@@ -6,9 +6,49 @@ import { Calendar, User, Share2, ExternalLink, MapPin, FileText } from 'lucide-r
 import InlineCTA from '@/components/InlineCTA';
 import { getArticle, getArticles, WORDPRESS_SITE_URL, getListings } from '../../../lib/api';
 import ElementorContent from '@/components/ElementorContent';
+import { FAQ_ARTICLES, getFaqArticle } from '@/lib/faqArticles';
 
 // --- 1. GENERATE METADATA FOR SEO ---
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+    const faqArticle = getFaqArticle(params.slug);
+    if (faqArticle) {
+        const canonicalUrl = `https://kavelarchitect.nl/kennisbank/${params.slug}`;
+        return {
+            title: `${faqArticle.title} | KavelArchitect Kennisbank`,
+            description: faqArticle.description,
+            alternates: {
+                canonical: canonicalUrl,
+            },
+            openGraph: {
+                title: faqArticle.title,
+                description: faqArticle.description,
+                url: canonicalUrl,
+                siteName: 'KavelArchitect',
+                locale: 'nl_NL',
+                type: 'article',
+                publishedTime: faqArticle.date,
+                modifiedTime: faqArticle.date,
+                authors: ['Architectenbureau Zwijsen'],
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: faqArticle.title,
+                description: faqArticle.description,
+            },
+            robots: {
+                index: true,
+                follow: true,
+                googleBot: {
+                    index: true,
+                    follow: true,
+                    'max-video-preview': -1,
+                    'max-image-preview': 'large',
+                    'max-snippet': -1,
+                },
+            },
+        };
+    }
+
     const article = await getArticle(params.slug);
 
     if (!article) {
@@ -68,21 +108,28 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 // --- 2. PAGE COMPONENT ---
 export default async function ArticleDetailPage({ params }: { params: { slug: string } }) {
-    const article = await getArticle(params.slug);
-    const allArticles = await getArticles();
+    const faqArticle = getFaqArticle(params.slug);
     const recentListings = await getListings();
 
-    if (!article) {
+    const article = faqArticle ? null : await getArticle(params.slug);
+    const allArticles = faqArticle ? [] : await getArticles();
+
+    if (!faqArticle && !article) {
         notFound();
     }
 
-    const imageUrl = article._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-    const date = new Date(article.date).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
-    const breadcrumbTitle = article.title.rendered.replace(/<[^>]*>/g, '');
+    const imageUrl = article?._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+    const dateSource = faqArticle ? faqArticle.date : article?.date;
+    const date = dateSource
+        ? new Date(dateSource).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' })
+        : '';
+    const breadcrumbTitle = faqArticle
+        ? faqArticle.title
+        : article!.title.rendered.replace(/<[^>]*>/g, '');
 
     // Extract city names from article content for contextual region links
     const popularCities = ['Blaricum', 'Laren', 'Heemstede', 'Zeist', 'Wassenaar', 'Noordwijk'];
-    const contentText = article.content.rendered.toLowerCase();
+    const contentText = faqArticle ? faqArticle.contentHtml.toLowerCase() : article!.content.rendered.toLowerCase();
     const mentionedCities = popularCities.filter(city =>
         contentText.includes(city.toLowerCase())
     ).slice(0, 3);
@@ -136,10 +183,18 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
             </nav>
             {/* Header */}
             <header className="pt-32 pb-10 max-w-3xl mx-auto px-6 text-center">
-                <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+                {faqArticle ? (
+                    <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                        {faqArticle.title}
+                    </h1>
+                ) : (
+                    <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article!.title.rendered }} />
+                )}
 
                 <div className="flex items-center justify-center gap-6 mt-8 text-sm text-slate-400">
-                    <div className="flex items-center"><Calendar size={14} className="mr-2" /> {date}</div>
+                    {date && (
+                        <div className="flex items-center"><Calendar size={14} className="mr-2" /> {date}</div>
+                    )}
                     <div className="flex items-center"><User size={14} className="mr-2" /> Redactie Zwijsen</div>
                 </div>
             </header>
@@ -157,11 +212,11 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
 
                 {/* Center Content */}
                 <article className="lg:col-span-7">
-                    {imageUrl && (
+                    {imageUrl && !faqArticle && (
                         <div className="relative h-96 w-full mb-12 rounded-2xl overflow-hidden shadow-sm">
                             <Image
                                 src={imageUrl}
-                                alt={article.title.rendered}
+                                alt={article!.title.rendered}
                                 fill
                                 className="object-cover"
                                 priority
@@ -169,11 +224,17 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         </div>
                     )}
 
-                    <ElementorContent
-                        html={article.content.rendered}
-                        postId={article.id}
-                        siteUrl={WORDPRESS_SITE_URL}
-                    />
+                    {faqArticle ? (
+                        <div className="prose prose-slate max-w-none">
+                            <div dangerouslySetInnerHTML={{ __html: faqArticle.contentHtml }} />
+                        </div>
+                    ) : (
+                        <ElementorContent
+                            html={article!.content.rendered}
+                            postId={article!.id}
+                            siteUrl={WORDPRESS_SITE_URL}
+                        />
+                    )}
 
                     {/* SCROLL TRIGGERED CTA (Client Component) */}
                     <InlineCTA />
@@ -284,12 +345,19 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         <div>
                             <h4 className="font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">Ook lezen</h4>
                             <div className="space-y-4">
-                                {allArticles.filter(a => a.id !== article.id).slice(0, 3).map(a => (
-                                    <Link key={a.id} href={`/kennisbank/${a.slug}`} className="block group">
-                                        <p className="font-bold text-sm text-slate-900 group-hover:text-blue-600 line-clamp-2 mb-1" dangerouslySetInnerHTML={{ __html: a.title.rendered }} />
-                                        <p className="text-xs text-slate-500">{new Date(a.date).toLocaleDateString('nl-NL')}</p>
-                                    </Link>
-                                ))}
+                                {faqArticle
+                                    ? FAQ_ARTICLES.filter(a => a.slug !== faqArticle.slug).slice(0, 3).map(a => (
+                                        <Link key={a.slug} href={`/kennisbank/${a.slug}`} className="block group">
+                                            <p className="font-bold text-sm text-slate-900 group-hover:text-blue-600 line-clamp-2 mb-1">{a.title}</p>
+                                            <p className="text-xs text-slate-500">{new Date(a.date).toLocaleDateString('nl-NL')}</p>
+                                        </Link>
+                                    ))
+                                    : allArticles.filter(a => a.id !== article!.id).slice(0, 3).map(a => (
+                                        <Link key={a.id} href={`/kennisbank/${a.slug}`} className="block group">
+                                            <p className="font-bold text-sm text-slate-900 group-hover:text-blue-600 line-clamp-2 mb-1" dangerouslySetInnerHTML={{ __html: a.title.rendered }} />
+                                            <p className="text-xs text-slate-500">{new Date(a.date).toLocaleDateString('nl-NL')}</p>
+                                        </Link>
+                                    ))}
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
   // Use map_url as fallback for image
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80';
+  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres;
 
   // Calculate price/m2
   const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
@@ -42,7 +43,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
       <div className="p-6 flex-1 flex flex-col">
         <h3 className="font-serif text-xl font-bold text-navy-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
-          {listing.seo_title || listing.adres}
+          {seoTitle}
         </h3>
         <p className="text-sm text-slate-500 mb-4">{listing.plaats}, {listing.provincie}</p>
 

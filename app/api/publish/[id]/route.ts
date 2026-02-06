@@ -47,6 +47,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         if (sites && sites.includes('kavelarchitect') && listing.status !== 'published') {
             updateData.seo_summary = kavelArchitectSummary;
             updateData.seo_article_html = kavelArchitectArticle;
+            updateData.seo_summary_ka = kavelArchitectSummary;
+            updateData.seo_article_html_ka = kavelArchitectArticle;
         }
 
         if (analysis) {
@@ -84,7 +86,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
               <p>We hebben een nieuwe kavel gevonden die past bij uw zoekprofiel:</p>
               <div style="background: #F8FAFC; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <h3 style="margin:0;">${listing.adres}, ${listing.plaats}</h3>
-                <p style="margin: 5px 0; color: #64748B;">${kavelArchitectSummary || listing.seo_summary || 'Geen omschrijving beschikbaar.'}</p>
+                <p style="margin: 5px 0; color: #64748B;">${kavelArchitectSummary || listing.seo_summary_ka || listing.seo_summary || 'Geen omschrijving beschikbaar.'}</p>
                 <ul style="font-size: 14px; color: #334155;">
                   <li><strong>Prijs:</strong> ${listing.prijs ? `€ ${listing.prijs.toLocaleString()}` : 'Op aanvraag'}</li>
                   <li><strong>Oppervlakte:</strong> ${listing.oppervlakte} m²</li>

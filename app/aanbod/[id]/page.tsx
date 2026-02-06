@@ -14,8 +14,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id);
   if (!listing) return { title: 'Kavel Niet Gevonden' };
 
-  const title = `${listing.seo_title} | KavelArchitect`;
-  const description = listing.seo_summary;
+  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const description = listing.seo_summary_ka || listing.seo_summary || '';
+  const title = `${seoTitle} | KavelArchitect`;
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
   const canonicalUrl = `https://kavelarchitect.nl/aanbod/${params.id}`;
   const priceFormatted = listing.prijs ? `€${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag';
@@ -80,6 +81,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
     notFound();
   }
 
+  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const seoSummary = listing.seo_summary_ka || listing.seo_summary || '';
+  const seoArticleHtml = listing.seo_article_html_ka || listing.seo_article_html || '';
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
   const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
 
@@ -89,8 +93,8 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
     '@graph': [
       {
         '@type': 'RealEstateListing',
-        'name': listing.seo_title,
-        'description': listing.seo_summary,
+        'name': seoTitle,
+        'description': seoSummary,
         'image': [imageUrl],
         'url': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`,
         'datePosted': listing.created_at || new Date().toISOString(),
@@ -140,7 +144,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           {
             '@type': 'ListItem',
             'position': 3,
-            'name': listing.seo_title.substring(0, 30) + '...', // Truncate for cleaner breadcrumb
+            'name': seoTitle.length > 30 ? `${seoTitle.substring(0, 30)}...` : seoTitle,
             'item': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`
           }
         ]
@@ -178,7 +182,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             }`}>
             {listing.status === 'sold' ? 'Verkocht' : 'Beschikbaar'}
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2">{listing.seo_title}</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2">{seoTitle}</h1>
           <p className="text-xl opacity-90">{listing.adres}, {listing.plaats}</p>
         </div>
       </div>
@@ -193,7 +197,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             <Link href="/aanbod" className="hover:text-slate-700">Kavels</Link>
           </li>
           <li aria-hidden="true">›</li>
-          <li className="text-slate-700">{listing.seo_title}</li>
+          <li className="text-slate-700">{seoTitle}</li>
         </ol>
       </nav>
 
@@ -229,7 +233,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           {/* Description */}
           <div className="prose prose-lg prose-slate max-w-none">
             <h3 className="font-serif text-2xl font-bold text-navy-900 mb-4">Over deze kavel</h3>
-            <div dangerouslySetInnerHTML={{ __html: listing.seo_article_html }} />
+            <div dangerouslySetInnerHTML={{ __html: seoArticleHtml }} />
           </div>
 
           {/* Build Specs (if available) */}

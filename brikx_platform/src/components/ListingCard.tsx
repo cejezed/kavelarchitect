@@ -20,6 +20,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick }) =>
 
   // Calculate price per square meter
   const pricePerSqm = listing.oppervlakte > 0 ? listing.prijs / listing.oppervlakte : 0;
+  const summary = listing.seo_summary_ka || listing.seo_summary || listing.seo_summary_zw || '';
 
   return (
     <div 
@@ -79,7 +80,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onClick }) =>
         </div>
 
         <p className="text-slate-600 text-sm line-clamp-3 mt-2 mb-4 flex-1">
-          {listing.seo_summary}
+          {summary}
         </p>
 
         <div className="border-t border-slate-100 pt-4 mt-auto">

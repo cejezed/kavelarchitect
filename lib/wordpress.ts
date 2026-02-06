@@ -44,8 +44,8 @@ export async function createWordPressPost(listing: any, contentOverride?: string
 
     // 2. Create Post
     const postData = {
-        title: listing.seo_title || listing.adres,
-        content: contentOverride || listing.seo_article_html || listing.seo_summary || 'Geen omschrijving.',
+        title: listing.seo_title_ka || listing.seo_title || listing.adres,
+        content: contentOverride || listing.seo_article_html_ka || listing.seo_article_html || listing.seo_summary_ka || listing.seo_summary || 'Geen omschrijving.',
         status: 'publish',
         featured_media: featuredMediaId,
         meta: {

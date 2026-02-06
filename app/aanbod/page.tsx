@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Bell } from 'lucide-react';
 import { AanbodFilter } from '@/components/AanbodFilter';
 import { FloatingAlertButton } from '@/components/FloatingAlertButton';
-import { AanbodMap } from '@/components/AanbodMap';
+// import { AanbodMap } from '@/components/AanbodMap'; // Tijdelijk uitgeschakeld
 import { getListings, type Listing } from '@/lib/api';
 
 export const dynamic = 'force-dynamic';
@@ -100,13 +100,21 @@ export default async function AanbodPage() {
                         </div>
                     </div>
 
+                    {/* Kaart tijdelijk uitgeschakeld voor debugging
                     <section className="mb-8 md:mb-12">
                         <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Kaartweergave</h2>
                         <p className="text-slate-600 text-sm md:text-base mb-4">
                             Bekijk de kavels op de kaart en klik door naar de detailpagina.
                         </p>
-                        <AanbodMap listings={listings} />
+                        {listings.length > 0 ? (
+                            <AanbodMap listings={listings} />
+                        ) : (
+                            <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center text-slate-600">
+                                Geen kavels beschikbaar om weer te geven op de kaart.
+                            </div>
+                        )}
                     </section>
+                    */}
 
                     <AanbodFilter initialListings={listings} />
                 </main>

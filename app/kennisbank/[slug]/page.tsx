@@ -125,11 +125,11 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
         : '';
     const breadcrumbTitle = faqArticle
         ? faqArticle.title
-        : article!.title.rendered.replace(/<[^>]*>/g, '');
+        : article?.title?.rendered?.replace(/<[^>]*>/g, '') || 'Artikel';
 
     // Extract city names from article content for contextual region links
     const popularCities = ['Blaricum', 'Laren', 'Heemstede', 'Zeist', 'Wassenaar', 'Noordwijk'];
-    const contentText = faqArticle ? faqArticle.contentHtml.toLowerCase() : article!.content.rendered.toLowerCase();
+    const contentText = (faqArticle ? faqArticle.contentHtml : article?.content?.rendered || '').toLowerCase();
     const mentionedCities = popularCities.filter(city =>
         contentText.includes(city.toLowerCase())
     ).slice(0, 3);
@@ -188,7 +188,7 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         {faqArticle.title}
                     </h1>
                 ) : (
-                    <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article!.title.rendered }} />
+                    <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article?.title?.rendered || '' }} />
                 )}
 
                 <div className="flex items-center justify-center gap-6 mt-8 text-sm text-slate-400">
@@ -216,7 +216,7 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         <div className="relative h-96 w-full mb-12 rounded-2xl overflow-hidden shadow-sm">
                             <Image
                                 src={imageUrl}
-                                alt={article!.title.rendered}
+                                alt={article?.title?.rendered || 'Artikel afbeelding'}
                                 fill
                                 className="object-cover"
                                 priority
@@ -230,8 +230,8 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         </div>
                     ) : (
                         <ElementorContent
-                            html={article!.content.rendered}
-                            postId={article!.id}
+                            html={article?.content?.rendered || ''}
+                            postId={article?.id}
                             siteUrl={WORDPRESS_SITE_URL}
                         />
                     )}
@@ -352,9 +352,9 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                                             <p className="text-xs text-slate-500">{new Date(a.date).toLocaleDateString('nl-NL')}</p>
                                         </Link>
                                     ))
-                                    : allArticles.filter(a => a.id !== article!.id).slice(0, 3).map(a => (
+                                    : allArticles.filter(a => a.id !== article?.id).slice(0, 3).map(a => (
                                         <Link key={a.id} href={`/kennisbank/${a.slug}`} className="block group">
-                                            <p className="font-bold text-sm text-slate-900 group-hover:text-blue-600 line-clamp-2 mb-1" dangerouslySetInnerHTML={{ __html: a.title.rendered }} />
+                                            <p className="font-bold text-sm text-slate-900 group-hover:text-blue-600 line-clamp-2 mb-1" dangerouslySetInnerHTML={{ __html: a?.title?.rendered || '' }} />
                                             <p className="text-xs text-slate-500">{new Date(a.date).toLocaleDateString('nl-NL')}</p>
                                         </Link>
                                     ))}

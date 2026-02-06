@@ -1,15 +1,15 @@
 
 // Type definitions for API responses
-  export interface Listing {
-    kavel_id: string;
-    adres: string;
-    plaats: string;
-    provincie: string;
-    prijs: number;
-    oppervlakte: number;
-    lat?: number | null;
-    lng?: number | null;
-    image_url?: string;
+export interface Listing {
+  kavel_id: string;
+  adres: string;
+  plaats: string;
+  provincie: string;
+  prijs: number;
+  oppervlakte: number;
+  lat?: number | null;
+  lng?: number | null;
+  image_url?: string;
   featured_image_url?: string; // optioneel overschrijfbare uitgelichte afbeelding
   featured_media_id?: number;  // WP media ID indien al geüpload
   source_url?: string;
@@ -232,45 +232,48 @@ export interface Category {
 export async function getArticles(): Promise<BlogPost[]> {
   try {
     // Fetch posts with embedded media (images)
-    const res = await fetch(`${WORDPRESS_API_URL}/posts?_embed&per_page=9`, {
+    const res = await fetchWithTimeout(`${WORDPRESS_API_URL}/posts?_embed&per_page=9`, {
       cache: 'no-store',
-      next: { revalidate: 60 }
+      next: { revalidate: 60 },
+      timeout: 5000 // 5s timeout for CMS
     });
 
-    if (!res.ok) throw new Error('Failed to fetch posts');
+    if (!res.ok) throw new Error(`WordPress API responded with ${res.status}`);
     return await res.json();
   } catch (error) {
-    console.error('WordPress fetch failed:', error);
+    console.error('getArticles failed:', error);
     return [];
   }
 }
 
 export async function getArticle(slug: string): Promise<BlogPost | undefined> {
   try {
-    const res = await fetch(`${WORDPRESS_API_URL}/posts?_embed&slug=${slug}`, {
+    const res = await fetchWithTimeout(`${WORDPRESS_API_URL}/posts?_embed&slug=${slug}`, {
       cache: 'no-store',
-      next: { revalidate: 60 }
+      next: { revalidate: 60 },
+      timeout: 5000
     });
 
-    if (!res.ok) throw new Error('Failed to fetch post');
+    if (!res.ok) throw new Error(`WordPress API responded with ${res.status}`);
     const posts = await res.json();
     return posts.length > 0 ? posts[0] : undefined;
   } catch (error) {
-    console.error('WordPress fetch failed:', error);
+    console.error(`getArticle for slug ${slug} failed:`, error);
     return undefined;
   }
 }
 
 export async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetch(`${WORDPRESS_API_URL}/categories?per_page=100`, {
-      next: { revalidate: 300 }
+    const res = await fetchWithTimeout(`${WORDPRESS_API_URL}/categories?per_page=100`, {
+      next: { revalidate: 300 },
+      timeout: 5000
     });
 
-    if (!res.ok) throw new Error('Failed to fetch categories');
+    if (!res.ok) throw new Error(`WordPress API responded with ${res.status}`);
     return await res.json();
   } catch (error) {
-    console.error('WordPress categories fetch failed:', error);
+    console.error('getCategories failed:', error);
     return [];
   }
 }

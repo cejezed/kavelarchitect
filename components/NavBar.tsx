@@ -3,10 +3,17 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { getCitySlug, getProvinceForCity, groupCitiesByProvince, type City } from '@/lib/regions';
 
 export default async function NavBar() {
-  const { data: cityData } = await supabaseAdmin
-    .from('listings')
-    .select('plaats')
-    .eq('status', 'published');
+  let cityData: any[] | null = [];
+
+  try {
+    const { data } = await supabaseAdmin
+      .from('listings')
+      .select('plaats')
+      .eq('status', 'published');
+    cityData = data;
+  } catch (error) {
+    console.error('NavBar Supabase fetch failed:', error);
+  }
 
   const cityCounts = new Map<string, number>();
   cityData?.forEach((item) => {

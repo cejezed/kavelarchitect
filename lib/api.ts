@@ -12,9 +12,15 @@ export interface Listing {
   featured_media_id?: number;  // WP media ID indien al geüpload
   source_url?: string;
   map_url?: string;
-  seo_title: string;
-  seo_summary: string;
-  seo_article_html: string;
+  seo_title?: string;
+  seo_summary?: string;
+  seo_article_html?: string;
+  seo_title_ka?: string;
+  seo_summary_ka?: string;
+  seo_article_html_ka?: string;
+  seo_title_zw?: string;
+  seo_summary_zw?: string;
+  seo_article_html_zw?: string;
   status: string;
   published_sites?: string[];
   created_at?: string; // Timestamp from database
@@ -60,6 +66,9 @@ const MOCK_LISTINGS: Listing[] = [
     seo_title: 'Prachtige bouwkavel in Blaricum',
     seo_summary: 'Unieke kans in het hart van het Gooi.',
     seo_article_html: '<p>Volledige omschrijving...</p>',
+    seo_title_ka: 'Prachtige bouwkavel in Blaricum',
+    seo_summary_ka: 'Unieke kans in het hart van het Gooi.',
+    seo_article_html_ka: '<p>Volledige omschrijving...</p>',
     status: 'published',
     published_sites: ['kavelarchitect'],
     specs: { maxVolume: '1100m3', maxHeight: '10m', gutterHeight: '6m', roofType: 'Vrij' }
@@ -74,6 +83,9 @@ const MOCK_LISTINGS: Listing[] = [
     seo_title: 'Bouwkavel nabij de duinen',
     seo_summary: 'Royaal perceel met veel privacy.',
     seo_article_html: '<p>Volledige omschrijving...</p>',
+    seo_title_ka: 'Bouwkavel nabij de duinen',
+    seo_summary_ka: 'Royaal perceel met veel privacy.',
+    seo_article_html_ka: '<p>Volledige omschrijving...</p>',
     status: 'published',
     published_sites: ['kavelarchitect']
   }

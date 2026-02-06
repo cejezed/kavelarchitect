@@ -11,6 +11,12 @@ export interface Listing {
   seo_title?: string;
   seo_summary?: string;
   seo_article_html?: string;
+  seo_title_ka?: string;
+  seo_summary_ka?: string;
+  seo_article_html_ka?: string;
+  seo_title_zw?: string;
+  seo_summary_zw?: string;
+  seo_article_html_zw?: string;
   created_at: string;
   updated_at?: string;
   status: 'pending' | 'published' | 'skipped';

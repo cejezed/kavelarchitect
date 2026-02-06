@@ -21,6 +21,7 @@ const playfair = Playfair_Display({
 });
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+const ga4Id = process.env.NEXT_PUBLIC_GA4_ID;
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -101,7 +102,8 @@ export default function RootLayout({
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
       <head>
         {/* Critical CSS inline for immediate rendering */}
-        <style dangerouslySetInnerHTML={{ __html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           /* Critical above-the-fold styles */
           * { box-sizing: border-box; margin: 0; padding: 0; }
           html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -124,17 +126,37 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        {gtmId ? (
-          <Script id="gtm-init" strategy="afterInteractive">
-            {`
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${gtmId}');
-            `}
-          </Script>
-        ) : null}
+        {/* Google Tag Manager - Standard head part */}
+        {gtmId && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','${gtmId}');
+              `,
+            }}
+          />
+        )}
+
+        {/* Google Analytics - Optional standalone integration */}
+        {ga4Id && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${ga4Id}');
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className={inter.className}>
         {gtmId ? (

@@ -1,13 +1,15 @@
 
 // Type definitions for API responses
-export interface Listing {
-  kavel_id: string;
-  adres: string;
-  plaats: string;
-  provincie: string;
-  prijs: number;
-  oppervlakte: number;
-  image_url?: string;
+  export interface Listing {
+    kavel_id: string;
+    adres: string;
+    plaats: string;
+    provincie: string;
+    prijs: number;
+    oppervlakte: number;
+    lat?: number | null;
+    lng?: number | null;
+    image_url?: string;
   featured_image_url?: string; // optioneel overschrijfbare uitgelichte afbeelding
   featured_media_id?: number;  // WP media ID indien al geüpload
   source_url?: string;

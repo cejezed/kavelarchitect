@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getArticles, getCategories } from '../../lib/api';
 import ArticleFilter from '@/components/ArticleFilter';
+import { FAQ_ARTICLES } from '@/lib/faqArticles';
 
 export const metadata = {
     title: 'Kennisbank | KavelArchitect',
@@ -77,6 +78,25 @@ export default async function KennisbankPage() {
                     <h1 className="font-serif text-4xl font-bold text-slate-900 mb-4">Kennisbank</h1>
                     <p className="text-slate-600 text-lg">Expertise van architecten, vertaald naar heldere gidsen.</p>
                 </div>
+
+                <section className="mb-16">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="font-serif text-2xl md:text-3xl font-bold text-slate-900">Veelgestelde vragen</h2>
+                        <span className="text-xs uppercase tracking-widest text-slate-400 font-bold">FAQ</span>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {FAQ_ARTICLES.map((faq) => (
+                            <Link key={faq.slug} href={`/kennisbank/${faq.slug}`} className="group">
+                                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition-all h-full p-6">
+                                    <h3 className="font-serif text-xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">
+                                        {faq.title}
+                                    </h3>
+                                    <p className="text-sm text-slate-600">{faq.description}</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </section>
 
                 <ArticleFilter articles={articles} categories={categories} />
             </main>

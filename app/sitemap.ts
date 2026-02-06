@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
+import { FAQ_ARTICLES } from '@/lib/faqArticles';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -83,6 +84,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  const faqUrls: MetadataRoute.Sitemap = FAQ_ARTICLES.map((faq) => ({
+    url: `${baseUrl}/kennisbank/${faq.slug}`,
+    lastModified: new Date(faq.date),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
   // Programmatic SEO regio pages - dynamically generated from all published cities
   const regioUrls: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
     url: `${baseUrl}/regio/${city}`,
@@ -91,5 +99,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85, // High priority for conversion pages
   }));
 
-  return [...staticPages, ...listingUrls, ...articleUrls, ...regioUrls];
+  return [...staticPages, ...listingUrls, ...articleUrls, ...faqUrls, ...regioUrls];
 }

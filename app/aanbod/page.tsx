@@ -4,8 +4,7 @@ import { Bell } from 'lucide-react';
 import { AanbodFilter } from '../../components/AanbodFilter';
 import { FloatingAlertButton } from '../../components/FloatingAlertButton';
 import { AanbodMap } from '../../components/AanbodMap';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import type { Listing } from '@/lib/api';
+import { getListings, type Listing } from '@/lib/api';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -41,14 +40,7 @@ export const metadata = {
 };
 
 export default async function AanbodPage() {
-    // Fetch directly from Supabase in server component - show available and sold listings
-    const { data } = await supabaseAdmin
-        .from('listings')
-        .select('*')
-        .in('status', ['published', 'sold']) // Show both available and sold listings
-        .order('created_at', { ascending: false });
-
-    const listings: Listing[] = data || [];
+    const listings = await getListings();
 
     const breadcrumbJsonLd = {
         '@context': 'https://schema.org',
@@ -91,10 +83,10 @@ export default async function AanbodPage() {
 
                     <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
                         <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-emerald-900">
-                            <strong>{listings.filter(l => l.status === 'published').length}</strong> kavels beschikbaar
+                            <strong>{listings.filter((l: Listing) => l.status === 'published').length}</strong> kavels beschikbaar
                         </div>
                         <div className="bg-red-50 border border-red-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-red-900">
-                            <strong>{listings.filter(l => l.status === 'sold').length}</strong> verkocht
+                            <strong>{listings.filter((l: Listing) => l.status === 'sold').length}</strong> verkocht
                         </div>
                         <Link
                             href="/"

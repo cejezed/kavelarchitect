@@ -37,10 +37,16 @@ export const metadata = {
 };
 
 export default async function RegioIndexPage() {
-  const { data: cityData } = await supabaseAdmin
-    .from('listings')
-    .select('plaats')
-    .eq('status', 'published');
+  let cityData: any[] | null = [];
+  try {
+    const { data } = await supabaseAdmin
+      .from('listings')
+      .select('plaats')
+      .eq('status', 'published');
+    cityData = data;
+  } catch (error) {
+    console.error('RegioIndexPage fetch failed:', error);
+  }
 
   const cityCounts = new Map<string, number>();
   cityData?.forEach((item) => {

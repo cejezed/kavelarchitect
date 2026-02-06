@@ -78,16 +78,23 @@ const getRegionContent = (cityName: string) => ({
 
 // Generate static params for all cities with listings
 export async function generateStaticParams() {
-  const { data: listings } = await supabaseAdmin
-    .from('listings')
-    .select('plaats')
-    .eq('status', 'published');
+  let listings: any[] | null = [];
+  try {
+    const { data } = await supabaseAdmin
+      .from('listings')
+      .select('plaats')
+      .eq('status', 'published');
+    listings = data;
+  } catch (error) {
+    console.error('generateStaticParams fetch failed:', error);
+    return [];
+  }
 
   if (!listings) return [];
 
   // Get unique cities
   const uniqueCities = new Set<string>();
-  listings.forEach(l => uniqueCities.add(l.plaats));
+  listings.forEach((l: any) => uniqueCities.add(l.plaats));
   const cities = Array.from(uniqueCities);
 
   return cities.map((stad) => ({
@@ -176,14 +183,20 @@ export default async function RegioPage({ params }: { params: { stad: string } }
   const content = getRegionContent(cityName);
 
   // Fetch listings for this city
-  const { data: listings } = await supabaseAdmin
-    .from('listings')
-    .select('*')
-    .eq('status', 'published')
-    .ilike('plaats', cityName)
-    .order('created_at', { ascending: false });
+  let listings: Listing[] = [];
+  try {
+    const { data } = await supabaseAdmin
+      .from('listings')
+      .select('*')
+      .eq('status', 'published')
+      .ilike('plaats', cityName)
+      .order('created_at', { ascending: false });
+    listings = (data as Listing[]) || [];
+  } catch (error) {
+    console.error(`RegioPage fetch failed for ${cityName}:`, error);
+  }
 
-  const hasListings = listings && listings.length > 0;
+  const hasListings = listings.length > 0;
 
   // Get FAQ data for this region
   const faqs = getRegionFAQs(cityName);

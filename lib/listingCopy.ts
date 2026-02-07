@@ -42,7 +42,7 @@ export function buildKavelArchitectSummary(listing: Listing) {
   const adres = escapeHtml(listing.adres);
   const plaats = escapeHtml(listing.plaats);
   const prijs = formatCurrency(listing.prijs);
-  return `Bouwkavel ${adres} in ${plaats} (${prijs}). Laat een KavelRapport maken voor zekerheid over bouwmogelijkheden en risico's.`;
+  return `Bouwkavel ${adres} in ${plaats} (${prijs}). Een korte kavelanalyse helpt om bouwmogelijkheden, beperkingen en risico's helder te krijgen.`;
 }
 
 export function buildKavelArchitectArticle(listing: Listing) {
@@ -68,11 +68,11 @@ export function buildKavelArchitectArticle(listing: Listing) {
     </ul>
     <h3>Wat mag u hier bouwen?</h3>
     ${specsHtml}
-    <h3>KavelRapport: zekerheid voor aankoop</h3>
-    <p>Een kavel kopen zonder heldere analyse is risicovol. Met het KavelRapport krijgt u inzicht in bouwmogelijkheden, beperkingen en risico's voordat u een bod doet.</p>
-    <p><a href="https://kavelarchitect.nl/kavelrapport">Bekijk het KavelRapport</a> of start direct een intake voor deze kavel.</p>
-    <h3>Volgende stap</h3>
-    <p>Wilt u zeker weten wat hier kan? Laat een KavelRapport opstellen en beslis met vertrouwen.</p>
+    <h3>Helderheid vooraf</h3>
+    <p>Bij bouwkavels zit de echte winst in duidelijkheid: wat mag er, wat kost het en welke beperkingen spelen mee? Met een korte analyse voorkomt u verrassingen en weet u sneller of de kavel past bij uw wensen.</p>
+    <p><a href="https://kavelarchitect.nl/kavelrapport">Lees meer over het KavelRapport</a> of vraag vrijblijvend een intake aan.</p>
+    <h3>Vervolg</h3>
+    <p>Wilt u zekerheid voordat u verder gaat? Dan is een onafhankelijke kavelanalyse een logische volgende stap.</p>
   `.trim();
 }
 
@@ -89,14 +89,14 @@ export function buildZwijsenArticle(listing: Listing) {
     : `<p>Het bestemmingsplan en de welstand bepalen de exacte bouwmogelijkheden. Wij vertalen dit naar een concreet ontwerp en haalbaar plan.</p>`;
 
   return `
-    <h2>Architect Jules Zwijsen begeleidt u van kavel tot droomhuis</h2>
-    <p>Een bouwkavel kopen in ${plaats} klinkt als een droom, maar is vaak complex. Als ervaren architect begeleid ik u persoonlijk van de eerste schets tot vergunning en realisatie.</p>
-    <h3>De bouwkavel ${adres}: locatie en mogelijkheden</h3>
-    <p>Deze kavel ligt in ${plaats}, ${provincie}, met een perceel van circa ${oppervlakte}. De vraagprijs is ${prijs}. Een ideale basis voor een vrijstaande woning met maximale privacy en woonkwaliteit.</p>
+    <h2>Architectenbureau Zwijsen en deze kavel</h2>
+    <p>Een bouwkavel in ${plaats} vraagt om een zorgvuldige vertaling van regels naar een passend ontwerp. Wij helpen bij het verkennen van mogelijkheden, zodat keuzes onderbouwd zijn en passen bij de omgeving.</p>
+    <h3>De bouwkavel ${adres}</h3>
+    <p>Deze kavel ligt in ${plaats}, ${provincie}, met een perceel van circa ${oppervlakte}. De vraagprijs is ${prijs}. Een rustige basis voor een woning met kwaliteit en aandacht voor context.</p>
     <h3>Wat kunt u bouwen?</h3>
     ${specsHtml}
-    <h3>Persoonlijke begeleiding door Architectenbureau Zwijsen</h3>
-    <p>Ik help u met haalbaarheid, ontwerp en vergunningen. Geen standaard traject, maar maatwerk met focus op kwaliteit, esthetiek en bouwmogelijkheden.</p>
-    <p><a href="https://www.zwijsen.net/contact" target="_blank" rel="noopener noreferrer">Neem contact op voor een vrijblijvend gesprek</a> en ontdek wat er mogelijk is op deze kavel.</p>
+    <h3>Onze rol</h3>
+    <p>We denken mee over haalbaarheid, ruimtelijke kwaliteit en vergunningstraject. Zonder grote woorden; wel met aandacht voor ontwerp, regelgeving en een realistische route naar uitvoering.</p>
+    <p><a href="https://www.zwijsen.net/contact" target="_blank" rel="noopener noreferrer">Neem contact op</a> als u wilt afstemmen wat er op deze plek mogelijk is.</p>
   `.trim();
 }

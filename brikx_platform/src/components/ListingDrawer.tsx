@@ -16,6 +16,7 @@ export const ListingDrawer: React.FC<ListingDrawerProps> = ({ listing, onClose, 
     const [isSkipping, setIsSkipping] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [mapType, setMapType] = useState<'roadmap' | 'satellite'>('satellite');
+    const [seoTab, setSeoTab] = useState<'ka' | 'zw'>('ka');
 
     // Reset state when listing changes
     React.useEffect(() => {
@@ -23,6 +24,7 @@ export const ListingDrawer: React.FC<ListingDrawerProps> = ({ listing, onClose, 
             setSuccessMessage(null);
             setSelectedSites(['kavelarchitect', 'zwijsen']);
             setMapType('satellite'); // Default to satellite for land plots
+            setSeoTab('ka');
         }
     }, [listing]);
 
@@ -328,68 +330,96 @@ export const ListingDrawer: React.FC<ListingDrawerProps> = ({ listing, onClose, 
                             {/* SEO Content Editable */}
                             <div className="space-y-4">
                                 <div>
-                                    <h5 className="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">KavelArchitect tekst</h5>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">SEO Titel</label>
-                                    <input
-                                        type="text"
-                                        className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium"
-                                        defaultValue={listing.seo_title_ka || listing.seo_title || ''}
-                                        onChange={(e) => listing.seo_title_ka = e.target.value}
-                                    />
+                                    <div className="flex items-center justify-between">
+                                        <h5 className="text-xs font-bold text-slate-600 uppercase tracking-wide">SEO Tekst Preview</h5>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setSeoTab('ka')}
+                                                className={`px-3 py-1.5 rounded-md text-xs font-semibold border transition-colors ${seoTab === 'ka'
+                                                    ? 'bg-blue-600 text-white border-blue-600'
+                                                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'}`}
+                                            >
+                                                KavelArchitect
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setSeoTab('zw')}
+                                                className={`px-3 py-1.5 rounded-md text-xs font-semibold border transition-colors ${seoTab === 'zw'
+                                                    ? 'bg-blue-600 text-white border-blue-600'
+                                                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'}`}
+                                            >
+                                                Zwijsen
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">SEO Samenvatting</label>
-                                    <textarea
-                                        className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-24"
-                                        defaultValue={listing.seo_summary_ka || listing.seo_summary || ''}
-                                        onChange={(e) => listing.seo_summary_ka = e.target.value}
-                                    />
-                                </div>
+                                {seoTab === 'ka' ? (
+                                    <>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-500 mb-1">SEO Titel</label>
+                                            <input
+                                                type="text"
+                                                className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium"
+                                                defaultValue={listing.seo_title_ka || listing.seo_title || ''}
+                                                onChange={(e) => listing.seo_title_ka = e.target.value}
+                                            />
+                                        </div>
 
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">SEO Artikel (HTML)</label>
-                                    <textarea
-                                        className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-64 font-mono"
-                                        defaultValue={listing.seo_article_html_ka || listing.seo_article_html || ''}
-                                        onChange={(e) => listing.seo_article_html_ka = e.target.value}
-                                        placeholder="<p>Schrijf hier je artikel...</p>"
-                                    />
-                                    <p className="text-xs text-slate-400 mt-1">Gebruik HTML tags zoals &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt; voor opmaak.</p>
-                                </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-500 mb-1">SEO Samenvatting</label>
+                                            <textarea
+                                                className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-24"
+                                                defaultValue={listing.seo_summary_ka || listing.seo_summary || ''}
+                                                onChange={(e) => listing.seo_summary_ka = e.target.value}
+                                            />
+                                        </div>
 
-                                <div className="h-px bg-slate-200 my-2"></div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-500 mb-1">SEO Artikel (HTML)</label>
+                                            <textarea
+                                                className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-64 font-mono"
+                                                defaultValue={listing.seo_article_html_ka || listing.seo_article_html || ''}
+                                                onChange={(e) => listing.seo_article_html_ka = e.target.value}
+                                                placeholder="<p>Schrijf hier je artikel...</p>"
+                                            />
+                                            <p className="text-xs text-slate-400 mt-1">Gebruik HTML tags zoals &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt; voor opmaak.</p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-500 mb-1">SEO Titel</label>
+                                            <input
+                                                type="text"
+                                                className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium"
+                                                defaultValue={listing.seo_title_zw || listing.seo_title || ''}
+                                                onChange={(e) => listing.seo_title_zw = e.target.value}
+                                            />
+                                        </div>
 
-                                <div>
-                                    <h5 className="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">Zwijsen tekst</h5>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">SEO Titel</label>
-                                    <input
-                                        type="text"
-                                        className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 font-medium"
-                                        defaultValue={listing.seo_title_zw || listing.seo_title || ''}
-                                        onChange={(e) => listing.seo_title_zw = e.target.value}
-                                    />
-                                </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-500 mb-1">SEO Samenvatting</label>
+                                            <textarea
+                                                className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-24"
+                                                defaultValue={listing.seo_summary_zw || listing.seo_summary || ''}
+                                                onChange={(e) => listing.seo_summary_zw = e.target.value}
+                                            />
+                                        </div>
 
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">SEO Samenvatting</label>
-                                    <textarea
-                                        className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-24"
-                                        defaultValue={listing.seo_summary_zw || listing.seo_summary || ''}
-                                        onChange={(e) => listing.seo_summary_zw = e.target.value}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-xs font-medium text-slate-500 mb-1">SEO Artikel (HTML)</label>
-                                    <textarea
-                                        className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-64 font-mono"
-                                        defaultValue={listing.seo_article_html_zw || listing.seo_article_html || ''}
-                                        onChange={(e) => listing.seo_article_html_zw = e.target.value}
-                                        placeholder="<p>Schrijf hier je artikel...</p>"
-                                    />
-                                    <p className="text-xs text-slate-400 mt-1">Gebruik HTML tags zoals &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt; voor opmaak.</p>
-                                </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-500 mb-1">SEO Artikel (HTML)</label>
+                                            <textarea
+                                                className="w-full text-sm border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 h-64 font-mono"
+                                                defaultValue={listing.seo_article_html_zw || listing.seo_article_html || ''}
+                                                onChange={(e) => listing.seo_article_html_zw = e.target.value}
+                                                placeholder="<p>Schrijf hier je artikel...</p>"
+                                            />
+                                            <p className="text-xs text-slate-400 mt-1">Gebruik HTML tags zoals &lt;h2&gt;, &lt;p&gt;, &lt;strong&gt; voor opmaak.</p>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 

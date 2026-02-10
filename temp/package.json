@@ -1,0 +1,32 @@
+{
+  "name": "kennisbank-governance-examples",
+  "version": "1.0.0",
+  "description": "Example code for kennisbank governance system",
+  "private": true,
+  "scripts": {
+    "validate": "tsx examples/validation/validate-concepts.ts ./content",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "gray-matter": "^4.0.3",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  },
+  "notes": {
+    "installation": "Voor gebruik in je Next.js project:",
+    "steps": [
+      "1. npm install @supabase/supabase-js",
+      "2. Kopieer examples/api/* naar je lib/ directory",
+      "3. Kopieer examples/components/* naar je components/ directory",
+      "4. Voeg environment variables toe aan .env.local:",
+      "   NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co",
+      "   NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx",
+      "5. Run validatie: npm run validate"
+    ]
+  }
+}

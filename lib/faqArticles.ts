@@ -1,4 +1,4 @@
-export type FaqArticle = {
+﻿export type FaqArticle = {
     slug: string;
     title: string;
     description: string;
@@ -30,7 +30,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
 <p>Dit zijn <strong>off-market kavels</strong>. Daar kom je alleen bij via netwerk.</p>
 
 <h2>Hoe wij kavels vinden</h2>
-<p>Door ons netwerk van gemeentecontacten, notarissen en agrariers krijgen we signalen voordat kavels publiek worden. Niet omdat we makelaars zijn (dat zijn we niet), maar omdat we als architectenbureau veel met deze partijen samenwerken. Bij de helft van de kavels die we voorstellen staat nog geen Funda-bord.</p>
+<p>Door ons netwerk van gemeentecontacten, notarissen en agrariers krijgen we signalen voordat kavels publiek worden. Niet omdat we makelaars zijn (dat zijn we niet), maar omdat we als specialist in kavelhaalbaarheid veel met deze partijen samenwerken. Bij de helft van de kavels die we voorstellen staat nog geen Funda-bord.</p>
 <p>We screenen ook kavels op haalbaarheid. Niet elk perceel met "bouwbestemming" is geschikt. We houden mensen geregeld tegen die een kavel willen kopen waar hun ontwerp niet past. Dat voorkomt teleurstelling en dure fouten.</p>
 
 <h2>Wil je dat we meekijken?</h2>
@@ -59,7 +59,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
 
 <h2>3. Particulieren</h2>
 <p>Via Marktplaats, lokale Facebook-groepen of een bord langs de weg vind je soms de beste deals. Vaak agrariers die stoppen, erfenissen, of mensen die grond over hebben.</p>
-<p><strong>Let op:</strong> hier loop je de meeste risicos: onduidelijke erfdienstbaarheden, bodemverontreiniging of zelfs geen bouwbestemming.</p>
+<p><strong>Let op:</strong> hier loop je de meeste risico's: onduidelijke erfdienstbaarheden, bodemverontreiniging of zelfs geen bouwbestemming.</p>
 
 <h2>Onze rol</h2>
 <p>Wij kopen zelf geen kavels op (geen makelaar), maar signaleren wel wat er beschikbaar komt via ons netwerk. En belangrijker: we checken of een kavel echt geschikt is voordat je een bod doet.</p>
@@ -86,12 +86,12 @@ export const FAQ_ARTICLES: FaqArticle[] = [
   <li><strong>Bouwtermijn.</strong> Gemeentes eisen vaak bouwen binnen 2-5 jaar. Dit kan druk geven.</li>
   <li><strong>Extra kosten.</strong> Notaris, kadaster, aansluitingen, bodemonderzoek, welstand.</li>
   <li><strong>Financiering.</strong> Banken financieren maximaal ~80% van alleen grond.</li>
-  <li><strong>Welstand en stijl.</strong> Sommige regios eisen rieten kap of specifieke materialen.</li>
-  <li><strong>Toekomstwaarde.</strong> In groeigebieden stijgen prijzen, in krimpregios minder.</li>
+  <li><strong>Welstand en stijl.</strong> Sommige regio's eisen rieten kap of specifieke materialen.</li>
+  <li><strong>Toekomstwaarde.</strong> In groeigebieden stijgen prijzen, in krimpregio's minder.</li>
 </ol>
 
 <h2>Hoe checken wij dit?</h2>
-<p>Wij doen deze check dagelijks en kunnen binnen 48 uur in begrijpelijk Nederlands uitleggen wat je mag bouwen, welke risicos er zijn en of het past bij je wensen.</p>
+<p>Wij doen deze check dagelijks en kunnen binnen 48 uur in begrijpelijk Nederlands uitleggen wat je mag bouwen, welke risico's er zijn en of het past bij je wensen.</p>
 <p>
   Wil je zekerheid? Bekijk <a href="/kavelrapport">KavelRapport</a> of bekijk het actuele aanbod via <a href="/aanbod">/aanbod</a>.
 </p>
@@ -190,7 +190,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
         description: 'Gemiddelde prijsrange per provincie (2026) en waar je op moet letten.',
         date: '2026-02-06',
         contentHtml: `
-<p>Kavelprijzen varieren enorm: van EUR 100/m2 in Groningen tot EUR 800/m2 in Zuid-Holland. Het hangt af van regio, gemeente en zelfs wijk.</p>
+<p>Kavelprijzen variëren enorm: van EUR 100/m2 in Groningen tot EUR 800/m2 in Zuid-Holland. Het hangt af van regio, gemeente en zelfs wijk.</p>
 
 <h2>Gemiddelde prijzen per provincie (2026)</h2>
 <ul>
@@ -442,7 +442,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
         description: 'Praktische tips voor off-market aanbod en waarom het lastiger is.',
         date: '2026-02-06',
         contentHtml: `
-<p>De beste kavels komen vaak nooit op Funda. Ze worden verkocht via netwerken, particuliere contacten of direct aan geinteresseerden.</p>
+<p>De beste kavels komen vaak nooit op Funda. Ze worden verkocht via netwerken, particuliere contacten of direct aan geïnteresseerden.</p>
 
 <h2>Waarom interessant?</h2>
 <ul>
@@ -512,7 +512,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
   <li>Welstandseisen negeren.</li>
   <li>Emotioneel overbieden.</li>
   <li>Geen erfdienstbaarheid-check.</li>
-  <li>Geen architectcheck vooraf.</li>
+  <li>Geen haalbaarheidscheck vooraf.</li>
 </ol>
 
 <h2>Hoe voorkom je dit?</h2>
@@ -523,10 +523,10 @@ export const FAQ_ARTICLES: FaqArticle[] = [
     {
         slug: 'waar-is-bouwgrond-het-goedkoopst',
         title: 'Waar is bouwgrond het goedkoopst in Nederland?',
-        description: 'Goedkope regio’s en waarom goedkoop niet altijd slim is.',
+        description: 'Goedkope regioâ€™s en waarom goedkoop niet altijd slim is.',
         date: '2026-02-06',
         contentHtml: `
-<p>Bouwgrond is het goedkoopst in regios met lage vraag: Drenthe, Groningen en delen van Zeeland en Oost-Gelderland.</p>
+<p>Bouwgrond is het goedkoopst in regio's met lage vraag: Drenthe, Groningen en delen van Zeeland en Oost-Gelderland.</p>
 
 <h2>Goedkoopste provincies</h2>
 <ul>
@@ -539,7 +539,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
 
 <h2>Waarom zo goedkoop?</h2>
 <ul>
-  <li>Krimpregios met lagere vraag</li>
+  <li>Krimpregio's met lagere vraag</li>
   <li>Minder voorzieningen</li>
   <li>Meer aanbod dan vraag</li>
 </ul>
@@ -589,14 +589,14 @@ export const FAQ_ARTICLES: FaqArticle[] = [
     {
         slug: 'is-investeren-in-bouwgrond-een-goed-idee',
         title: 'Is investeren in bouwgrond een goed idee?',
-        description: 'Voor- en nadelen, risico’s en wanneer het rendabel kan zijn.',
+        description: 'Voor- en nadelen, risicoâ€™s en wanneer het rendabel kan zijn.',
         date: '2026-02-06',
         contentHtml: `
 <p>Bouwgrond als investering kan lucratief zijn, maar is riskanter dan vastgoed met opstal.</p>
 
 <h2>Voordelen</h2>
 <ul>
-  <li>Waardestijging in groeiregios</li>
+  <li>Waardestijging in groeiregio's</li>
   <li>Beperkt aanbod drijft vraag</li>
   <li>Hefboomwerking met financiering</li>
   <li>Lagere instap dan een woning</li>
@@ -608,7 +608,7 @@ export const FAQ_ARTICLES: FaqArticle[] = [
   <li>Doorlopende kosten (OZB, erfpacht)</li>
   <li>Risico op herbestemming</li>
   <li>Hoge transactiekosten</li>
-  <li>Marktrisico in krimpregios</li>
+  <li>Marktrisico in krimpregio's</li>
   <li>Strengere financiering (max 80%)</li>
 </ul>
 
@@ -622,3 +622,5 @@ export const FAQ_ARTICLES: FaqArticle[] = [
 export function getFaqArticle(slug: string): FaqArticle | undefined {
     return FAQ_ARTICLES.find((article) => article.slug === slug);
 }
+
+

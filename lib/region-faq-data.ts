@@ -1,69 +1,65 @@
-// FAQ data for region pages - optimized for Schema.org FAQPage
+﻿// FAQ data for region pages - optimized for Schema.org FAQPage
 export interface RegionFAQ {
     question: string;
     answer: string;
 }
 
 export const getRegionFAQs = (cityName: string): RegionFAQ[] => {
-    // Base FAQs for all regions
     const baseFAQs: RegionFAQ[] = [
         {
             question: `Hoeveel kost een bouwkavel in ${cityName}?`,
-            answer: `De prijs van een bouwkavel in ${cityName} varieert sterk afhankelijk van de locatie, grootte en bouwmogelijkheden. Gemiddeld liggen de prijzen tussen €150.000 en €400.000. Via KavelArchitect krijgt u toegang tot zowel publieke als off-market kavels, waardoor u meer keuze heeft in verschillende prijsklassen.`
+            answer: `De prijs van een bouwkavel in ${cityName} hangt af van ligging, oppervlakte, bouwmogelijkheden en schaarste. In de praktijk loopt dit vaak uiteen van EUR 150.000 tot EUR 400.000 of hoger. Belangrijk: kijk niet alleen naar koopprijs, maar ook naar bijkomende kosten zoals notaris, onderzoeken, aansluitingen en vergunning.`
         },
         {
             question: `Welke welstandseisen gelden er in ${cityName}?`,
-            answer: `${cityName} heeft specifieke welstandseisen die per gebied kunnen verschillen. Wij kennen de lokale welstandscriteria en begeleiden u door het hele proces. Bij elk kavel dat wij aanbieden, checken we vooraf de welstandseisen en architectonische mogelijkheden, zodat u geen verrassingen krijgt.`
+            answer: `${cityName} heeft vaak gebiedsgerichte welstandseisen. Die gaan over massa, kapvorm, materialen en inpassing in de omgeving. Per kavel kan dat flink verschillen. Laat daarom vooraf toetsen wat kansrijk is, zodat u niet later hoeft te herontwerpen.`
         },
         {
-            question: `Hoe lang duurt het om een bouwvergunning te krijgen in ${cityName}?`,
-            answer: `De doorlooptijd voor een bouwvergunning in ${cityName} is gemiddeld 8-12 weken. Met onze ervaring in de regio kunnen we dit proces versnellen door vooraf alle documentatie correct aan te leveren en proactief te communiceren met de gemeente ${cityName}.`
+            question: `Hoe lang duurt een bouwvergunning in ${cityName}?`,
+            answer: `Reken in de praktijk meestal op 10-14 weken, ook al is de wettelijke beslistermijn vaak 8 weken. Bij aanvullende vragen, welstandsoverleg of afwijkingen van het omgevingsplan loopt dit op. In complexe situaties (zoals monumenten of BOPA-trajecten) is 20-26 weken reëel.`
         },
         {
-            question: `Kan ik een architect inschakelen voor mijn bouwkavel in ${cityName}?`,
-            answer: `Ja, sterker nog: wij raden dit sterk aan. Architectenbureau Zwijsen begeleidt u van haalbaarheidscheck tot vergunningaanvraag. Wij kennen de lokale regelgeving in ${cityName}, hebben ervaring met de welstandscommissie, en zorgen dat uw ontwerp past binnen de mogelijkheden van uw kavel.`
+            question: `Heb ik al een architect nodig voordat ik een kavel koop in ${cityName}?`,
+            answer: `Dat is vaak verstandig. Met een vroege haalbaarheidscheck voorkomt u dat u een kavel koopt waar uw woonwensen of budget niet op passen. U krijgt vooraf inzicht in bouwmogelijkheden, risico's en verwachte doorlooptijd.`
         },
         {
             question: `Wat zijn off-market kavels en hoe krijg ik daar toegang toe?`,
-            answer: `Off-market kavels zijn bouwkavels die niet publiekelijk worden aangeboden op platforms zoals Funda. Deze kavels worden vaak via makelaarsnetwerken, projectontwikkelaars of particuliere verkopen aangeboden. Via KavelArchitect krijgt u gratis toegang tot deze exclusieve kavels in ${cityName}, vaak 2-4 weken voordat ze publiek worden.`
+            answer: `Off-market kavels zijn locaties die niet publiek op platforms zoals Funda staan. Ze komen via netwerken, eigenaren en lokale contacten beschikbaar. KavelArchitect signaleert dit soort kansen en toetst ze vroeg op haalbaarheid, zodat u sneller kunt schakelen met minder verrassingen.`
         }
     ];
 
-    // City-specific FAQs
     const citySpecificFAQs: Record<string, RegionFAQ[]> = {
         'Loenen aan de Vecht': [
             {
                 question: 'Welke welstandseisen gelden er bij landgoed Cronenburgh in Loenen aan de Vecht?',
-                answer: 'Landgoed Cronenburgh valt onder bijzondere welstandscriteria vanwege de beschermde status. Er gelden strikte eisen voor architectuur, materiaalgebruik en inpassing in het landschap. Wij hebben ervaring met projecten in dit gebied en begeleiden u door het welstandsproces, inclusief vooroverleg met de welstandscommissie Stichtse Vecht.'
+                answer: 'Landgoed Cronenburgh kent specifieke eisen door de ruimtelijke kwaliteit en context. Er wordt scherp gekeken naar schaal, kapvorm, materialisatie en positionering op de kavel. Vooroverleg met gemeente en welstand is hier vrijwel altijd zinvol.'
             },
             {
                 question: 'Mag ik een moderne villa bouwen in Loenen aan de Vecht?',
-                answer: 'Ja, moderne architectuur is mogelijk in Loenen aan de Vecht, mits het ontwerp past binnen de welstandscriteria en het karakter van de omgeving. In sommige gebieden zoals het centrum en landgoederen gelden strengere eisen. Wij adviseren vooraf over de architectonische mogelijkheden per kavel.'
+                answer: 'Ja, dat kan, mits het ontwerp goed aansluit op de lokale beeldkwaliteit en planregels. Moderne architectuur is vaak mogelijk, maar vraagt een zorgvuldige onderbouwing van volume, gevelopbouw en materiaalkeuze.'
             },
             {
                 question: 'Hoe zit het met de bereikbaarheid van Loenen aan de Vecht?',
-                answer: 'Loenen aan de Vecht ligt strategisch tussen Amsterdam (25 min) en Utrecht (20 min) via de A2. De combinatie van landelijke rust en stedelijke bereikbaarheid maakt het een zeer gewilde locatie voor nieuwbouw. Ook het openbaar vervoer is goed geregeld met busverbindingen naar Breukelen en Utrecht.'
+                answer: 'Loenen aan de Vecht ligt gunstig tussen Amsterdam en Utrecht via de A2. Die combinatie van landelijke kwaliteit en stedelijke bereikbaarheid maakt de vraag naar bouwkavels hoog en het aanbod beperkt.'
             }
         ],
         'Hilversum': [
             {
                 question: 'Welke architectuurstijl past bij Hilversum?',
-                answer: 'Hilversum staat bekend om de Dudok-architectuur en heeft een rijke architectonische geschiedenis. Moderne interpretaties van deze stijl worden vaak gewaardeerd door de welstandscommissie. Wij hebben ervaring met diverse architectuurstijlen in Hilversum en adviseren u over wat past bij uw kavel en de omgeving.'
+                answer: 'Hilversum heeft een sterke architectuuridentiteit en vaak duidelijke welstandsverwachtingen. Zowel eigentijdse als meer traditionele ontwerpen zijn mogelijk, zolang het plan ruimtelijk klopt en zorgvuldig is uitgewerkt.'
             }
         ],
         'Breukelen': [
             {
                 question: 'Kan ik bouwen aan de Vecht in Breukelen?',
-                answer: 'Kavels aan de Vecht in Breukelen zijn zeer gewild en schaars. Er gelden specifieke eisen voor bouwen in het beschermd dorpsgezicht en nabij de rivier. Wij monitoren actief wanneer er kavels beschikbaar komen en kennen de specifieke bouwmogelijkheden per locatie.'
+                answer: 'Dat kan, maar kavels aan de Vecht zijn schaars en kennen meestal extra randvoorwaarden door ligging, zichtlijnen en beschermde waarden. Een vroege haalbaarheidscheck voorkomt dat u later vastloopt in vergunning of ontwerp.'
             }
         ]
     };
 
-    // Return city-specific FAQs if available, otherwise return base FAQs
     return citySpecificFAQs[cityName] || baseFAQs;
 };
 
-// Generate FAQ Schema.org structured data
 export const generateFAQSchema = (cityName: string) => {
     const faqs = getRegionFAQs(cityName);
 

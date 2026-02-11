@@ -617,10 +617,82 @@ export const FAQ_ARTICLES: FaqArticle[] = [
 <p>Voor passief beleggen zijn vaak betere opties. Voor actief ontwikkelen kan het interessant zijn.</p>
 `
     }
+    ,
+        {
+        slug: 'wat-zijn-de-stappen-na-kavelaankoop',
+        title: 'Wat zijn de stappen na kavelaankoop?',
+        description: 'Kavel gekocht: wat nu? Volg 7 concrete stappen van haalbaarheid en PvE tot vergunning, aanbesteding en bouw.',
+        date: '2026-02-11',
+        contentHtml: `
+<p>Je hebt een kavel gekocht. Gefeliciteerd. Nu begint de fase waarin keuzes het verschil maken tussen een soepel traject en maanden vertraging. De route van kavelaankoop naar oplevering bestaat uit zeven duidelijke stappen.</p>
+
+<p><strong>Snelle kernpunten:</strong></p>
+<ul>
+  <li><strong>Totale tijdlijn:</strong> meestal 12-24 maanden van aankoop tot sleutel.</li>
+  <li><strong>Kritieke eerste stap:</strong> haalbaarheid definitief toetsen op jouw concrete plan.</li>
+  <li><strong>Belangrijkste voorbereiding:</strong> eerst PvE en budget, daarna pas ontwerp en aannemer.</li>
+  <li><strong>Grootste fout:</strong> direct starten zonder heldere scope en planning.</li>
+</ul>
+
+<h2>De 7 stappen in volgorde</h2>
+<table>
+  <tr><th>Stap</th><th>Duur</th><th>Resultaat</th></tr>
+  <tr><td>1. Haalbaarheid definitief</td><td>1-2 weken</td><td>Heldere randvoorwaarden per kavel</td></tr>
+  <tr><td>2. Programma van Eisen (PvE)</td><td>3-6 weken</td><td>Concreet wensenpakket</td></tr>
+  <tr><td>3. Budget definitief</td><td>1-2 weken</td><td>Realistische totale begroting</td></tr>
+  <tr><td>4. Architect selecteren</td><td>2-4 weken</td><td>Passend team en werkwijze</td></tr>
+  <tr><td>5. Ontwerp + vergunning</td><td>16-26 weken</td><td>Vergunningsrijp plan</td></tr>
+  <tr><td>6. Aanbesteding</td><td>4-6 weken</td><td>Aannemer gecontracteerd</td></tr>
+  <tr><td>7. Bouwen</td><td>8-15 maanden</td><td>Opgeleverde woning</td></tr>
+</table>
+
+<h2>Stap 1: Haalbaarheid definitief checken</h2>
+<p>Ook als je voor aankoop al een <a href="/diensten/kavelrapport">KavelRapport</a> hebt gebruikt, is na aankoop een projectspecifieke toets slim. Dan kijk je niet meer alleen naar algemene mogelijkheden, maar naar de beste positionering, volume en risico's voor jouw woningplan.</p>
+<p>Bij twijfel over regels of afwijkingen helpt dit artikel: <a href="https://architectenbureau-zwijsen.nl/kennisbank/vragen/vergunningen-en-welstand/wanneer-is-vooroverleg-of-bopa-zinvol">wanneer is vooroverleg of BOPA zinvol</a>.</p>
+
+<h2>Stap 2: PvE opstellen</h2>
+<p>Een goed PvE vertaalt wensen naar ontwerpbare eisen: functies, m2, licht, privacy, techniek en prioriteiten. Zonder dit document krijg je onnodig veel herontwerprondes.</p>
+<p>Gebruik hiervoor bijvoorbeeld de <a href="https://brikxai.nl/tools/pve-generator">PvE generator</a> als structuurhulp.</p>
+
+<h2>Stap 3: Budget definitief maken</h2>
+<p>Werk met totaalbudget, niet alleen bouwsom. Neem ook adviseurs, vergunning, aansluitingen, terreininrichting en buffer mee. Voor een eerste opzet kun je de <a href="https://brikxai.nl/tools/bouwbudget-calculator">bouwbudget-calculator</a> gebruiken.</p>
+
+<h2>Stap 4: Architect selecteren</h2>
+<p>Selecteer op klik, ervaring met jouw type project en transparantie over proces en kosten. Niet op alleen stijlbeelden. Dit helpt voor een goed gesprek: <a href="https://architectenbureau-zwijsen.nl/kennisbank/vragen/architect-kosten-en-bouwen/welke-vragen-stel-je-aan-architect">welke vragen stel je aan architect</a>.</p>
+
+<h2>Stap 5: Ontwerp en vergunning</h2>
+<p>Reken voor schets tot vergunning op meerdere maanden. De gemeentelijke procedure zelf is vaak 8-14 weken in de praktijk. Doorlooptijd artikel: <a href="https://architectenbureau-zwijsen.nl/kennisbank/vragen/vergunningen-en-welstand/hoe-lang-duurt-een-omgevingsvergunning">hoe lang duurt een omgevingsvergunning</a>.</p>
+
+<h2>Stap 6: Aanbesteding</h2>
+<p>Laat offertes vergelijken op dezelfde scope. Kies niet automatisch de laagste prijs. Een complete uitvraag voorkomt meerwerkdiscussies tijdens uitvoering.</p>
+
+<h2>Stap 7: Bouwen</h2>
+<p>Tijdens uitvoering blijft besluitdiscipline cruciaal. Werk met een vaste planning en keuzemomenten. Een praktische tool hiervoor is de <a href="https://brikxai.nl/tools/keuzetijdlijn">keuzetijdlijn</a>.</p>
+
+<h2>Veelgemaakte fouten na kavelaankoop</h2>
+<ul>
+  <li>Te snel starten zonder heldere scope.</li>
+  <li>Budget onderschatten door vergeten posten.</li>
+  <li>Te laat materiaal- en installatieskeuzes maken.</li>
+  <li>Vergelijking van aannemers op prijs in plaats van scope.</li>
+</ul>
+
+<h2>Praktische eerste stap vandaag</h2>
+<ul>
+  <li>Heb je al gekocht: start met een definitieve haalbaarheidstoets en werk je PvE uit.</li>
+  <li>Twijfel je nog over richting: lees <a href="https://architectenbureau-zwijsen.nl/kennisbank/vragen/architect-kosten-en-bouwen/waar-begin-ik-met-bouwen-of-verbouwen">waar begin ik met bouwen of verbouwen</a>.</li>
+  <li>Zoek je nog: activeer <a href="/diensten/kavel-alert">Kavel Alert</a>.</li>
+</ul>
+
+<p><em>Bronvermelding: tijdlijnen en kostenbandbreedtes zijn praktijkindicaties en verschillen per locatie, kavelvoorwaarden en projectcomplexiteit. Laatst bijgewerkt: februari 2026.</em></p>
+`
+    }
 ];
 
 export function getFaqArticle(slug: string): FaqArticle | undefined {
     return FAQ_ARTICLES.find((article) => article.slug === slug);
 }
+
+
 
 

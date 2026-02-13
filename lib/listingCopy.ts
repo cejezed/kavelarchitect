@@ -86,17 +86,15 @@ export function buildZwijsenArticle(listing: Listing) {
 
   const specsHtml = specsLines.length
     ? `<ul>${specsLines.map((line) => `<li>${line}</li>`).join('')}</ul>`
-    : `<p>Het bestemmingsplan en de welstand bepalen de exacte bouwmogelijkheden. Wij vertalen dit naar een concreet ontwerp en haalbaar plan.</p>`;
+    : `<p>De exacte bouwmogelijkheden worden bepaald door het bestemmingsplan, het bouwvlak en eventuele welstandseisen van de gemeente. Een check vooraf voorkomt verrassingen.</p>`;
 
   return `
-    <h2>Architectenbureau Zwijsen en deze kavel</h2>
-    <p>Een bouwkavel in ${plaats} vraagt om een zorgvuldige vertaling van regels naar een passend ontwerp. Wij helpen bij het verkennen van mogelijkheden, zodat keuzes onderbouwd zijn en passen bij de omgeving.</p>
-    <h3>De bouwkavel ${adres}</h3>
-    <p>Deze kavel ligt in ${plaats}, ${provincie}, met een perceel van circa ${oppervlakte}. De vraagprijs is ${prijs}. Een rustige basis voor een woning met kwaliteit en aandacht voor context.</p>
-    <h3>Wat kunt u bouwen?</h3>
+    <h2>Bouwkavel ${adres}, ${plaats}</h2>
+    <p>Dit perceel in ${plaats} (${provincie}) heeft een oppervlak van circa ${oppervlakte}. De vraagprijs is ${prijs}.</p>
+    <h3>Bouwmogelijkheden</h3>
     ${specsHtml}
-    <h3>Onze rol</h3>
-    <p>We denken mee over haalbaarheid, ruimtelijke kwaliteit en vergunningstraject. Zonder grote woorden; wel met aandacht voor ontwerp, regelgeving en een realistische route naar uitvoering.</p>
-    <p><a href="https://www.zwijsen.net/contact" target="_blank" rel="noopener noreferrer">Neem contact op</a> als u wilt afstemmen wat er op deze plek mogelijk is.</p>
+    <h3>Van kavel naar ontwerp</h3>
+    <p>Elke kavel stelt zijn eigen eisen: de verhouding tussen bouwvlak en perceel, de oriëntatie op de zon, de relatie met de straat en de buren. Dat vraagt om een ontwerp dat niet alleen voldoet aan de regels, maar ook past bij de plek.</p>
+    <p>Als u nadenkt over wat hier mogelijk is, kunt u <a href="https://www.zwijsen.net/contact" target="_blank" rel="noopener noreferrer">vrijblijvend afstemmen</a> over de uitgangspunten.</p>
   `.trim();
 }

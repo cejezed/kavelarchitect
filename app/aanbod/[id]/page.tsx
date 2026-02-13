@@ -3,22 +3,47 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, XCircle, Bell, Flame } from 'lucide-react';
 import { getListing } from '@/lib/api';
 import { InlineKavelAlert } from '@/components/InlineKavelAlert';
 import { SimilarListings } from '@/components/SimilarListings';
 import { KavelRapportTeaser } from '@/components/KavelRapportTeaser';
 
+function isZwijsenHost(host: string | null) {
+  return (host || '').includes('zwijsen');
+}
+
+function getSiteContent(listing: NonNullable<Awaited<ReturnType<typeof getListing>>>, isZwijsen: boolean) {
+  if (isZwijsen) {
+    return {
+      seoTitle: listing.seo_title_zw || listing.seo_title || listing.adres || 'Bouwkavel',
+      seoSummary: listing.seo_summary_zw || listing.seo_summary || '',
+      seoArticleHtml: listing.seo_article_html_zw || listing.seo_article_html || '',
+      siteName: 'Zwijsen Architecten',
+      canonicalBase: 'https://www.zwijsen.net',
+    };
+  }
+  return {
+    seoTitle: listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel',
+    seoSummary: listing.seo_summary_ka || listing.seo_summary || '',
+    seoArticleHtml: listing.seo_article_html_ka || listing.seo_article_html || '',
+    siteName: 'KavelArchitect',
+    canonicalBase: 'https://kavelarchitect.nl',
+  };
+}
+
 // 1. Generate SEO Metadata dynamically based on the listing data
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id);
   if (!listing) return { title: 'Kavel Niet Gevonden' };
 
-  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
-  const description = listing.seo_summary_ka || listing.seo_summary || '';
-  const title = `${seoTitle} | KavelArchitect`;
+  const host = headers().get('host');
+  const { seoTitle, seoSummary, siteName, canonicalBase } = getSiteContent(listing, isZwijsenHost(host));
+  const description = seoSummary;
+  const title = `${seoTitle} | ${siteName}`;
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
-  const canonicalUrl = `https://kavelarchitect.nl/aanbod/${params.id}`;
+  const canonicalUrl = `${canonicalBase}/aanbod/${params.id}`;
   const priceFormatted = listing.prijs ? `€${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag';
 
   return {
@@ -43,7 +68,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       title,
       description: `${description} | ${priceFormatted} | ${listing.oppervlakte}m²`,
       url: canonicalUrl,
-      siteName: 'KavelArchitect',
+      siteName,
       images: [{
         url: imageUrl,
         width: 1200,
@@ -81,9 +106,8 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
     notFound();
   }
 
-  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
-  const seoSummary = listing.seo_summary_ka || listing.seo_summary || '';
-  const seoArticleHtml = listing.seo_article_html_ka || listing.seo_article_html || '';
+  const host = headers().get('host');
+  const { seoTitle, seoSummary, seoArticleHtml } = getSiteContent(listing, isZwijsenHost(host));
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
   const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
 

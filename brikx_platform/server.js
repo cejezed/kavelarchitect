@@ -217,21 +217,7 @@ app.post('/api/publish/:id', async (req, res) => {
 
     if (fetchError || !listing) return res.status(404).json({ success: false, message: "Kavel niet gevonden" });
 
-    // Run Python publisher if Zwijsen is selected
-    if (sites && sites.includes('zwijsen')) {
-        try {
-            console.log(`Publishing ${id} to Zwijsen...`);
-            // Use path.join and replace backslashes with forward slashes for Python
-            const scriptPath = path.join(process.cwd(), 'backend', 'publish_worker.py').replace(/\\/g, '/');
-            const { stdout, stderr } = await execPromise(`python "${scriptPath}" ${id}`);
-            console.log('Publisher output:', stdout);
-            if (stderr) console.error('Publisher stderr:', stderr);
-        } catch (error) {
-            console.error('Publisher failed:', error);
-            return res.status(500).json({ success: false, message: "Publishing to WordPress failed: " + error.message });
-        }
-    }
-
+    // WordPress publishing disabled
     // 2. Bereid update data voor
     const updateData = {
         status: 'published',
@@ -313,19 +299,7 @@ app.post('/api/publish-all', async (req, res) => {
     // Loop door alle listings en publiceer ze
     for (const listing of pendingListings) {
         try {
-            // Run Python publisher if Zwijsen is selected
-            if (sites.includes('zwijsen')) {
-                try {
-                    console.log(`Publishing ${listing.kavel_id} to Zwijsen...`);
-                    const scriptPath = path.join(process.cwd(), 'backend', 'publish_worker.py').replace(/\\/g, '/');
-                    const { stdout, stderr } = await execPromise(`python "${scriptPath}" ${listing.kavel_id}`);
-                    console.log('Publisher output:', stdout);
-                    if (stderr) console.error('Publisher stderr:', stderr);
-                } catch (error) {
-                    console.error(`Publisher failed for ${listing.kavel_id}:`, error);
-                }
-            }
-
+            // WordPress publishing disabled
             // Update status in database
             const { error: updateError } = await supabase
                 .from('listings')

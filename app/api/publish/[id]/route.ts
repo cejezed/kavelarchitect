@@ -27,15 +27,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         const kavelArchitectArticle = buildKavelArchitectArticle(listing);
         const zwijsenArticle = buildZwijsenArticle(listing);
 
-        // 2. Publish to WordPress (if selected)
-        if (sites && sites.includes('zwijsen')) {
-            try {
-                await createWordPressPost(listing, zwijsenArticle);
-            } catch (error: any) {
-                console.error('WordPress publish failed:', error);
-                // Continue execution, don't block DB update
-            }
-        }
+        // WordPress publishing disabled
 
         // 3. Prepare Update Data
         const updateData: any = {
@@ -44,11 +36,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             updated_at: new Date().toISOString()
         };
 
-        if (sites && sites.includes('kavelarchitect') && listing.status !== 'published') {
+        // Always generate site-specific content on first publish
+        if (listing.status !== 'published') {
             updateData.seo_summary = kavelArchitectSummary;
             updateData.seo_article_html = kavelArchitectArticle;
             updateData.seo_summary_ka = kavelArchitectSummary;
             updateData.seo_article_html_ka = kavelArchitectArticle;
+            updateData.seo_article_html_zw = zwijsenArticle;
         }
 
         if (analysis) {

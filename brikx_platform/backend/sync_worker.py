@@ -376,7 +376,7 @@ def process_single_listing(url: str, listing_info: Dict[str, Any] = None) -> boo
         'image_url': scraped_details.get('image_url') or map_url, # Fallback to map if no image
         'seo_title': pplx_data.get('title') or listing_info.get('title') or adres,
         'seo_summary': pplx_data.get('summary_nl') or pplx_data.get('description_short'),
-        'seo_article_html': pplx_data.get('article_nl'),
+        # seo_article_html is generated at publish time by listingCopy.ts (site-specific _ka/_zw)
         'specs': {
             'gmail': {
                 'price': listing_info.get('price'),

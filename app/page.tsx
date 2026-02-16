@@ -288,41 +288,62 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">
-              Bouwkavels in heel Nederland
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/groenekan.png"
+            alt="Bouwkavel in Groenekan"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-navy-900/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/40 via-transparent to-navy-900/60" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider rounded-full mb-5 border border-white/20">
+              <MapPin size={14} />
+              Actueel aanbod
+            </div>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">
+              Bouwkavels te koop in heel Nederland
             </h2>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              Van orientatie tot aankoop: zoek op regio en ontdek waar kansen liggen voor uw bouwproject.
+            <p className="text-lg text-slate-200 leading-relaxed">
+              Bekijk het actuele aanbod aan bouwkavels. Filter op regio, prijs en oppervlakte en vind de kavel die bij u past.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-              <MapPin className="text-navy-900 mb-3" size={18} />
-              <h3 className="font-bold text-navy-900 mb-2">Populaire regio&apos;s</h3>
-              <p className="text-sm text-slate-600">Bekijk aanbod en context per provincie of gemeente.</p>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-7 border border-white/15 hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <MapPin className="text-white" size={20} />
+              </div>
+              <h3 className="font-bold text-white mb-2">Zoek per regio</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">Van Groningen tot Zeeland: bekijk beschikbare kavels per provincie of gemeente.</p>
             </div>
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-              <SearchCheck className="text-navy-900 mb-3" size={18} />
-              <h3 className="font-bold text-navy-900 mb-2">Gefilterd aanbod</h3>
-              <p className="text-sm text-slate-600">Vind sneller kavels die passen bij uw budget en wensen.</p>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-7 border border-white/15 hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <SearchCheck className="text-white" size={20} />
+              </div>
+              <h3 className="font-bold text-white mb-2">Filter op uw wensen</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">Stel budget, oppervlakte en locatie in en zie direct welke kavels beschikbaar zijn.</p>
             </div>
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-              <ShieldCheck className="text-navy-900 mb-3" size={18} />
-              <h3 className="font-bold text-navy-900 mb-2">Met architectenbegeleiding</h3>
-              <p className="text-sm text-slate-600">Ga van kansrijke match naar onderbouwde beslissing.</p>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-7 border border-white/15 hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <ShieldCheck className="text-white" size={20} />
+              </div>
+              <h3 className="font-bold text-white mb-2">Direct verder met een check</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">Interessante kavel gevonden? Vraag een KavelRapport aan voor zekerheid.</p>
             </div>
           </div>
-          <div className="text-center mt-10">
+          <div className="text-center mt-12">
             <Link
-              href="/regio"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
+              href="/aanbod"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy-900 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
-              Bekijk regio&apos;s
+              Bekijk kavels te koop
               <ArrowRight size={20} />
             </Link>
+            <p className="text-sm text-slate-300/80 mt-4">Dagelijks bijgewerkt met nieuw aanbod uit heel Nederland</p>
           </div>
         </div>
       </section>
@@ -351,27 +372,50 @@ export default function Home() {
 
       <section className="pb-16 bg-white">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="rounded-2xl bg-navy-900 text-white px-6 py-8 md:px-10 md:py-10 text-center">
-            <h2 className="font-serif text-3xl mb-3">Klaar voor de volgende stap?</h2>
-            <p className="text-slate-300 mb-6">Start gratis met KavelAlert of vraag direct een KavelRapport aan.</p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <button
-                onClick={() => {
-                  posthog?.capture?.('cta_kavelalert_bottom_click');
-                  trackKavelAlertClick('home_bottom');
-                  setShowWizard(true);
-                }}
-                className="inline-flex items-center justify-center px-6 py-3 bg-white text-navy-900 font-bold rounded-xl hover:bg-slate-100 transition-colors"
-              >
-                Activeer KavelAlert (gratis)
-              </button>
-              <Link
-                href="/kavelrapport"
-                onClick={() => posthog?.capture?.('cta_kavelrapport_bottom_click')}
-                className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-colors"
-              >
-                Bestel KavelRapport
-              </Link>
+          <p className="text-center text-sm font-medium text-slate-500 mb-6">Klaar voor de volgende stap?</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="relative bg-gradient-to-br from-navy-900 to-slate-800 rounded-2xl p-8 overflow-hidden group">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-5">
+                  <Bell size={22} className="text-white" />
+                </div>
+                <h3 className="font-serif text-2xl text-white mb-2">Nog zoekende?</h3>
+                <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                  Stel uw zoekprofiel in en ontvang dagelijks kavels die bij uw wensen passen. Gratis en direct opzegbaar.
+                </p>
+                <button
+                  onClick={() => {
+                    posthog?.capture?.('cta_kavelalert_bottom_click');
+                    trackKavelAlertClick('home_bottom');
+                    setShowWizard(true);
+                  }}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-navy-900 font-bold rounded-xl hover:bg-emerald-50 transition-colors shadow-md"
+                >
+                  <Bell size={18} />
+                  Activeer KavelAlert (gratis)
+                </button>
+              </div>
+            </div>
+            <div className="relative bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border-2 border-orange-200/80 p-8 overflow-hidden group">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-5">
+                  <FileText size={22} className="text-orange-500" />
+                </div>
+                <h3 className="font-serif text-2xl text-slate-900 mb-2">Kavel op het oog?</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  Laat een architect de bouwregels, risico&apos;s en haalbaarheid beoordelen. Zo weet u waar u aan toe bent.
+                </p>
+                <Link
+                  href="/kavelrapport"
+                  onClick={() => posthog?.capture?.('cta_kavelrapport_bottom_click')}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors shadow-md shadow-orange-500/20"
+                >
+                  Bestel KavelRapport
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>

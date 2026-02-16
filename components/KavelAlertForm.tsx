@@ -148,6 +148,11 @@ export default function KavelAlertForm({ onClose }: { onClose: () => void }) {
 
         {/* Form Content */}
         <div className="flex-1 overflow-y-auto p-6 md:p-10">
+            <div className="mb-6 rounded-xl border border-blue-100 bg-blue-50 p-4">
+                <p className="text-sm text-blue-900">
+                    Na inschrijving ontvangt u alleen kavels die passen bij uw wensen. U kunt zich op elk moment uitschrijven.
+                </p>
+            </div>
             <form onSubmit={handleSubmit}>
                 {step === 'location' && (
                     <div className="space-y-6">

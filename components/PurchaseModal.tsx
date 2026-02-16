@@ -165,6 +165,12 @@ export function PurchaseModal({ listing, tier, onClose }: PurchaseModalProps) {
                         </div>
                     ) : (
                         <div className="space-y-6">
+                            <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
+                                <p className="text-sm text-emerald-900">
+                                    U ontvangt binnen 48 uur een volledig KavelRapport per e-mail.
+                                </p>
+                            </div>
+
                             <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start">
                                 <ShieldCheck className="text-blue-600 shrink-0 mr-3" size={20} />
                                 <div>

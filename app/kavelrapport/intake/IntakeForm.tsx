@@ -130,6 +130,12 @@ export default function IntakeForm() {
             </Link>
           </div>
 
+          <div className="mb-8 rounded-xl border border-emerald-100 bg-emerald-50 p-4">
+            <p className="text-sm text-emerald-900">
+              U ontvangt binnen 48 uur een volledig KavelRapport per e-mail (op werkdagen).
+            </p>
+          </div>
+
           <form className="space-y-8" onSubmit={handleSubmit}>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="border border-slate-200 rounded-2xl p-4">

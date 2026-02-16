@@ -109,7 +109,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
   const host = headers().get('host');
   const { seoTitle, seoSummary, seoArticleHtml } = getSiteContent(listing, isZwijsenHost(host));
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
-  const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
+  const price = typeof listing.prijs === 'number' ? listing.prijs : null;
+  const oppervlakte = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : null;
+  const pricePerSqm = price && oppervlakte && oppervlakte > 0 ? Math.round(price / oppervlakte) : 0;
 
   // 3. Construct Schema.org JSON-LD
   const jsonLd = {
@@ -235,15 +237,15 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Vraagprijs</p>
               <p className="text-2xl font-serif font-bold text-navy-900">
-                {listing.prijs ? `€ ${listing.prijs.toLocaleString('nl-NL')}` : 'Op aanvraag'}
+                {price ? `€ ${price.toLocaleString('nl-NL')}` : 'Op aanvraag'}
               </p>
             </div>
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Oppervlakte</p>
-              <p className="text-2xl font-serif font-bold text-navy-900">{listing.oppervlakte} m²</p>
+              <p className="text-2xl font-serif font-bold text-navy-900">{oppervlakte ? `${oppervlakte} m²` : 'Onbekend'}</p>
             </div>
             <div className="hidden md:block">
-              {listing.prijs && pricePerSqm > 0 && (
+              {pricePerSqm > 0 && (
                 <>
                   <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Prijs / m²</p>
                   <p className="text-2xl font-serif font-bold text-blue-600">€ {pricePerSqm.toLocaleString()} / m²</p>
@@ -322,7 +324,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 <InlineKavelAlert
                   provincie={listing.provincie}
                   plaats={listing.plaats}
-                  prijs={listing.prijs}
+                  prijs={price ?? undefined}
                 />
               </>
             ) : (
@@ -347,7 +349,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 <InlineKavelAlert
                   provincie={listing.provincie}
                   plaats={listing.plaats}
-                  prijs={listing.prijs}
+                  prijs={price ?? undefined}
                   buttonText="Kavel Alert Activeren"
                 />
               </>

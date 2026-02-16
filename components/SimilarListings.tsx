@@ -26,6 +26,10 @@ export function SimilarListings({ currentListing }: SimilarListingsProps) {
                     .filter(l => l.status === 'published') // Only available
                     .map(listing => {
                         let score = 0;
+                        const listingPrice = typeof listing.prijs === 'number' ? listing.prijs : 0;
+                        const currentPrice = typeof currentListing.prijs === 'number' ? currentListing.prijs : 0;
+                        const listingSurface = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : 0;
+                        const currentSurface = typeof currentListing.oppervlakte === 'number' ? currentListing.oppervlakte : 0;
 
                         // Same province gets highest score
                         if (listing.provincie === currentListing.provincie) score += 10;
@@ -34,13 +38,15 @@ export function SimilarListings({ currentListing }: SimilarListingsProps) {
                         if (listing.plaats === currentListing.plaats) score += 5;
 
                         // Price similarity (within 30%)
-                        const priceDiff = Math.abs(listing.prijs - currentListing.prijs) / currentListing.prijs;
-                        if (priceDiff < 0.3) score += 5;
-                        else if (priceDiff < 0.5) score += 3;
+                        if (currentPrice > 0) {
+                            const priceDiff = Math.abs(listingPrice - currentPrice) / currentPrice;
+                            if (priceDiff < 0.3) score += 5;
+                            else if (priceDiff < 0.5) score += 3;
+                        }
 
                         // Size similarity (within 30%)
-                        if (currentListing.oppervlakte > 0) {
-                            const sizeDiff = Math.abs(listing.oppervlakte - currentListing.oppervlakte) / currentListing.oppervlakte;
+                        if (currentSurface > 0) {
+                            const sizeDiff = Math.abs(listingSurface - currentSurface) / currentSurface;
                             if (sizeDiff < 0.3) score += 3;
                             else if (sizeDiff < 0.5) score += 1;
                         }

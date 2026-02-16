@@ -515,7 +515,9 @@ export default async function RegioPage({ params }: { params: { stad: string } }
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {listings.map((listing: Listing) => {
                 const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
-                const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
+                const price = typeof listing.prijs === 'number' ? listing.prijs : null;
+                const oppervlakte = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : null;
+                const pricePerSqm = price && oppervlakte && oppervlakte > 0 ? Math.round(price / oppervlakte) : 0;
 
                 return (
                   <Link
@@ -526,7 +528,7 @@ export default async function RegioPage({ params }: { params: { stad: string } }
                     <div className="relative h-48">
                       <Image
                         src={imageUrl}
-                        alt={`Architect ${cityName} - Bouwkavel ${listing.adres} - ${listing.oppervlakte}m² nieuwbouw project`}
+                        alt={`Architect ${cityName} - Bouwkavel ${listing.adres} - ${oppervlakte ?? 'onbekend'}m² nieuwbouw project`}
                         fill
                         loading="lazy"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -540,12 +542,12 @@ export default async function RegioPage({ params }: { params: { stad: string } }
                       <p className="text-slate-600 text-sm mb-4">{listing.plaats}</p>
                       <div className="flex items-baseline justify-between mb-4">
                         <span className="text-2xl font-bold text-navy-900">
-                          {listing.prijs ? `€ ${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag'}
+                          {price ? `€ ${price.toLocaleString('nl-NL')}` : 'Prijs op aanvraag'}
                         </span>
-                        <span className="text-sm text-slate-500">{listing.oppervlakte} m²</span>
+                        <span className="text-sm text-slate-500">{oppervlakte ? `${oppervlakte} m²` : 'Oppervlakte onbekend'}</span>
                       </div>
                       <div className="text-sm text-slate-600">
-                        {listing.prijs && pricePerSqm > 0 && (
+                        {pricePerSqm > 0 && (
                           <span className="font-medium">€ {pricePerSqm.toLocaleString('nl-NL')} / m²</span>
                         )}
                       </div>

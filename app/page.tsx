@@ -30,7 +30,7 @@ export default function Home() {
         </div>
       )}
 
-      <section className="relative pt-20 pb-20 md:pt-28 md:pb-24 overflow-hidden border-b border-slate-200">
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-20 overflow-hidden border-b border-slate-200">
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-bg.jpg"
@@ -42,122 +42,111 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/20 to-white/95" />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <div className="inline-block py-1.5 px-4 rounded-full bg-blue-50 text-navy-900 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-100">
-            Exclusief voor zelfbouwers
-          </div>
-          <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-6">
-            Vind uw droomkavel en laat hem checken door een architect.
-          </h1>
-          <p className="text-lg text-slate-600 mb-8 max-w-3xl mx-auto font-light leading-relaxed">
-            KavelAlert helpt u sneller de juiste bouwkavel te vinden. KavelRapport geeft u binnen korte tijd
-            helder inzicht in mogelijkheden, risico&apos;s en vervolgstappen.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => {
-                posthog?.capture?.('cta_kavelalert_hero_click');
-                trackKavelAlertClick('home_hero');
-                setShowWizard(true);
-              }}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
-            >
-              <Bell size={20} className="mr-2 sm:mr-3" />
-              Activeer KavelAlert (gratis)
-            </button>
-            <Link
-              href="/kavelrapport"
-              onClick={() => posthog?.capture?.('cta_kavelrapport_hero_click')}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
-            >
-              Bestel KavelRapport
-              <ArrowRight size={18} className="ml-2" />
-            </Link>
-          </div>
-
-          <div className="mt-6">
-            <p className="text-sm text-slate-600 font-medium mb-2">
-              Gratis en vrijblijvend. Geen verplichtingen. Direct opzegbaar.
-            </p>
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
-              <ShieldCheck size={14} />
-              <span>Powered by Architectenbureau Zwijsen</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-4xl mx-auto mb-10 md:mb-14">
+            <div className="inline-block py-1.5 px-4 rounded-full bg-blue-50 text-navy-900 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-100">
+              Exclusief voor zelfbouwers
             </div>
+            <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-4">
+              Vind uw droomkavel en laat hem checken door een architect.
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
+              Twee routes, één doel: de juiste kavel, met zekerheid.
+            </p>
           </div>
-        </div>
-      </section>
 
-      <section className="py-16 bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <h2 className="font-serif text-3xl md:text-4xl text-navy-900 mb-3">Kies uw startpunt</h2>
-            <p className="text-slate-600">Twee duidelijke routes: eerst vinden, daarna beoordelen.</p>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-6">
-            <article className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-navy-900 text-xs font-bold uppercase tracking-wider rounded-full border border-blue-100 mb-4">
-                <Bell size={14} />
-                KavelAlert
+          <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <article className="relative bg-gradient-to-br from-navy-900 to-slate-800 rounded-3xl p-8 md:p-10 shadow-2xl shadow-navy-900/30 flex flex-col overflow-hidden hover:-translate-y-1 transition-all duration-300 group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-emerald-400/10 rounded-full translate-y-1/2 -translate-x-1/4 blur-xl" />
+              <div className="relative z-10 flex flex-col flex-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider rounded-full mb-6 self-start border border-white/10">
+                  <Bell size={14} />
+                  KavelAlert
+                </div>
+                <h2 className="font-serif text-2xl md:text-3xl text-white mb-3">Nieuwe kavels die echt passen</h2>
+                <p className="text-slate-300 mb-6">Gratis zoekprofiel, dagelijks matches in uw inbox.</p>
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-emerald-400" />
+                    </span>
+                    Dagelijkse matching op regio, budget en wensen
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-emerald-400" />
+                    </span>
+                    Alleen relevante kavels in uw inbox
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-emerald-400" />
+                    </span>
+                    Gratis starten, direct weer opzegbaar
+                  </li>
+                </ul>
+                <p className="text-xs text-slate-400 mb-5">Binnen 2 minuten geactiveerd. Geen abonnementskosten.</p>
+                <button
+                  onClick={() => {
+                    posthog?.capture?.('cta_kavelalert_productcard_click');
+                    trackKavelAlertClick('home_product_card');
+                    setShowWizard(true);
+                  }}
+                  className="inline-flex items-center justify-center w-full px-6 py-4 bg-white text-navy-900 font-bold text-lg rounded-xl hover:bg-emerald-50 hover:shadow-lg transition-all duration-200 shadow-md group-hover:shadow-lg"
+                >
+                  <Bell size={20} className="mr-2" />
+                  Activeer KavelAlert (gratis)
+                </button>
               </div>
-              <h3 className="font-serif text-2xl text-navy-900 mb-3">Nieuwe kavels die echt passen</h3>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-start gap-2 text-slate-700">
-                  <Check size={16} className="text-emerald-600 mt-1 shrink-0" />
-                  Dagelijkse matching op regio, budget en wensen
-                </li>
-                <li className="flex items-start gap-2 text-slate-700">
-                  <Check size={16} className="text-emerald-600 mt-1 shrink-0" />
-                  Alleen relevante kavels in uw inbox
-                </li>
-                <li className="flex items-start gap-2 text-slate-700">
-                  <Check size={16} className="text-emerald-600 mt-1 shrink-0" />
-                  Gratis starten, direct weer opzegbaar
-                </li>
-              </ul>
-              <p className="text-xs text-slate-500 mb-5">Binnen 2 minuten geactiveerd. Geen abonnementskosten.</p>
-              <button
-                onClick={() => {
-                  posthog?.capture?.('cta_kavelalert_productcard_click');
-                  trackKavelAlertClick('home_product_card');
-                  setShowWizard(true);
-                }}
-                className="inline-flex items-center justify-center px-5 py-3 bg-navy-900 text-white font-semibold rounded-xl hover:bg-navy-800 transition-colors"
-              >
-                Activeer KavelAlert (gratis)
-              </button>
             </article>
 
-            <article className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold uppercase tracking-wider rounded-full border border-yellow-200 mb-4">
-                <FileText size={14} />
-                KavelRapport
+            <article className="relative bg-gradient-to-br from-orange-50 to-amber-50 rounded-3xl border-2 border-orange-200/80 p-8 md:p-10 shadow-2xl shadow-orange-500/10 flex flex-col overflow-hidden hover:-translate-y-1 transition-all duration-300 group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-300/20 rounded-full translate-y-1/2 -translate-x-1/4 blur-xl" />
+              <div className="relative z-10 flex flex-col flex-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-500 text-white text-xs font-bold uppercase tracking-wider rounded-full mb-6 self-start shadow-sm shadow-orange-500/30">
+                  <FileText size={14} />
+                  KavelRapport
+                </div>
+                <h2 className="font-serif text-2xl md:text-3xl text-slate-900 mb-3">Zekerheid voor u een bod doet</h2>
+                <p className="text-slate-600 mb-6">Persoonlijke analyse van bouwregels, risico&apos;s en haalbaarheid.</p>
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-orange-500" />
+                    </span>
+                    Bouwregels en mogelijkheden in duidelijke taal
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-orange-500" />
+                    </span>
+                    Risico&apos;s en aandachtspunten per locatie
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-orange-500" />
+                    </span>
+                    Persoonlijk beoordeeld door een architect
+                  </li>
+                </ul>
+                <p className="text-xs text-slate-500 mb-5">U weet vooraf of de kavel bij uw plannen past.</p>
+                <Link
+                  href="/kavelrapport"
+                  onClick={() => posthog?.capture?.('cta_kavelrapport_productcard_click')}
+                  className="inline-flex items-center justify-center w-full px-6 py-4 bg-orange-500 text-white font-bold text-lg rounded-xl hover:bg-orange-600 hover:shadow-lg transition-all duration-200 shadow-md shadow-orange-500/20 group-hover:shadow-lg"
+                >
+                  Bestel KavelRapport
+                  <ArrowRight size={20} className="ml-2" />
+                </Link>
               </div>
-              <h3 className="font-serif text-2xl text-navy-900 mb-3">Zekerheid voor u een bod doet</h3>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-start gap-2 text-slate-700">
-                  <Check size={16} className="text-emerald-600 mt-1 shrink-0" />
-                  Bouwregels en mogelijkheden in duidelijke taal
-                </li>
-                <li className="flex items-start gap-2 text-slate-700">
-                  <Check size={16} className="text-emerald-600 mt-1 shrink-0" />
-                  Risico&apos;s en aandachtspunten per locatie
-                </li>
-                <li className="flex items-start gap-2 text-slate-700">
-                  <Check size={16} className="text-emerald-600 mt-1 shrink-0" />
-                  Persoonlijk beoordeeld door een architect
-                </li>
-              </ul>
-              <p className="text-xs text-slate-500 mb-5">U weet vooraf of de kavel bij uw plannen past.</p>
-              <Link
-                href="/kavelrapport"
-                onClick={() => posthog?.capture?.('cta_kavelrapport_productcard_click')}
-                className="inline-flex items-center justify-center px-5 py-3 border-2 border-navy-900 text-navy-900 font-semibold rounded-xl hover:bg-navy-50 transition-colors"
-              >
-                Bestel KavelRapport
-                <ArrowRight size={18} className="ml-2" />
-              </Link>
             </article>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mt-8">
+            <ShieldCheck size={14} />
+            <span>Powered by Architectenbureau Zwijsen</span>
           </div>
         </div>
       </section>
@@ -186,47 +175,114 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-slate-50 border-b border-slate-200">
+      <section className="py-20 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <h2 className="font-serif text-3xl md:text-4xl text-navy-900 mb-3">Hoe het werkt in 3 stappen</h2>
-            <p className="text-slate-600">Een simpele flow voor zoeken en beoordelen.</p>
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <h2 className="font-serif text-3xl md:text-4xl text-navy-900 mb-3">Hoe het werkt</h2>
+            <p className="text-lg text-slate-600">Van zoeken naar zekerheid in een paar stappen.</p>
           </div>
-          <div className="grid lg:grid-cols-2 gap-6">
-            <article className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h3 className="font-bold text-navy-900 mb-4">KavelAlert flow</h3>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
-                  <p className="text-slate-700">Activeer uw zoekprofiel met regio en voorkeuren.</p>
+          <div className="grid lg:grid-cols-2 gap-8">
+            <article className="relative bg-white rounded-3xl border border-slate-200 p-8 shadow-sm overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-navy-900 to-blue-600" />
+              <div className="flex items-center gap-3 mb-8">
+                <span className="w-10 h-10 rounded-xl bg-navy-900 text-white flex items-center justify-center">
+                  <Bell size={20} />
+                </span>
+                <h3 className="font-bold text-xl text-navy-900">KavelAlert</h3>
+              </div>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
+                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
+                  </div>
+                  <div className="pb-2">
+                    <p className="font-semibold text-slate-900 mb-1">Stel uw zoekprofiel in</p>
+                    <p className="text-sm text-slate-500">Regio, budget, oppervlakte en type bouwgrond. Duurt 2 minuten.</p>
+                  </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
-                  <p className="text-slate-700">Ontvang alleen relevante nieuwe kavels per e-mail.</p>
+                <div className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
+                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
+                  </div>
+                  <div className="pb-2">
+                    <p className="font-semibold text-slate-900 mb-1">Ontvang dagelijks matches</p>
+                    <p className="text-sm text-slate-500">Alleen kavels die passen bij uw wensen, direct in uw inbox.</p>
+                  </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">3</span>
-                  <p className="text-slate-700">Interessante kavel gevonden? Vraag direct KavelRapport aan.</p>
+                <div className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center shrink-0">
+                      <Check size={16} />
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900 mb-1">Kavel gevonden? Ga verder</p>
+                    <p className="text-sm text-slate-500">Vraag een KavelRapport aan voor een onderbouwde beoordeling.</p>
+                  </div>
                 </div>
               </div>
+              <button
+                onClick={() => {
+                  posthog?.capture?.('cta_kavelalert_flow_click');
+                  trackKavelAlertClick('home_flow');
+                  setShowWizard(true);
+                }}
+                className="mt-8 inline-flex items-center text-navy-900 font-semibold hover:text-blue-600 transition-colors"
+              >
+                Start gratis <ArrowRight size={16} className="ml-2" />
+              </button>
             </article>
 
-            <article className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h3 className="font-bold text-navy-900 mb-4">KavelRapport flow</h3>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
-                  <p className="text-slate-700">Stuur kavelgegevens in via intake of vanuit het aanbod.</p>
+            <article className="relative bg-white rounded-3xl border border-slate-200 p-8 shadow-sm overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-amber-500" />
+              <div className="flex items-center gap-3 mb-8">
+                <span className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center">
+                  <FileText size={20} />
+                </span>
+                <h3 className="font-bold text-xl text-navy-900">KavelRapport</h3>
+              </div>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 rounded-full bg-orange-500 text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
+                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
+                  </div>
+                  <div className="pb-2">
+                    <p className="font-semibold text-slate-900 mb-1">Stuur de kavelgegevens in</p>
+                    <p className="text-sm text-slate-500">Via het intakeformulier of direct vanuit een kavel in het aanbod.</p>
+                  </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
-                  <p className="text-slate-700">Wij analyseren bouwregels, risico&apos;s en haalbaarheid.</p>
+                <div className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 rounded-full bg-orange-500 text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
+                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
+                  </div>
+                  <div className="pb-2">
+                    <p className="font-semibold text-slate-900 mb-1">Architect analyseert de kavel</p>
+                    <p className="text-sm text-slate-500">Bouwregels, bestemmingsplan, risico&apos;s en haalbaarheid worden beoordeeld.</p>
+                  </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="w-7 h-7 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">3</span>
-                  <p className="text-slate-700">U ontvangt een helder advies voor uw aankoopbeslissing.</p>
+                <div className="flex gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center shrink-0">
+                      <Check size={16} />
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900 mb-1">U weet waar u aan toe bent</p>
+                    <p className="text-sm text-slate-500">Helder rapport met advies, zodat u met vertrouwen een beslissing neemt.</p>
+                  </div>
                 </div>
               </div>
+              <Link
+                href="/kavelrapport"
+                onClick={() => posthog?.capture?.('cta_kavelrapport_flow_click')}
+                className="mt-8 inline-flex items-center text-orange-600 font-semibold hover:text-orange-700 transition-colors"
+              >
+                Bekijk KavelRapport <ArrowRight size={16} className="ml-2" />
+              </Link>
             </article>
           </div>
         </div>

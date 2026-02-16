@@ -9,12 +9,12 @@ function escapeHtml(value: string) {
     .replace(/'/g, '&#39;');
 }
 
-function formatCurrency(value?: number) {
+function formatCurrency(value?: number | null) {
   if (!value) return 'Prijs op aanvraag';
   return `€ ${value.toLocaleString('nl-NL')}`;
 }
 
-function formatSqm(value?: number) {
+function formatSqm(value?: number | null) {
   if (!value) return 'Onbekend';
   return `${value.toLocaleString('nl-NL')} m²`;
 }

@@ -10,12 +10,12 @@ import { InlineKavelAlert } from './InlineKavelAlert';
 export function ListingCard({ listing }: { listing: Listing }) {
   const [showAlert, setShowAlert] = useState(false);
 
-  // Use map_url as fallback for image
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80';
   const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres;
 
-  // Calculate price/m2
-  const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
+  const price = typeof listing.prijs === 'number' ? listing.prijs : null;
+  const oppervlakte = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : null;
+  const pricePerSqm = price && oppervlakte && oppervlakte > 0 ? Math.round(price / oppervlakte) : 0;
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
@@ -27,7 +27,6 @@ export function ListingCard({ listing }: { listing: Listing }) {
           className="object-cover group-hover:scale-105 transition-transform duration-700"
         />
 
-        {/* VERKOCHT Overlay for sold properties */}
         {listing.status === 'sold' && (
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] flex items-center justify-center">
             <div className="bg-red-600 text-white px-6 py-2 rounded-xl font-bold text-lg shadow-2xl transform -rotate-12">
@@ -50,20 +49,19 @@ export function ListingCard({ listing }: { listing: Listing }) {
         <div className="grid grid-cols-2 gap-4 mb-6 border-t border-b border-slate-50 py-4 mt-auto">
           <div>
             <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Oppervlakte</p>
-            <p className="font-bold text-slate-700">{listing.oppervlakte} m²</p>
+            <p className="font-bold text-slate-700">{oppervlakte ? `${oppervlakte} m²` : 'Onbekend'}</p>
           </div>
           <div>
             <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Vraagprijs</p>
             <p className="font-bold text-slate-700">
-              {listing.prijs ? `€ ${listing.prijs.toLocaleString()}` : 'Prijs op aanvraag'}
+              {price ? `€ ${price.toLocaleString('nl-NL')}` : 'Prijs op aanvraag'}
             </p>
-            {listing.prijs && pricePerSqm > 0 && (
-              <p className="text-xs text-slate-400 font-medium">€ {pricePerSqm.toLocaleString()} / m²</p>
+            {pricePerSqm > 0 && (
+              <p className="text-xs text-slate-400 font-medium">€ {pricePerSqm.toLocaleString('nl-NL')} / m²</p>
             )}
           </div>
         </div>
 
-        {/* For sold properties, show KavelAlert button/form */}
         {listing.status === 'sold' ? (
           <div className="space-y-3">
             {!showAlert ? (
@@ -78,7 +76,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
               <InlineKavelAlert
                 provincie={listing.provincie}
                 plaats={listing.plaats}
-                prijs={listing.prijs}
+                prijs={price ?? undefined}
                 autoExpand={true}
               />
             )}

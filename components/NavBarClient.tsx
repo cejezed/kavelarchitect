@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import type { City } from '@/lib/regions';
@@ -20,7 +21,17 @@ export default function NavBarClient({ citiesByProvince, topCities }: NavBarClie
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="h-14 mt-4 flex items-center justify-end">
+        <div className="h-14 mt-4 flex items-center justify-between">
+          <Link href="/" className="rounded-full bg-white/90 backdrop-blur border border-slate-200 shadow-sm px-3 py-1.5">
+            <Image
+              src="/images/kavelarchitect.webp"
+              alt="KavelArchitect"
+              width={140}
+              height={32}
+              className="h-7 w-auto"
+              priority
+            />
+          </Link>
           <div className="p-2 rounded-full bg-white/90 backdrop-blur border border-slate-200 shadow-sm">
             <button
               className="p-2 rounded-full text-slate-700"

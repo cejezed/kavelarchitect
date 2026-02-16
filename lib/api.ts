@@ -5,8 +5,8 @@ export interface Listing {
   adres: string;
   plaats: string;
   provincie: string;
-  prijs: number;
-  oppervlakte: number;
+  prijs: number | null;
+  oppervlakte: number | null;
   lat?: number | null;
   lng?: number | null;
   image_url?: string;

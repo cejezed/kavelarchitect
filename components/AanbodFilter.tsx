@@ -74,15 +74,20 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
 
     // Filter logic
     const filteredListings = useMemo(() => {
+        const numOrZero = (value: number | null | undefined) => (typeof value === 'number' ? value : 0);
+
         let filtered = initialListings.filter(listing => {
+            const listingPrice = numOrZero(listing.prijs);
+            const listingSurface = numOrZero(listing.oppervlakte);
+
             // Sold filter - hide sold listings if toggle is off
             if (!showSold && listing.status === 'sold') return false;
 
             // Price filter
-            if (maxPrice && listing.prijs > maxPrice) return false;
+            if (maxPrice && listingPrice > maxPrice) return false;
 
             // Surface filter
-            if (minSurface && listing.oppervlakte < minSurface) return false;
+            if (minSurface && listingSurface < minSurface) return false;
 
             // Province filter
             if (province !== 'Alle provincies' && listing.provincie !== province) return false;
@@ -102,15 +107,20 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
 
         // Sort logic
         filtered = [...filtered].sort((a, b) => {
+            const priceA = numOrZero(a.prijs);
+            const priceB = numOrZero(b.prijs);
+            const surfaceA = numOrZero(a.oppervlakte);
+            const surfaceB = numOrZero(b.oppervlakte);
+
             switch (sortBy) {
                 case 'price-low':
-                    return a.prijs - b.prijs;
+                    return priceA - priceB;
                 case 'price-high':
-                    return b.prijs - a.prijs;
+                    return priceB - priceA;
                 case 'size-large':
-                    return b.oppervlakte - a.oppervlakte;
+                    return surfaceB - surfaceA;
                 case 'size-small':
-                    return a.oppervlakte - b.oppervlakte;
+                    return surfaceA - surfaceB;
                 case 'newest':
                 default:
                     return 0; // Keep original order

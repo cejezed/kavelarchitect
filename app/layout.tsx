@@ -50,6 +50,10 @@ const organizationSchema = {
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://kavelarchitect.nl'),
+  icons: {
+    icon: '/images/kavelarchitect_icon.webp',
+    apple: '/images/kavelarchitect_icon.webp',
+  },
   title: {
     default: "KavelArchitect | Vind uw Droomkavel",
     template: "%s | KavelArchitect"

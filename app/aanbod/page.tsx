@@ -1,8 +1,8 @@
 
 import Link from 'next/link';
-import { Bell } from 'lucide-react';
 import { AanbodFilter } from '@/components/AanbodFilter';
 import { FloatingAlertButton } from '@/components/FloatingAlertButton';
+import KavelAlertOverlay from '@/components/KavelAlertOverlay';
 // import { AanbodMap } from '@/components/AanbodMap'; // Tijdelijk uitgeschakeld
 import { getListings, type Listing } from '@/lib/api';
 
@@ -85,18 +85,12 @@ export default async function AanbodPage() {
 
                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
                             <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-emerald-900">
-                                <strong>{listings.filter((l: Listing) => l.status === 'published').length}</strong> kavels beschikbaar
+                                <strong>{listings.filter((l: Listing) => l.status === 'published').length}</strong> kavels gepubliceerd
                             </div>
-                            <div className="bg-red-50 border border-red-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-red-900">
-                                <strong>{listings.filter((l: Listing) => l.status === 'sold').length}</strong> verkocht
-                            </div>
-                            <Link
-                                href="/"
+                            <KavelAlertOverlay
+                                buttonText="Activeer KavelAlert"
                                 className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-navy-900 text-white font-bold text-sm md:text-base rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
-                            >
-                                <Bell size={18} className="mr-2" />
-                                Activeer KavelAlert
-                            </Link>
+                            />
                         </div>
                     </div>
 

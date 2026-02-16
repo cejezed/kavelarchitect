@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShieldCheck, Check, CheckCircle2, Crown, ArrowRight, HelpCircle, X, Scale, AlertTriangle, Search } from 'lucide-react';
 import PricingSelector from './PricingSelector';
 
@@ -97,7 +98,7 @@ export default function KavelRapportPage() {
       {/* HERO */}
       <section className="relative pt-32 pb-20 bg-navy-900 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-900 to-blue-900/50" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center lg:items-stretch">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500/20 text-yellow-300 text-xs font-bold uppercase tracking-widest rounded-full border border-yellow-500/50 mb-6">
               <ShieldCheck size={14} />
@@ -128,6 +129,18 @@ export default function KavelRapportPage() {
               >
                 Ik heb al een kavel/woning
               </Link>
+            </div>
+          </div>
+
+          <div className="w-full h-full">
+            <div className="relative mx-auto lg:mx-0 max-w-2xl h-full min-h-[320px] lg:min-h-[520px] rounded-2xl overflow-hidden border border-white/20 shadow-2xl">
+              <Image
+                src="/images/rapporten/kavelarchitect-rapport-kavel-analyse.webp"
+                alt="Voorbeeld van KavelRapport analyse"
+                fill
+                priority
+                className="object-cover"
+              />
             </div>
           </div>
         </div>

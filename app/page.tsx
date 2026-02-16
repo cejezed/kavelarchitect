@@ -50,7 +50,13 @@ export default function Home() {
             <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-4">
               Vind uw droomkavel en laat hem checken door een architect.
             </h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
+           
+             <h2 className="font-serif text-3xl md:text-4xl font-bold text-black mb-6">
+          Twijfel niet achteraf.
+        </h2>
+        <p className="text-slate-800 mb-8 text-lg">
+          Begin met zekerheid voordat u een bod uitbrengt.
+        
               Twee routes, één doel: de juiste kavel, met zekerheid.
             </p>
           </div>
@@ -137,7 +143,7 @@ export default function Home() {
                   onClick={() => posthog?.capture?.('cta_kavelrapport_productcard_click')}
                   className="inline-flex items-center justify-center w-full px-6 py-4 bg-orange-500 text-white font-bold text-lg rounded-xl hover:bg-orange-600 hover:shadow-lg transition-all duration-200 shadow-md shadow-orange-500/20 group-hover:shadow-lg"
                 >
-                  Bestel KavelRapport
+                  Bekijk KavelRapport
                   <ArrowRight size={20} className="ml-2" />
                 </Link>
               </div>

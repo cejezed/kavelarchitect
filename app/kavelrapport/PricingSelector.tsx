@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Check, X } from 'lucide-react';
+import { Check, X, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { Listing } from '@/lib/api';
 import { PurchaseModal, type ReportTier } from '@/components/PurchaseModal';
@@ -37,11 +38,45 @@ const tiers = [
   },
 ];
 
+const REPORT_PREVIEWS: Record<ReportTier, { title: string; images: string[] }> = {
+  check: {
+    title: 'Preview KavelCheck',
+    images: [
+      '/images/rapporten/KA%20rapport%20basis%20Grindweg%20Rotterdam_Page_1.webp',
+      '/images/rapporten/KA%20rapport%20basis%20Grindweg%20Rotterdam_Page_2.webp',
+      '/images/rapporten/KA%20rapport%20basis%20Grindweg%20Rotterdam_Page_3.webp',
+      '/images/rapporten/KA%20rapport%20basis%20Grindweg%20Rotterdam_Page_4.webp',
+    ],
+  },
+  rapport: {
+    title: 'Preview KavelRapport',
+    images: [
+      '/images/rapporten/KA%20rapport%20plus%20Grindweg%20Rotterdam_Page_1.webp',
+      '/images/rapporten/KA%20rapport%20plus%20Grindweg%20Rotterdam_Page_2.webp',
+      '/images/rapporten/KA%20rapport%20plus%20Grindweg%20Rotterdam_Page_3.webp',
+      '/images/rapporten/KA%20rapport%20plus%20Grindweg%20Rotterdam_Page_4.webp',
+      '/images/rapporten/KA%20rapport%20plus%20Grindweg%20Rotterdam_Page_5.webp',
+    ],
+  },
+  premium: {
+    title: 'Preview Premium Review',
+    images: [
+      '/images/rapporten/KA%20rapport%20premium%20Grindweg%20Rotterdam_Page_1.webp',
+      '/images/rapporten/KA%20rapport%20premium%20Grindweg%20Rotterdam_Page_2.webp',
+      '/images/rapporten/KA%20rapport%20premium%20Grindweg%20Rotterdam_Page_3.webp',
+      '/images/rapporten/KA%20rapport%20premium%20Grindweg%20Rotterdam_Page_4.webp',
+      '/images/rapporten/KA%20rapport%20premium%20Grindweg%20Rotterdam_Page_5.webp',
+      '/images/rapporten/KA%20rapport%20premium%20Grindweg%20Rotterdam_Page_6.webp',
+    ],
+  },
+};
+
 export default function PricingSelector() {
   const [selectedTier, setSelectedTier] = useState<(typeof tiers)[number]['key']>('rapport');
   const [showModal, setShowModal] = useState(false);
   const [purchaseListing, setPurchaseListing] = useState<Listing | null>(null);
   const [showPurchase, setShowPurchase] = useState(false);
+  const [previewTier, setPreviewTier] = useState<ReportTier | null>(null);
   const router = useRouter();
 
   return (
@@ -106,6 +141,17 @@ export default function PricingSelector() {
               >
                 {`Start ${tier.title}`}
               </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPreviewTier(tier.key);
+                }}
+                className="mt-2 w-full py-2.5 border border-slate-300 text-slate-700 hover:border-slate-400 rounded-xl text-sm font-semibold inline-flex items-center justify-center gap-2"
+              >
+                <Eye size={16} />
+                Bekijk preview
+              </button>
               <Link
                 href={`/kavelrapport/intake?analysisType=existing_property&tier=${tier.key}`}
                 className="mt-3 text-xs text-center text-slate-500 underline inline-block w-full"
@@ -164,7 +210,115 @@ export default function PricingSelector() {
           }}
         />
       )}
+
+      {previewTier && (
+        <ReportPreviewModal
+          title={REPORT_PREVIEWS[previewTier].title}
+          images={REPORT_PREVIEWS[previewTier].images}
+          onClose={() => setPreviewTier(null)}
+        />
+      )}
     </>
+  );
+}
+
+function ReportPreviewModal({
+  title,
+  images,
+  onClose,
+}: {
+  title: string;
+  images: string[];
+  onClose: () => void;
+}) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const hasMultiple = images.length > 1;
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [images]);
+
+  const goPrev = () => {
+    if (!hasMultiple) return;
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const goNext = () => {
+    if (!hasMultiple) return;
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <div className="fixed inset-0 z-[70] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white w-fit max-w-[96vw] rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+          <h3 className="text-lg font-bold text-navy-900">
+            {title} <span className="text-slate-500 font-semibold text-sm">({currentIndex + 1}/{images.length})</span>
+          </h3>
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-500 hover:text-slate-800 rounded-full p-1"
+            aria-label="Sluiten"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="p-4 md:p-6 bg-slate-50">
+          <div className="relative mx-auto w-fit bg-white rounded-xl border border-slate-200 shadow-sm p-3 md:p-4">
+            {hasMultiple && (
+              <>
+                <button
+                  type="button"
+                  onClick={goPrev}
+                  className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 hover:bg-white border border-slate-200 text-slate-700 shadow flex items-center justify-center"
+                  aria-label="Vorige pagina"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 hover:bg-white border border-slate-200 text-slate-700 shadow flex items-center justify-center"
+                  aria-label="Volgende pagina"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
+
+            <div className="relative mx-auto w-fit">
+              <Image
+                src={images[currentIndex]}
+                alt={`${title} pagina ${currentIndex + 1}`}
+                width={1200}
+                height={1600}
+                className="h-[70vh] max-h-[800px] min-h-[360px] w-auto max-w-[90vw] object-contain bg-white"
+                sizes="(max-width: 768px) 90vw, 1200px"
+                priority
+              />
+            </div>
+          </div>
+
+          {hasMultiple && (
+            <div className="mt-4 flex justify-center gap-2">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setCurrentIndex(index)}
+                  className={`h-2.5 rounded-full transition-all ${
+                    index === currentIndex ? 'w-7 bg-navy-900' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                  aria-label={`Ga naar pagina ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

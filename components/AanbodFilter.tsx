@@ -51,7 +51,6 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
     const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
     const [sortBy, setSortBy] = useState<'newest' | 'price-low' | 'price-high' | 'size-large' | 'size-small'>('newest');
-    const [showSold, setShowSold] = useState<boolean>(true);
 
     // Sync from URL
     useEffect(() => {
@@ -80,8 +79,8 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
             const listingPrice = numOrZero(listing.prijs);
             const listingSurface = numOrZero(listing.oppervlakte);
 
-            // Sold filter - hide sold listings if toggle is off
-            if (!showSold && listing.status === 'sold') return false;
+            // Only show published listings on aanbod page
+            if (listing.status !== 'published') return false;
 
             // Price filter
             if (maxPrice && listingPrice > maxPrice) return false;
@@ -128,7 +127,7 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
         });
 
         return filtered;
-    }, [initialListings, maxPrice, minSurface, province, searchQuery, sortBy, showSold]);
+    }, [initialListings, maxPrice, minSurface, province, searchQuery, sortBy]);
 
     // Quick filter presets
     const quickFilters = [
@@ -207,27 +206,6 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                         <SlidersHorizontal size={18} className="md:mr-2" />
                         <span className="hidden md:inline">Filters</span>
                     </button>
-                </div>
-
-                {/* Show/Hide Sold Toggle */}
-                <div className="flex items-center justify-between pt-3 mt-3 border-t border-slate-100">
-                    <label htmlFor="show-sold" className="flex items-center gap-2 cursor-pointer group">
-                        <input
-                            type="checkbox"
-                            id="show-sold"
-                            checked={showSold}
-                            onChange={(e) => setShowSold(e.target.checked)}
-                            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                        />
-                        <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900">
-                            Toon verkochte kavels
-                        </span>
-                    </label>
-                    {!showSold && (
-                        <span className="text-xs text-slate-500">
-                            {initialListings.filter(l => l.status === 'sold').length} verborgen
-                        </span>
-                    )}
                 </div>
 
                 {/* Extended Filters */}

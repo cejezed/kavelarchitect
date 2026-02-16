@@ -19,8 +19,8 @@ export default function NavBarClient({ citiesByProvince, topCities }: NavBarClie
   }, [citiesByProvince]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pointer-events-auto">
         <div className="h-14 mt-4 flex items-center justify-between">
           <Link href="/" className="rounded-full bg-white/90 backdrop-blur border border-slate-200 shadow-sm px-3 py-1.5">
             <Image
@@ -45,7 +45,7 @@ export default function NavBarClient({ citiesByProvince, topCities }: NavBarClie
       </div>
 
       {open && (
-        <div className="fixed top-16 right-4 sm:right-6 z-40 w-[320px] md:w-[560px] max-w-[90vw]">
+        <div className="fixed top-16 right-4 sm:right-6 z-40 w-[320px] md:w-[560px] max-w-[90vw] pointer-events-auto">
           <div className="rounded-2xl bg-white border border-slate-200 shadow-2xl py-4 px-4 space-y-3">
             <div className="grid gap-2 md:grid-cols-2">
               <div className="space-y-3">

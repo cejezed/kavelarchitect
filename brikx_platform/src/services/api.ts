@@ -1,5 +1,13 @@
 
-import { Listing, DashboardStats, CustomerProfile } from '../types';
+import {
+  Listing,
+  DashboardStats,
+  CustomerProfile,
+  RedditPost,
+  RedditSettings,
+  RedditScanStats,
+  RedditPostStatus
+} from '../types';
 import { supabase } from '../lib/supabase';
 
 // Configuration
@@ -104,6 +112,114 @@ let sessionStats = {
   publishedToday: 0,
   skippedToday: 0,
 };
+
+// --- REDDIT RADAR MOCKS ---
+let mockRedditPosts: RedditPost[] = [
+  {
+    id: 'rd-1001',
+    title: 'Mag ik een dakkapel plaatsen zonder vergunning in Utrecht?',
+    subreddit: 'Utrecht',
+    createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    url: 'https://old.reddit.com/r/Utrecht/comments/abcd12/mag_ik_een_dakkapel_plaatsen/',
+    score: 86,
+    summary: 'Vraagt of een dakkapel vergunningsvrij mag en welke regels in Utrecht gelden.',
+    topic: 'Vergunningsvrij bouwen vs lokale regels in Utrecht.',
+    followupQuestions: [
+      'Wat is de huidige dakhelling en hoogte van de dakkapel?',
+      'Is het een voor- of achtergevel aan openbaar gebied?'
+    ],
+    suggestedReply: [
+      'Leg kort uit dat vergunningsvrij kan, maar alleen binnen landelijke en lokale regels.',
+      'Vraag naar dakvlak en straatbeeld om te bepalen of een vergunning nodig is.',
+      'Adviseer om het omgevingsplan van Utrecht te checken of een vergunningcheck te doen.'
+    ],
+    status: 'new',
+    hasSummary: true
+  },
+  {
+    id: 'rd-1002',
+    title: 'Kosten indicatie voor uitbouw van 3 meter in rijtjeshuis?',
+    subreddit: 'thenetherlands',
+    createdAt: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+    url: 'https://old.reddit.com/r/thenetherlands/comments/efgh34/kosten_indicatie_uitbouw/',
+    score: 71,
+    summary: 'Zoekt budget voor een uitbouw van 3 meter en vraagt naar ervaringen.',
+    topic: 'Budgettering en realistische kosteninschatting voor uitbouw.',
+    followupQuestions: [
+      'Is er funderingswerk nodig en wat is de huidige staat van de achtergevel?',
+      'Wil je standaard afwerking of luxe materiaalkeuzes?'
+    ],
+    suggestedReply: [
+      'Geef een bandbreedte per m2 en noem dat constructiewerk kosten kan verhogen.',
+      'Vraag naar gewenste afwerking en isolatie-eisen.',
+      'Adviseer om offertes van 2-3 aannemers op te vragen.'
+    ],
+    status: 'new',
+    hasSummary: true
+  },
+  {
+    id: 'rd-1003',
+    title: 'Kavel gekocht, welke vergunningen heb ik nodig?',
+    subreddit: 'klussers',
+    createdAt: new Date(Date.now() - 1000 * 60 * 210).toISOString(),
+    url: 'https://old.reddit.com/r/klussers/comments/ijkl56/kavel_vergunningen/',
+    score: 63,
+    summary: 'Nieuwe eigenaar vraagt welke stappen nodig zijn na aankoop van een kavel.',
+    topic: 'Vergunningsproces en stappenplan voor nieuwbouw.',
+    followupQuestions: [
+      'Is er al een omgevingsplan of bestemmingsplan op de kavel van toepassing?',
+      'Heb je een aannemer of architect op het oog?'
+    ],
+    suggestedReply: [
+      'Leg uit dat omgevingsplan, bouwtekening en constructieberekening nodig zijn.',
+      'Adviseer om eerst een vergunningcheck te doen bij de gemeente.',
+      'Noem het voordeel van een architect voor het traject.'
+    ],
+    status: 'seen',
+    hasSummary: true
+  }
+];
+
+let mockRedditSettings: RedditSettings = {
+  subreddits: DEFAULT_SUBREDDITS(),
+  starterSetEnabled: true,
+  includeKeywords: ['vergunning', 'omgevingsplan', 'dakkapel', 'uitbouw', 'kavel', 'kosten'],
+  excludeKeywords: ['studentenkamer', 'huur', 'vakantie'],
+  questionSignals: ['hoe', 'waarom', 'mag ik', 'kosten', 'ervaring'],
+  languageFilterNl: true,
+  scanIntervalMins: 60,
+  maxPostsPerRun: 50,
+  maxItemsPerFeed: 25,
+  politeMode: true,
+  jitterSeconds: 5,
+  backoffSeconds: 30,
+  model: 'gpt-4o-mini',
+  maxOutputTokens: 600,
+  summaryTemplate: 'Geef een NL samenvatting + antwoord-structuur met bullets.',
+  strictJson: true,
+  emailDigest: false,
+  notificationScoreThreshold: 70
+};
+
+let mockRedditStats: RedditScanStats = {
+  lastRun: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+  totalScanned: 42,
+  newPosts: 2,
+  rateLimited: false
+};
+
+function DEFAULT_SUBREDDITS() {
+  return [
+    { name: 'klussers', enabled: true },
+    { name: 'thenetherlands', enabled: true },
+    { name: 'Netherlands', enabled: true },
+    { name: 'Amsterdam', enabled: true },
+    { name: 'Utrecht', enabled: true },
+    { name: 'Rotterdam', enabled: true },
+    { name: 'DenHaag', enabled: true },
+    { name: 'Eindhoven', enabled: true }
+  ];
+}
 
 // Internal state to track connection
 let isConnected = false;
@@ -410,6 +526,110 @@ export const api = {
         message: `(DEMO) ${count} kavels gepubliceerd op ${sites.join(' & ')}`,
         count
       };
+    }
+  },
+  // --- REDDIT RADAR API (Mock + optional backend) ---
+  getRedditPosts: async (): Promise<RedditPost[]> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/posts`);
+      if (!response.ok) throw new Error('Backend offline');
+      return await response.json();
+    } catch (e) {
+      await delay(200);
+      return [...mockRedditPosts];
+    }
+  },
+
+  getRedditSettings: async (): Promise<RedditSettings> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/settings`);
+      if (!response.ok) throw new Error('Backend offline');
+      return await response.json();
+    } catch (e) {
+      await delay(200);
+      return { ...mockRedditSettings };
+    }
+  },
+
+  getRedditStats: async (): Promise<RedditScanStats> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/stats`);
+      if (!response.ok) throw new Error('Backend offline');
+      return await response.json();
+    } catch (e) {
+      await delay(150);
+      return { ...mockRedditStats };
+    }
+  },
+
+  updateRedditSettings: async (settings: RedditSettings): Promise<RedditSettings> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/settings`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings)
+      });
+      if (!response.ok) throw new Error('Backend offline');
+      return await response.json();
+    } catch (e) {
+      await delay(200);
+      mockRedditSettings = { ...settings };
+      return { ...mockRedditSettings };
+    }
+  },
+
+  updateRedditPostStatus: async (postId: string, status: RedditPostStatus): Promise<boolean> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/posts/${postId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      if (!response.ok) throw new Error('Backend offline');
+      return true;
+    } catch (e) {
+      await delay(150);
+      mockRedditPosts = mockRedditPosts.map(post =>
+        post.id === postId ? { ...post, status } : post
+      );
+      return true;
+    }
+  },
+
+  triggerRedditScan: async (): Promise<boolean> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/scan`, { method: 'POST' });
+      if (!response.ok) throw new Error('Backend offline');
+      return true;
+    } catch (e) {
+      await delay(600);
+      mockRedditStats = {
+        ...mockRedditStats,
+        lastRun: new Date().toISOString(),
+        totalScanned: mockRedditStats.totalScanned + 10,
+        newPosts: Math.max(1, Math.min(3, mockRedditPosts.filter(p => p.status === 'new').length + 1))
+      };
+      return true;
+    }
+  },
+
+  ensureRedditSummary: async (postId: string): Promise<RedditPost | null> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/reddit/posts/${postId}/summarize`, { method: 'POST' });
+      if (!response.ok) throw new Error('Backend offline');
+      return await response.json();
+    } catch (e) {
+      await delay(300);
+      const post = mockRedditPosts.find(p => p.id === postId);
+      if (!post) return null;
+      if (!post.summary) {
+        post.summary = 'Samenvatting wordt nog gegenereerd in de backend.';
+        post.topic = post.title;
+        post.followupQuestions = ['Welke details ontbreken nog?'];
+        post.suggestedReply = ['Geef eerst een korte samenvatting voordat je advies geeft.'];
+        post.hasSummary = true;
+      }
+      return { ...post };
     }
   }
 };

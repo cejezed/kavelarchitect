@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
-import { FAQ_ARTICLES } from '@/lib/faqArticles';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -11,16 +10,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articles = await getArticles();
 
   // Fetch all unique cities from published listings for regio pages
-  let cityData: any[] | null = [];
-  try {
-    const { data } = await supabaseAdmin
-      .from('listings')
-      .select('plaats')
-      .eq('status', 'published');
-    cityData = data;
-  } catch (error) {
-    console.error('Sitemap Supabase fetch failed:', error);
-  }
+  const { data: cityData } = await supabaseAdmin
+    .from('listings')
+    .select('plaats')
+    .eq('status', 'published');
 
   const uniqueCities = cityData
     ? Array.from(new Set(cityData.map(item => item.plaats)))
@@ -50,6 +43,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseUrl}/kennisbank`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/gids`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -90,11 +89,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const faqUrls: MetadataRoute.Sitemap = FAQ_ARTICLES.map((faq) => ({
-    url: `${baseUrl}/kennisbank/${faq.slug}`,
-    lastModified: new Date(faq.date),
+  // Dedicated guide routes (same source content, separate guide URL structure)
+  const gidsArticleUrls: MetadataRoute.Sitemap = articles.map((article) => ({
+    url: `${baseUrl}/gids/${article.slug}`,
+    lastModified: new Date(article.modified || article.date),
     changeFrequency: 'monthly',
-    priority: 0.7,
+    priority: 0.75,
   }));
 
   // Programmatic SEO regio pages - dynamically generated from all published cities
@@ -105,5 +105,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85, // High priority for conversion pages
   }));
 
-  return [...staticPages, ...listingUrls, ...articleUrls, ...faqUrls, ...regioUrls];
+  return [...staticPages, ...listingUrls, ...articleUrls, ...gidsArticleUrls, ...regioUrls];
 }

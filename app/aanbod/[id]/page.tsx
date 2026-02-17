@@ -3,34 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { headers } from 'next/headers';
 import { ArrowLeft, CheckCircle2, Ruler, Building2, Star, ExternalLink, XCircle, Bell, Flame } from 'lucide-react';
 import { getListing } from '@/lib/api';
 import { InlineKavelAlert } from '@/components/InlineKavelAlert';
 import { SimilarListings } from '@/components/SimilarListings';
 import { KavelRapportTeaser } from '@/components/KavelRapportTeaser';
 
-function isZwijsenHost(host: string | null) {
-  return (host || '').includes('zwijsen');
-}
-
-function getSiteContent(listing: NonNullable<Awaited<ReturnType<typeof getListing>>>, isZwijsen: boolean) {
-  if (isZwijsen) {
-    return {
-      seoTitle: listing.seo_title_zw || listing.seo_title || listing.adres || 'Bouwkavel',
-      seoSummary: listing.seo_summary_zw || listing.seo_summary || '',
-      seoArticleHtml: listing.seo_article_html_zw || listing.seo_article_html || '',
-      siteName: 'Zwijsen Architecten',
-      canonicalBase: 'https://www.zwijsen.net',
-    };
-  }
-  return {
-    seoTitle: listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel',
-    seoSummary: listing.seo_summary_ka || listing.seo_summary || '',
-    seoArticleHtml: listing.seo_article_html_ka || listing.seo_article_html || '',
-    siteName: 'KavelArchitect',
-    canonicalBase: 'https://kavelarchitect.nl',
-  };
+function buildSeoFallbackTitle(listing: Awaited<ReturnType<typeof getListing>>) {
+  if (!listing) return 'Bouwkavel';
+  const place = listing.plaats || 'Nederland';
+  const address = listing.adres || '';
+  return address ? `Bouwkavel ${place} ${address}` : `Bouwkavel ${place}`;
 }
 
 // 1. Generate SEO Metadata dynamically based on the listing data
@@ -38,12 +21,12 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id);
   if (!listing) return { title: 'Kavel Niet Gevonden' };
 
-  const host = headers().get('host');
-  const { seoTitle, seoSummary, siteName, canonicalBase } = getSiteContent(listing, isZwijsenHost(host));
-  const description = seoSummary;
-  const title = `${seoTitle} | ${siteName}`;
+  const sourceSeoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const seoTitle = sourceSeoTitle.toLowerCase().includes('jules zwijsen') ? buildSeoFallbackTitle(listing) : sourceSeoTitle;
+  const description = listing.seo_summary_ka || listing.seo_summary || '';
+  const title = `${seoTitle} | KavelArchitect`;
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
-  const canonicalUrl = `${canonicalBase}/aanbod/${params.id}`;
+  const canonicalUrl = `https://kavelarchitect.nl/aanbod/${params.id}`;
   const priceFormatted = listing.prijs ? `€${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag';
 
   return {
@@ -68,7 +51,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       title,
       description: `${description} | ${priceFormatted} | ${listing.oppervlakte}m²`,
       url: canonicalUrl,
-      siteName,
+      siteName: 'KavelArchitect',
       images: [{
         url: imageUrl,
         width: 1200,
@@ -106,12 +89,12 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
     notFound();
   }
 
-  const host = headers().get('host');
-  const { seoTitle, seoSummary, seoArticleHtml } = getSiteContent(listing, isZwijsenHost(host));
+  const sourceSeoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const seoTitle = sourceSeoTitle.toLowerCase().includes('jules zwijsen') ? buildSeoFallbackTitle(listing) : sourceSeoTitle;
+  const seoSummary = listing.seo_summary_ka || listing.seo_summary || '';
+  const seoArticleHtml = listing.seo_article_html_ka || listing.seo_article_html || '';
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
-  const price = typeof listing.prijs === 'number' ? listing.prijs : null;
-  const oppervlakte = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : null;
-  const pricePerSqm = price && oppervlakte && oppervlakte > 0 ? Math.round(price / oppervlakte) : 0;
+  const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
 
   // 3. Construct Schema.org JSON-LD
   const jsonLd = {
@@ -237,15 +220,15 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Vraagprijs</p>
               <p className="text-2xl font-serif font-bold text-navy-900">
-                {price ? `€ ${price.toLocaleString('nl-NL')}` : 'Op aanvraag'}
+                {listing.prijs ? `€ ${listing.prijs.toLocaleString('nl-NL')}` : 'Op aanvraag'}
               </p>
             </div>
             <div>
               <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Oppervlakte</p>
-              <p className="text-2xl font-serif font-bold text-navy-900">{oppervlakte ? `${oppervlakte} m²` : 'Onbekend'}</p>
+              <p className="text-2xl font-serif font-bold text-navy-900">{listing.oppervlakte} m²</p>
             </div>
             <div className="hidden md:block">
-              {pricePerSqm > 0 && (
+              {listing.prijs && pricePerSqm > 0 && (
                 <>
                   <p className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Prijs / m²</p>
                   <p className="text-2xl font-serif font-bold text-blue-600">€ {pricePerSqm.toLocaleString()} / m²</p>
@@ -324,7 +307,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 <InlineKavelAlert
                   provincie={listing.provincie}
                   plaats={listing.plaats}
-                  prijs={price ?? undefined}
+                  prijs={listing.prijs}
                 />
               </>
             ) : (
@@ -349,7 +332,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 <InlineKavelAlert
                   provincie={listing.provincie}
                   plaats={listing.plaats}
-                  prijs={price ?? undefined}
+                  prijs={listing.prijs}
                   buttonText="Kavel Alert Activeren"
                 />
               </>

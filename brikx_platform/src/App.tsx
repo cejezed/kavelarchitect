@@ -8,9 +8,10 @@ import { ListingDrawer } from './components/ListingDrawer';
 import { CustomersView } from './components/CustomersView';
 import { PublishedView } from './components/PublishedView';
 import { LoginScreen } from './components/LoginScreen';
-import { LayoutGrid, Loader2, RefreshCw, Wifi, WifiOff, Users, Globe, DownloadCloud, CheckCircle2, AlertTriangle, XCircle, LayoutTemplate, LogOut, Plus } from 'lucide-react';
+import { RedditRadarView } from './components/RedditRadarView';
+import { LayoutGrid, Loader2, RefreshCw, Wifi, WifiOff, Users, Globe, DownloadCloud, CheckCircle2, AlertTriangle, XCircle, LayoutTemplate, LogOut, Plus, Rss } from 'lucide-react';
 
-type View = 'dashboard' | 'customers' | 'published';
+type View = 'dashboard' | 'customers' | 'published' | 'reddit';
 
 function App() {
   // Auth State
@@ -158,6 +159,14 @@ function App() {
             <Globe size={18} className="mr-3" />
             <span className="font-medium">Gepubliceerd</span>
           </button>
+
+          <button
+            onClick={() => setCurrentView('reddit')}
+            className={`w-full flex items-center px-3 py-2.5 rounded-lg transition-colors group ${currentView === 'reddit' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+          >
+            <Rss size={18} className="mr-3" />
+            <span className="font-medium">Reddit Radar</span>
+          </button>
         </nav>
 
         <div className="p-3 border-t border-slate-800 space-y-2">
@@ -284,6 +293,8 @@ function App() {
           {/* VIEW ROUTER */}
           {currentView === 'customers' ? (
             <CustomersView />
+          ) : currentView === 'reddit' ? (
+            <RedditRadarView />
           ) : currentView === 'published' ? (
             <PublishedView />
           ) : (

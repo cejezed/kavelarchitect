@@ -26,6 +26,8 @@ export default function CTASticky({ onOpen }: { onOpen: () => void }) {
             trackKavelAlertClick('home_sticky');
             onOpen();
           }}
+          aria-label="Activeer KavelAlert voor nieuwe bouwkavels te koop"
+          title="Activeer KavelAlert"
           className="w-full py-4 bg-navy-900 text-white font-bold text-lg rounded-xl shadow-2xl flex items-center justify-center"
         >
              <Bell size={20} className="mr-3" />
@@ -35,6 +37,8 @@ export default function CTASticky({ onOpen }: { onOpen: () => void }) {
           <Link
             href="/kavelrapport"
             onClick={() => posthog?.capture?.('cta_sticky_kavelrapport_click')}
+            aria-label="Lees uitleg over KavelRapport"
+            title="Uitleg KavelRapport"
             className="underline underline-offset-4"
           >
             Liever direct uitleg over KavelRapport?

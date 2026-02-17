@@ -1,505 +1,537 @@
-'use client'; // Needed for interactive Wizard modal state
+﻿'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import posthog from 'posthog-js';
-import { Bell, ShieldCheck, LayoutGrid, BookOpen, User, Check, ArrowRight } from 'lucide-react';
+import {
+  Bell,
+  ShieldCheck,
+  BookOpen,
+  User,
+  Check,
+  ArrowRight,
+  FileText,
+  MapPin,
+  SearchCheck,
+} from 'lucide-react';
 import KavelAlertForm from '@/components/KavelAlertForm';
 import CTASticky from '@/components/CTASticky';
 import { trackKavelAlertClick } from '@/lib/analytics';
 
 export default function Home() {
-    const [showWizard, setShowWizard] = useState(false);
-    const [ctaVariant, setCtaVariant] = useState<'alert' | 'rapport'>('alert');
-    const faqJsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: [
-            {
-                '@type': 'Question',
-                name: 'Wat is KavelAlert?',
-                acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'KavelAlert zoekt dagelijks naar nieuwe bouwkavels te koop en stuurt alleen relevante matches door.',
-                },
-            },
-            {
-                '@type': 'Question',
-                name: 'Wanneer kies ik voor een KavelRapport?',
-                acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: "Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden en risico's voordat u een bod doet.",
-                },
-            },
-        ],
-    };
+  const [showWizard, setShowWizard] = useState(false);
 
-    useEffect(() => {
-        const stored = window.localStorage.getItem('cta_variant');
-        const variant = stored === 'alert' || stored === 'rapport'
-            ? stored
-            : Math.random() < 0.5
-                ? 'alert'
-                : 'rapport';
+  return (
+    <main className="min-h-screen bg-white">
+      {showWizard && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
+          <KavelAlertForm onClose={() => setShowWizard(false)} />
+        </div>
+      )}
 
-        if (!stored) {
-            window.localStorage.setItem('cta_variant', variant);
-        }
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-20 overflow-hidden border-b border-slate-200">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/hero-bg.jpg"
+            alt="Bouwkavel met moderne woning als inspiratie"
+            fill
+            priority
+            className="object-cover opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/20 to-white/95" />
+        </div>
 
-        setCtaVariant(variant);
-        posthog?.capture?.('cta_ab_variant_exposed', { variant });
-    }, []);
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-4xl mx-auto mb-10 md:mb-14">
+            <div className="inline-block py-1.5 px-4 rounded-full bg-blue-50 text-navy-900 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-100">
+              Exclusief voor zelfbouwers
+            </div>
+            <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-4">
+              Vind uw droomkavel en laat hem checken door een architect.
+            </h1>
 
-    return (
-        <main className="min-h-screen bg-white">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-            />
-            {/* Wizard Modal */}
-            {showWizard && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
-                    <KavelAlertForm onClose={() => setShowWizard(false)} />
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-black mb-6">
+              Twijfel niet achteraf.
+            </h2>
+            <p className="text-slate-800 mb-8 text-lg">
+              Begin met zekerheid voordat u een bod uitbrengt.
+
+              Twee routes, één doel: de juiste kavel, met zekerheid.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <article className="relative bg-gradient-to-br from-navy-900 to-slate-800 rounded-3xl p-8 md:p-10 shadow-2xl shadow-navy-900/30 flex flex-col overflow-hidden hover:-translate-y-1 transition-all duration-300 group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-emerald-400/10 rounded-full translate-y-1/2 -translate-x-1/4 blur-xl" />
+              <div className="relative z-10 flex flex-col flex-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider rounded-full mb-6 self-start border border-white/10">
+                  <Bell size={14} />
+                  KavelAlert
                 </div>
-            )}
+                <h2 className="font-serif text-2xl md:text-3xl text-white mb-3">Nieuwe kavels die echt passen</h2>
+                <p className="text-slate-300 mb-6">Gratis zoekprofiel, dagelijks matches in uw inbox.</p>
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-emerald-400" />
+                    </span>
+                    Dagelijkse matching op regio, budget en wensen
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-emerald-400" />
+                    </span>
+                    Alleen relevante kavels in uw inbox
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="w-6 h-6 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-emerald-400" />
+                    </span>
+                    Gratis starten, direct weer opzegbaar
+                  </li>
+                </ul>
+                <p className="text-xs text-slate-400 mb-5">Binnen 2 minuten geactiveerd. Geen abonnementskosten.</p>
+                <button
+                  onClick={() => {
+                    posthog?.capture?.('cta_kavelalert_productcard_click');
+                    trackKavelAlertClick('home_product_card');
+                    setShowWizard(true);
+                  }}
+                  className="inline-flex items-center justify-center w-full px-6 py-4 bg-white text-navy-900 font-bold text-lg rounded-xl hover:bg-emerald-50 hover:shadow-lg transition-all duration-200 shadow-md group-hover:shadow-lg"
+                >
+                  <Bell size={20} className="mr-2" />
+                  Activeer KavelAlert (gratis)
+                </button>
+              </div>
+            </article>
 
-            {/* HERO */}
-            <section className="relative pt-20 pb-20 md:pt-32 md:pb-32 overflow-hidden border-b border-slate-200">
-                {/* Background Image */}
-                <div className="absolute inset-0 z-0">
-                    <Image
-                        src="/hero-bg.jpg"
-                        alt="Luxe vrijstaande woning en architectuur voorbeeld"
-                        fill
-                        priority
-                        className="object-cover opacity-30"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-white/10 to-white/90"></div>
+            <article className="relative bg-gradient-to-br from-orange-50 to-amber-50 rounded-3xl border-2 border-orange-200/80 p-8 md:p-10 shadow-2xl shadow-orange-500/10 flex flex-col overflow-hidden hover:-translate-y-1 transition-all duration-300 group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-orange-300/20 rounded-full translate-y-1/2 -translate-x-1/4 blur-xl" />
+              <div className="relative z-10 flex flex-col flex-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-500 text-white text-xs font-bold uppercase tracking-wider rounded-full mb-6 self-start shadow-sm shadow-orange-500/30">
+                  <FileText size={14} />
+                  KavelRapport
+                </div>
+                <h2 className="font-serif text-2xl md:text-3xl text-slate-900 mb-3">Zekerheid voor u een bod doet</h2>
+                <p className="text-slate-600 mb-6">Persoonlijke analyse van bouwregels, risico&apos;s en haalbaarheid.</p>
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-orange-500" />
+                    </span>
+                    Bouwregels en mogelijkheden in duidelijke taal
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-orange-500" />
+                    </span>
+                    Risico&apos;s en aandachtspunten per locatie
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700">
+                    <span className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check size={14} className="text-orange-500" />
+                    </span>
+                    Persoonlijk beoordeeld door een architect
+                  </li>
+                </ul>
+                <p className="text-xs text-slate-500 mb-5">U weet vooraf of de kavel bij uw plannen past.</p>
+                <Link
+                  href="/kavelrapport"
+                  onClick={() => posthog?.capture?.('cta_kavelrapport_productcard_click')}
+                  className="inline-flex items-center justify-center w-full px-6 py-4 bg-orange-500 text-white font-bold text-lg rounded-xl hover:bg-orange-600 hover:shadow-lg transition-all duration-200 shadow-md shadow-orange-500/20 group-hover:shadow-lg"
+                >
+                  Bekijk KavelRapport
+                  <ArrowRight size={20} className="ml-2" />
+                </Link>
+              </div>
+            </article>
+          </div>
+
+          <div className="flex items-center justify-center gap-2 text-xs text-slate-400 mt-8">
+            <ShieldCheck size={14} />
+            <span>Powered by Architectenbureau Zwijsen</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white border-b border-slate-200">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="bg-slate-50 rounded-3xl border border-slate-200 p-6 md:p-8 md:flex md:items-center md:gap-8">
+            <div className="w-28 h-28 md:w-32 md:h-32 relative rounded-full overflow-hidden border-4 border-white shadow-md mx-auto md:mx-0 mb-6 md:mb-0 shrink-0">
+              <Image src="/jules-zwijsen.jpg" alt="Architect Jules Zwijsen" fill className="object-cover" />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Wie beoordeelt mijn kavel?</p>
+              <h2 className="font-serif text-3xl text-navy-900 mb-3">Jules Zwijsen, architect</h2>
+              <p className="text-slate-700 leading-relaxed mb-4">
+                Elk KavelRapport wordt inhoudelijk beoordeeld vanuit praktijkervaring in villabouw en planologische haalbaarheid.
+                U krijgt dus geen generieke output, maar onderbouwd advies dat helpt bij een echte aankoopbeslissing.
+              </p>
+              <Link
+                href="/over-ons"
+                className="inline-flex items-center text-navy-900 font-semibold hover:text-blue-600 transition-colors"
+              >
+                Bekijk achtergrond en aanpak <ArrowRight size={16} className="ml-2" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="font-serif text-3xl md:text-5xl text-navy-900 mb-4">Hoe het werkt</h2>
+            <p className="text-lg text-slate-600">Van zoeken naar zekerheid in drie overzichtelijke stappen.</p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* KavelAlert Flow */}
+            <article className="group bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-14 h-14 rounded-2xl bg-navy-900 text-white flex items-center justify-center shadow-lg shadow-navy-900/20">
+                  <Bell size={28} />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Methode 01</span>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900">KavelAlert</h3>
+                </div>
+              </div>
+
+              <div className="space-y-8 relative">
+                {/* Visual Line */}
+                <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-slate-100 -z-0" />
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-navy-900 text-navy-900 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-navy-900 group-hover/step:text-white">1</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Stel uw zoekprofiel in</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Geef uw voorkeursregio, budget en kavelwensen door. Dit duurt minder dan 2 minuten.</p>
+                  </div>
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-
-                    <div className="order-1 lg:order-1 text-center lg:text-left">
-                        <div className="inline-block py-1.5 px-4 rounded-full bg-blue-50 text-navy-900 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-100">
-                            Exclusief voor Zelfbouwers
-                        </div>
-                        <h1 className="font-serif text-4xl md:text-6xl text-slate-900 leading-tight mb-6">
-                            Bouwkavels Nederland <br />
-                            <span className="text-navy-900">met Architectenbegeleiding</span>
-                        </h1>
-                        <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
-                            Vind <Link href="/aanbod" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">bouwkavels te koop</Link> in heel Nederland.
-                            Wij bewaken dagelijks het kavelaanbod en helpen u met professioneel architectenadvies bij het
-                            <Link href="/diensten" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600 ml-1">kavel kopen</Link>,
-                            beoordelen en realiseren van uw ideale bouwkavel.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            {ctaVariant === 'rapport' ? (
-                                <>
-                                    <Link
-                                        href="/kavelrapport"
-                                        onClick={() => posthog?.capture?.('cta_kavelrapport_ab_click', { variant: 'rapport' })}
-                                        aria-label="Bekijk KavelRapport en laat een bouwkavel controleren door een architect"
-                                        title="Bekijk KavelRapport"
-                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
-                                    >
-                                        Bekijk KavelRapport
-                                        <ArrowRight size={18} className="ml-2" />
-                                    </Link>
-                                    <button
-                                        onClick={() => {
-                                            posthog?.capture?.('cta_kavelalert_hero_click', { variant: 'rapport' });
-                                            trackKavelAlertClick('home_hero');
-                                            setShowWizard(true);
-                                        }}
-                                        aria-label="Activeer KavelAlert voor nieuwe bouwkavels te koop"
-                                        title="Activeer KavelAlert"
-                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
-                                    >
-                                        <Bell size={20} className="mr-2 sm:mr-3" />
-                                        Activeer Mijn Gratis KavelAlert
-                                    </button>
-                                </>
-                            ) : (
-                                <>
-                                    <button
-                                        onClick={() => {
-                                            posthog?.capture?.('cta_kavelalert_hero_click', { variant: 'alert' });
-                                            trackKavelAlertClick('home_hero');
-                                            setShowWizard(true);
-                                        }}
-                                        aria-label="Activeer KavelAlert voor nieuwe bouwkavels te koop"
-                                        title="Activeer KavelAlert"
-                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-navy-900 text-white font-bold text-base sm:text-lg rounded-xl hover:bg-navy-800 transition-all shadow-xl hover:scale-105"
-                                    >
-                                        <Bell size={20} className="mr-2 sm:mr-3" />
-                                        Activeer Mijn Gratis KavelAlert
-                                    </button>
-                                    <Link
-                                        href="/kavelrapport"
-                                        onClick={() => posthog?.capture?.('cta_kavelrapport_hero_click', { variant: 'alert' })}
-                                        aria-label="Bekijk KavelRapport en laat een bouwkavel controleren door een architect"
-                                        title="Bekijk KavelRapport"
-                                        className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-navy-900 text-navy-900 font-bold text-base sm:text-lg rounded-xl hover:bg-navy-50 transition-all shadow-sm"
-                                    >
-                                        Bekijk KavelRapport
-                                        <ArrowRight size={18} className="ml-2" />
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-                        <div className="mt-6 text-center lg:text-left">
-                            <p className="text-sm text-slate-600 font-medium mb-2">
-                                ✓ Gratis & vrijblijvend • Geen verplichtingen • Direct opzegbaar
-                            </p>
-                            <div className="flex items-center justify-center lg:justify-start gap-2 text-xs text-slate-400">
-                                <ShieldCheck size={14} />
-                                <span>Powered by Architectenbureau Zwijsen</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Mobile Mockup Visual */}
-                    <div className="order-2 lg:order-2 flex justify-center">
-                        <div className="relative w-[280px] h-[580px] bg-slate-900 rounded-[40px] border-[8px] border-slate-900 shadow-2xl overflow-hidden">
-                            {/* Phone Screen Content */}
-                            <div className="absolute inset-0 bg-white flex flex-col pt-12 relative">
-                                {/* Notification */}
-                                <div className="absolute top-12 left-4 right-4 z-20 bg-white/90 backdrop-blur p-4 rounded-2xl shadow-lg border border-slate-100 flex gap-3 animate-pulse">
-                                    <div className="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center text-white shrink-0">
-                                        <Bell size={20} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-slate-900">Nieuwe Match!</p>
-                                        <p className="text-xs text-slate-500">Bouwkavel Blaricum - € 1.2m</p>
-                                    </div>
-                                </div>
-
-                                {/* App Interface Mockup */}
-                                <div className="flex-1 bg-white mt-8 rounded-t-3xl overflow-hidden relative">
-                                    {/* App Header */}
-                                    <div className="bg-navy-900 px-4 py-3">
-                                        <div className="flex items-center justify-between mb-3">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                                                    <Bell size={16} className="text-navy-900" />
-                                                </div>
-                                                <span className="text-white font-bold text-sm">KavelAlert</span>
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                                                <span className="text-white/70 text-xs">3 nieuwe</span>
-                                            </div>
-                                        </div>
-                                        <div className="relative">
-                                            <input
-                                                type="text"
-                                                placeholder="Zoek in Noord-Holland..."
-                                                className="w-full bg-white/10 text-white placeholder-white/50 px-3 py-2 rounded-lg text-xs"
-                                                disabled
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* Scrollable Content Area */}
-                                    <div className="bg-gradient-to-b from-slate-50 to-slate-100 p-4 h-full overflow-hidden">
-                                        {/* Section Title */}
-                                        <div className="flex items-center justify-between mb-3">
-                                            <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wide">Voor jou geselecteerd</h4>
-                                            <span className="text-xs text-emerald-600 font-medium">3 matches</span>
-                                        </div>
-
-                                        {/* Mock Kavel Card */}
-                                        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-                                        {/* Card Image with gradient */}
-                                        <div className="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-500 to-blue-600">
-                                            <Image
-                                                src="/hero-bg.jpg"
-                                                alt=""
-                                                fill
-                                                loading="lazy"
-                                                sizes="(max-width: 768px) 60vw, 240px"
-                                                className="object-cover opacity-20"
-                                                aria-hidden="true"
-                                            />
-                                            <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-navy-900">
-                                                Nieuw
-                                            </div>
-                                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
-                                                    <p className="text-white text-xs font-medium mb-1">Blaricum, Noord-Holland</p>
-                                                    <h3 className="text-white font-bold text-lg">Villapark Oost</h3>
-                                                </div>
-                                            </div>
-
-                                            {/* Card Content */}
-                                            <div className="p-4">
-                                                <div className="flex items-baseline gap-2 mb-3">
-                                                    <span className="text-2xl font-bold text-navy-900">€ 1.250.000</span>
-                                                    <span className="text-sm text-slate-500">v.o.n.</span>
-                                                </div>
-                                                <div className="flex items-center gap-4 text-xs text-slate-600 mb-3">
-                                                    <div className="flex items-center gap-1">
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                                                        </svg>
-                                                        <span>1.400 m²</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-1">
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                                        </svg>
-                                                        <span>Max. 850 m³</span>
-                                                    </div>
-                                                </div>
-                                                <button className="w-full py-3 bg-navy-900 text-white font-bold rounded-xl text-sm hover:bg-navy-800 transition-colors">
-                                                    Bekijk Details
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-navy-900 text-navy-900 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-navy-900 group-hover/step:text-white">2</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Ontvang dagelijks matches</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Ons systeem filtert dagelijks het nieuwe aanbod en stuurt alleen relevante kavels naar uw inbox.</p>
+                  </div>
                 </div>
-            </section>
 
-            <section className="py-14 bg-white border-b border-slate-200">
-                <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10">
-                    <div>
-                        <h2 className="font-serif text-3xl text-navy-900 mb-4">Wat is KavelArchitect?</h2>
-                        <p className="text-slate-700 leading-relaxed mb-5">
-                            KavelArchitect helpt particulieren die een bouwkavel willen kopen met twee diensten:
-                            automatisch bouwkavel zoeken en een inhoudelijke kavelcheck door een architect.
-                            Zo weet u sneller welke bouwkavels te koop passen bij uw woonwensen en budget.
-                        </p>
-                        <h3 className="font-bold text-navy-900 mb-3">Voor wie is dit?</h3>
-                        <ul className="space-y-2 text-slate-700">
-                            <li>- Particuliere zelfbouwers die gericht een bouwkavel zoeken</li>
-                            <li>- Gezinnen met villabouwambitie die vooraf risico's willen uitsluiten</li>
-                            <li>- Doorstromers die een kavel willen kopen met zekerheid over haalbaarheid</li>
-                        </ul>
-                    </div>
-                    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                        <h3 className="font-serif text-2xl text-navy-900 mb-5">Korte FAQ</h3>
-                        <div className="space-y-4 text-slate-700">
-                            <div>
-                                <p className="font-semibold text-slate-900">Wat is KavelAlert?</p>
-                                <p>KavelAlert zoekt dagelijks naar nieuwe bouwkavels te koop en stuurt alleen relevante matches door.</p>
-                            </div>
-                            <div>
-                                <p className="font-semibold text-slate-900">Wanneer kies ik voor een KavelRapport?</p>
-                                <p>Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden en risico's voordat u een bod doet.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 border-2 border-emerald-100 text-sm font-bold flex items-center justify-center shrink-0 z-10">
+                    <Check size={18} strokeWidth={3} />
+                  </div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Kavel gevonden? Ga verder</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Heeft u een interessante kavel op het oog? Schakel direct door naar een KavelRapport.</p>
+                  </div>
                 </div>
-            </section>
+              </div>
 
-            {/* SERVICE SHOWCASE: KavelRapport */}
-            <section className="py-20 bg-slate-50 border-b border-slate-200">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="flex flex-col md:flex-row items-center gap-12">
-                        <div className="flex-1">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold uppercase tracking-widest rounded-full border border-yellow-200 mb-6">
-                                <ShieldCheck size={14} />
-                                Zekerheid vóór aankoop
-                            </div>
-                            <h2 className="font-serif text-4xl md:text-5xl text-navy-900 leading-tight mb-2">
-                                KavelRapport - bouwkavel laten controleren door een architect voor bod
-                            </h2>
-                            <p className="text-sm font-semibold text-blue-700 uppercase tracking-wide mb-4">
-                                Kavelcheck voor planologische haalbaarheid en bouwregels
-                            </p>
-                            <p className="font-serif text-3xl text-navy-900 leading-tight mb-6">
-                                Bouwkavel beoordelen <br />
-                                <span className="text-blue-600">vóór u een bod doet</span>
-                            </p>
-                            <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                                Een bouwkavel kopen zonder professionele beoordeling is risicovol. Mag uw droomhuis er wel staan?
-                                Wat zijn de bouwmogelijkheden? Met ons KavelRapport krijgt u als architect direct inzicht in
-                                bestemmingsplan, bouwregels en financiële haalbaarheid voordat u koopt.
-                            </p>
+              <button
+                onClick={() => {
+                  posthog?.capture?.('cta_kavelalert_flow_click');
+                  trackKavelAlertClick('home_flow');
+                  setShowWizard(true);
+                }}
+                className="mt-12 w-full inline-flex items-center justify-center px-6 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-md"
+              >
+                Start nu gratis <ArrowRight size={18} className="ml-2" />
+              </button>
+            </article>
 
-                            <div className="space-y-4 mb-8">
-                                <div className="flex items-start">
-                                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mt-0.5 mr-3 shrink-0">
-                                        <Check size={14} />
-                                    </div>
-                                    <p className="text-slate-700"><strong>Bouwvolume check:</strong> Hoeveel m³ en m² mag u écht bouwen?</p>
-                                </div>
-                                <div className="flex items-start">
-                                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mt-0.5 mr-3 shrink-0">
-                                        <Check size={14} />
-                                    </div>
-                                    <p className="text-slate-700"><strong>Kostenraming:</strong> Realistisch budget voor grond + huis + bijkomende kosten.</p>
-                                </div>
-                                <div className="flex items-start">
-                                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mt-0.5 mr-3 shrink-0">
-                                        <Check size={14} />
-                                    </div>
-                                    <p className="text-slate-700"><strong>Architectenadvies:</strong> Is de zonligging en privacy optimaal?</p>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <Link
-                                    href="/aanbod"
-                                    aria-label="Bekijk bouwkavels te koop en vraag een KavelRapport aan"
-                                    title="Vind een kavel en vraag rapport aan"
-                                    className="inline-flex items-center text-navy-900 font-bold border-b-2 border-navy-900 hover:text-blue-600 hover:border-blue-600 transition-colors pb-1"
-                                >
-                                    Vind uw kavel en vraag rapport aan <ArrowRight size={18} className="ml-2" />
-                                </Link>
-                                <Link
-                                    href="/kavelrapport"
-                                    onClick={() => posthog?.capture?.('cta_kavelrapport_showcase_click')}
-                                    aria-label="Bekijk voorbeelden van KavelRapporten"
-                                    title="Bekijk voorbeelden rapporten"
-                                    className="inline-flex items-center text-blue-600 font-bold border-b-2 border-blue-600 hover:text-blue-700 hover:border-blue-700 transition-colors pb-1"
-                                >
-                                    Bekijk voorbeelden rapporten <ArrowRight size={18} className="ml-2" />
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="flex-1 w-full relative">
-                            {/* Visual representation of the report - Abstract */}
-                            <div className="aspect-[4/5] md:aspect-square bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 relative overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-full -mr-20 -mt-20 blur-3xl opacity-50"></div>
-
-                                <div className="relative z-10 border-b-2 border-slate-100 pb-6 mb-6">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="w-12 h-12 bg-navy-900 rounded-xl flex items-center justify-center text-white">
-                                            <ShieldCheck size={24} />
-                                        </div>
-                                        <div className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">
-                                            Positief Advies
-                                        </div>
-                                    </div>
-                                    <h3 className="font-serif text-2xl text-navy-900 font-bold">KavelRapport™</h3>
-                                    <p className="text-slate-500 text-sm">Locatie: Villapark Weg 1, Blaricum</p>
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="bg-slate-50 p-4 rounded-xl">
-                                        <p className="text-xs text-slate-500 uppercase font-bold mb-1">Max. Bouwvolume</p>
-                                        <div className="flex items-end gap-2">
-                                            <span className="text-2xl font-bold text-navy-900">1.250 m³</span>
-                                            <span className="text-sm text-emerald-600 mb-1">Ruim voldoende</span>
-                                        </div>
-                                    </div>
-                                    <div className="bg-slate-50 p-4 rounded-xl">
-                                        <p className="text-xs text-slate-500 uppercase font-bold mb-1">Totale Investering</p>
-                                        <div className="flex items-end gap-2">
-                                            <span className="text-2xl font-bold text-navy-900">€ 1.85m</span>
-                                            <span className="text-sm text-slate-500 mb-1">incl. grond & bouw</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="pt-2">
-                                        <div className="flex -space-x-2 mb-2">
-                                            {[1, 2, 3].map(i => (
-                                                <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200"></div>
-                                            ))}
-                                        </div>
-                                        <p className="text-xs text-slate-400">Reeds 50+ rapporten uitgegeven deze maand</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            {/* KavelRapport Flow */}
+            <article className="group bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-14 h-14 rounded-2xl bg-orange-500 text-white flex items-center justify-center shadow-lg shadow-orange-500/20">
+                  <FileText size={28} />
                 </div>
-            </section>
-
-            {/* SEO SECTION - Regional Targeting */}
-            <section className="py-16 bg-slate-50 border-y border-slate-200">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="max-w-3xl mx-auto text-center mb-12">
-                        <h2 className="font-serif text-3xl md:text-4xl font-bold text-navy-900 mb-4">
-                            Bouwkavels te koop in heel Nederland
-                        </h2>
-                        <p className="text-lg text-slate-600 leading-relaxed">
-                            Of u nu op zoek bent naar een bouwkavel in Utrecht, Gelderland, Noord-Brabant, Noord-Holland of Zuid-Holland:
-                            wij helpen u met deskundig architectenadvies bij het vinden, beoordelen en kopen van uw ideale bouwkavel.
-                            Zo combineert u snel zoeken met een inhoudelijke kavelcheck voordat u beslist.
-                        </p>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                        <div className="bg-white rounded-xl p-6 border border-slate-200">
-                            <h3 className="font-bold text-navy-900 mb-3">Bouwkavel kopen met architect</h3>
-                            <p className="text-sm text-slate-600 leading-relaxed">
-                                Professionele begeleiding bij het vinden en beoordelen van bouwgrond,
-                                met inzicht in bestemmingsplannen en bouwmogelijkheden.
-                            </p>
-                        </div>
-                        <div className="bg-white rounded-xl p-6 border border-slate-200">
-                            <h3 className="font-bold text-navy-900 mb-3">Bouwgrond in gewilde regio's</h3>
-                            <p className="text-sm text-slate-600 leading-relaxed">
-                                Exclusieve toegang tot off-market kavels in populaire gemeenten
-                                zoals Blaricum, Heemstede, Zeist en omstreken.
-                            </p>
-                        </div>
-                        <div className="bg-white rounded-xl p-6 border border-slate-200">
-                            <h3 className="font-bold text-navy-900 mb-3">Kavel met architectenbegeleiding</h3>
-                            <p className="text-sm text-slate-600 leading-relaxed">
-                                Van haalbaarheidscheck tot vergunningaanvraag -
-                                één aanspreekpunt voor uw bouwproject.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="text-center mt-12">
-                        <Link
-                            href="/diensten"
-                            aria-label="Bekijk alle diensten voor bouwkavel zoeken en kavelcheck"
-                            title="Bekijk alle diensten"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
-                        >
-                            Bekijk alle diensten
-                            <ArrowRight size={20} />
-                        </Link>
-                    </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Methode 02</span>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900">KavelRapport</h3>
                 </div>
-            </section>
+              </div>
 
-            {/* SOFT ESCAPES */}
-            <section className="py-16 bg-white">
-                <div className="max-w-4xl mx-auto px-6">
-                    <p className="text-center text-sm font-medium text-slate-500 mb-8">Meer informatie nodig?</p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <Link href="/aanbod" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
-                            <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
-                                <LayoutGrid size={20} />
-                            </div>
-                            <span className="font-bold text-slate-900 block">Kavels</span>
-                        </Link>
-                        <Link href="/diensten" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
-                            <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
-                                <ShieldCheck size={20} />
-                            </div>
-                            <span className="font-bold text-slate-900 block">Diensten</span>
-                        </Link>
-                        <Link href="/kennisbank" className="p-6 rounded-2xl border border-slate-200 hover:border-navy-900 hover:shadow-lg transition-all text-center group">
-                            <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
-                                <BookOpen size={20} />
-                            </div>
-                            <span className="font-bold text-slate-900 block">Kennisbank</span>
-                        </Link>
-                        <Link href="/over-ons" className="p-6 rounded-2xl border border-slate-200 bg-slate-50 text-center hover:border-navy-900 hover:shadow-lg transition-all group">
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-navy-900 group-hover:text-white transition-colors">
-                                <User size={20} />
-                            </div>
-                            <span className="font-bold text-slate-900 block">Over Ons</span>
-                        </Link>
-                    </div>
-                    <p className="text-center text-sm text-slate-600 mt-8 leading-relaxed">
-                        In de kennisbank vindt u gidsen over <Link href="/kennisbank" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">kavel kopen</Link>,
-                        het omgevingsplan en faalkosten, zodat u beter voorbereid een bouwkavel kiest.
-                    </p>
+              <div className="space-y-8 relative">
+                {/* Visual Line */}
+                <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-slate-100 -z-0" />
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-orange-500 text-orange-500 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-orange-500 group-hover/step:text-white">1</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Stuur kavelgegevens in</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Geef het adres of de link door via ons intakeformulier. U ontvangt direct een bevestiging.</p>
+                  </div>
                 </div>
-            </section>
 
-            <CTASticky onOpen={() => setShowWizard(true)} />
-        </main>
-    );
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-orange-500 text-orange-500 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-orange-500 group-hover/step:text-white">2</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Architect analyseert kavel</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Wij duiken in het omgevingsplan, bouwregels en risico&apos;s om de potentie te toetsen.</p>
+                  </div>
+                </div>
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 border-2 border-emerald-100 text-sm font-bold flex items-center justify-center shrink-0 z-10">
+                    <Check size={18} strokeWidth={3} />
+                  </div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Ontvang uw rapport</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">U krijgt een helder advies van onze architect, zodat u met 100% vertrouwen kunt bieden.</p>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/kavelrapport"
+                onClick={() => posthog?.capture?.('cta_kavelrapport_flow_click')}
+                className="mt-12 w-full inline-flex items-center justify-center px-6 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all shadow-md shadow-orange-500/20"
+              >
+                Bekijk KavelRapport <ArrowRight size={18} className="ml-2" />
+              </Link>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/groenekan.png"
+            alt="Bouwkavel in Groenekan"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-navy-900/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-900/40 via-transparent to-navy-900/60" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-wider rounded-full mb-5 border border-white/20">
+              <MapPin size={14} />
+              Actueel aanbod
+            </div>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">
+              Bouwkavels te koop in heel Nederland
+            </h2>
+            <p className="text-lg text-slate-200 leading-relaxed">
+              Bekijk het actuele aanbod aan bouwkavels. Filter op regio, prijs en oppervlakte en vind de kavel die bij u past.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-7 border border-white/15 hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <MapPin className="text-white" size={20} />
+              </div>
+              <h3 className="font-bold text-white mb-2">Zoek per regio</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">Van Groningen tot Zeeland: bekijk beschikbare kavels per provincie of gemeente.</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-7 border border-white/15 hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <SearchCheck className="text-white" size={20} />
+              </div>
+              <h3 className="font-bold text-white mb-2">Filter op uw wensen</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">Stel budget, oppervlakte en locatie in en zie direct welke kavels beschikbaar zijn.</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-7 border border-white/15 hover:bg-white/15 hover:-translate-y-0.5 transition-all duration-200">
+              <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <ShieldCheck className="text-white" size={20} />
+              </div>
+              <h3 className="font-bold text-white mb-2">Direct verder met een check</h3>
+              <p className="text-sm text-slate-300 leading-relaxed">Interessante kavel gevonden? Vraag een KavelRapport aan voor zekerheid.</p>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <Link
+              href="/aanbod"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy-900 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            >
+              Bekijk kavels te koop
+              <ArrowRight size={20} />
+            </Link>
+            <p className="text-sm text-slate-300/80 mt-4">Dagelijks bijgewerkt met nieuw aanbod uit heel Nederland</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="font-serif text-3xl md:text-5xl text-navy-900 mb-4">
+              Drie gidsen voor rationele keuzes
+            </h2>
+            <p className="text-lg text-slate-600">
+              Onze verdiepende gidsen helpen u bij elke stap: van aankoop tot realisatie.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Link
+              href="/gids/kavel-kopen"
+              className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            >
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src="/images/kavel-kopen-in-2026.webp"
+                  alt="Kavel kopen"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-2.5 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-blue-100">
+                    Aankoop
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">12 min leestijd</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Kavel kopen (2026)</h3>
+                <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
+                  Alles over kosten, voorwaarden, hypotheek en de cruciale risico&apos;s die u moet kennen vóór u tekent.
+                </p>
+                <div className="pt-4 border-t border-slate-100 mt-auto">
+                  <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
+                    Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            <Link
+              href="/gids/wat-mag-ik-bouwen"
+              className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            >
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src="/images/wat-mag-u-bouwen.webp"
+                  alt="Wat mag ik bouwen"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-2.5 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-orange-100">
+                    Regels
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">10 min leestijd</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Wat mag u bouwen?</h3>
+                <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
+                  Uitleg over omgevingsplannen, bouwregels, bijgebouwen en de BOPA procedure die geldt in 2026.
+                </p>
+                <div className="pt-4 border-t border-slate-100 mt-auto">
+                  <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
+                    Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            <Link
+              href="/gids/faalkosten-voorkomen"
+              className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            >
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src="/images/faalkosten-voorkomen-bij-nieuwbouw.webp"
+                  alt="Faalkosten voorkomen"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-100">
+                    Kosten
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">9 min leestijd</span>
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Faalkosten voorkomen</h3>
+                <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
+                  Doorgrond het domino-effect van vroege keuzes en voorkom onnodige bouwkosten door foute aannames.
+                </p>
+                <div className="pt-4 border-t border-slate-100 mt-auto">
+                  <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
+                    Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          <div className="text-center mt-16">
+            <Link
+              href="/gids"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl"
+            >
+              Bekijk kennisbank
+              <ArrowRight size={20} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-16 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <p className="text-center text-sm font-medium text-slate-500 mb-6">Klaar voor de volgende stap?</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="relative bg-gradient-to-br from-navy-900 to-slate-800 rounded-2xl p-8 overflow-hidden group">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-5">
+                  <Bell size={22} className="text-white" />
+                </div>
+                <h3 className="font-serif text-2xl text-white mb-2">Nog zoekende?</h3>
+                <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                  Stel uw zoekprofiel in en ontvang dagelijks kavels die bij uw wensen passen. Gratis en direct opzegbaar.
+                </p>
+                <button
+                  onClick={() => {
+                    posthog?.capture?.('cta_kavelalert_bottom_click');
+                    trackKavelAlertClick('home_bottom');
+                    setShowWizard(true);
+                  }}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-navy-900 font-bold rounded-xl hover:bg-emerald-50 transition-colors shadow-md"
+                >
+                  <Bell size={18} />
+                  Activeer KavelAlert (gratis)
+                </button>
+              </div>
+            </div>
+            <div className="relative bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border-2 border-orange-200/80 p-8 overflow-hidden group">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl" />
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-5">
+                  <FileText size={22} className="text-orange-500" />
+                </div>
+                <h3 className="font-serif text-2xl text-slate-900 mb-2">Kavel op het oog?</h3>
+                <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                  Laat een architect de bouwregels, risico&apos;s en haalbaarheid beoordelen. Zo weet u waar u aan toe bent.
+                </p>
+                <Link
+                  href="/kavelrapport"
+                  onClick={() => posthog?.capture?.('cta_kavelrapport_bottom_click')}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors shadow-md shadow-orange-500/20"
+                >
+                  Bestel KavelRapport
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CTASticky onOpen={() => setShowWizard(true)} />
+    </main>
+  );
 }

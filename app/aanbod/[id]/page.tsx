@@ -94,7 +94,9 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
   const seoSummary = listing.seo_summary_ka || listing.seo_summary || '';
   const seoArticleHtml = listing.seo_article_html_ka || listing.seo_article_html || '';
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
-  const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
+  const listingArea = listing.oppervlakte ?? 0;
+  const listingPrice = listing.prijs ?? 0;
+  const pricePerSqm = listingArea > 0 ? Math.round(listingPrice / listingArea) : 0;
 
   // 3. Construct Schema.org JSON-LD
   const jsonLd = {
@@ -307,7 +309,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 <InlineKavelAlert
                   provincie={listing.provincie}
                   plaats={listing.plaats}
-                  prijs={listing.prijs}
+                  prijs={listing.prijs ?? undefined}
                 />
               </>
             ) : (
@@ -332,7 +334,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
                 <InlineKavelAlert
                   provincie={listing.provincie}
                   plaats={listing.plaats}
-                  prijs={listing.prijs}
+                  prijs={listing.prijs ?? undefined}
                   buttonText="Kavel Alert Activeren"
                 />
               </>

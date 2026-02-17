@@ -78,14 +78,9 @@ export default function RegioFooter() {
             <p className="text-slate-400 text-sm">
               Architectenbureau Jules Zwijsen
               <br />
-              Loenen, Nederland
-              <br />
               <a href="mailto:info@kavelarchitect.nl" className="hover:text-white transition-colors">
                 info@kavelarchitect.nl
               </a>
-            </p>
-            <p className="text-slate-500 text-xs mt-3">
-              Gespecialiseerd in bouwkavels, villabouw en planologische haalbaarheid in Nederland.
             </p>
           </div>
         </div>

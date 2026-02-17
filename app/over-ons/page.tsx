@@ -94,9 +94,6 @@ export default function AboutPage() {
                     </div>
                     <h2 className="font-serif text-3xl font-bold text-navy-900 mb-2">Jules Zwijsen</h2>
                     <p className="text-slate-500 font-medium uppercase tracking-wider text-sm mb-8">Architect & Oprichter</p>
-                    <p className="text-slate-600 max-w-2xl mx-auto mb-8">
-                        Gespecialiseerd in villabouw en planologische haalbaarheid in Nederland, met meer dan 25 jaar ervaring in particuliere woonprojecten.
-                    </p>
 
                     <p className="text-xl text-slate-700 font-light leading-relaxed mb-12">
                         "Als architect zag ik te vaak cliënten met een pas aangekochte kavel binnenlopen, om er vervolgens achter te komen dat hun woonwensen juridisch onmogelijk waren op die specifieke plek. Dat moest anders. Met KavelArchitect draaien we het proces om: we valideren éérst de bouwmogelijkheden, en matchen dan pas de kavel."

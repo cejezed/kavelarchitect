@@ -157,7 +157,6 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                     <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as any)}
-                        aria-label="Sorteer bouwkavels"
                         className="text-sm px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                     >
                         <option value="newest">Nieuwste eerst</option>
@@ -175,7 +174,6 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as any)}
-                    aria-label="Sorteer bouwkavels"
                     className="flex-1 text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                     <option value="newest">Nieuwste eerst</option>
@@ -188,9 +186,6 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
 
             {/* Filter Bar - More compact on mobile */}
             <div className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
-                <p className="text-xs md:text-sm text-slate-500 mb-3">
-                    Filter op prijs, oppervlakte en provincie om sneller de juiste bouwkavel te vinden.
-                </p>
 
                 {/* Search & Toggle */}
                 <div className="flex gap-2 md:gap-4 mb-0">

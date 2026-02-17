@@ -181,113 +181,118 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-slate-50 border-b border-slate-200">
+      <section className="py-24 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <h2 className="font-serif text-3xl md:text-4xl text-navy-900 mb-3">Hoe het werkt</h2>
-            <p className="text-lg text-slate-600">Van zoeken naar zekerheid in een paar stappen.</p>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="font-serif text-3xl md:text-5xl text-navy-900 mb-4">Hoe het werkt</h2>
+            <p className="text-lg text-slate-600">Van zoeken naar zekerheid in drie overzichtelijke stappen.</p>
           </div>
-          <div className="grid lg:grid-cols-2 gap-8">
-            <article className="relative bg-white rounded-3xl border border-slate-200 p-8 shadow-sm overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-navy-900 to-blue-600" />
-              <div className="flex items-center gap-3 mb-8">
-                <span className="w-10 h-10 rounded-xl bg-navy-900 text-white flex items-center justify-center">
-                  <Bell size={20} />
-                </span>
-                <h3 className="font-bold text-xl text-navy-900">KavelAlert</h3>
-              </div>
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
-                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
-                  </div>
-                  <div className="pb-2">
-                    <p className="font-semibold text-slate-900 mb-1">Stel uw zoekprofiel in</p>
-                    <p className="text-sm text-slate-500">Regio, budget, oppervlakte en type bouwgrond. Duurt 2 minuten.</p>
-                  </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* KavelAlert Flow */}
+            <article className="group bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-14 h-14 rounded-2xl bg-navy-900 text-white flex items-center justify-center shadow-lg shadow-navy-900/20">
+                  <Bell size={28} />
                 </div>
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 rounded-full bg-navy-900 text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
-                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
-                  </div>
-                  <div className="pb-2">
-                    <p className="font-semibold text-slate-900 mb-1">Ontvang dagelijks matches</p>
-                    <p className="text-sm text-slate-500">Alleen kavels die passen bij uw wensen, direct in uw inbox.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center shrink-0">
-                      <Check size={16} />
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900 mb-1">Kavel gevonden? Ga verder</p>
-                    <p className="text-sm text-slate-500">Vraag een KavelRapport aan voor een onderbouwde beoordeling.</p>
-                  </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Methode 01</span>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900">KavelAlert</h3>
                 </div>
               </div>
+
+              <div className="space-y-8 relative">
+                {/* Visual Line */}
+                <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-slate-100 -z-0" />
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-navy-900 text-navy-900 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-navy-900 group-hover/step:text-white">1</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Stel uw zoekprofiel in</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Geef uw voorkeursregio, budget en kavelwensen door. Dit duurt minder dan 2 minuten.</p>
+                  </div>
+                </div>
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-navy-900 text-navy-900 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-navy-900 group-hover/step:text-white">2</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Ontvang dagelijks matches</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Ons systeem filtert dagelijks het nieuwe aanbod en stuurt alleen relevante kavels naar uw inbox.</p>
+                  </div>
+                </div>
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 border-2 border-emerald-100 text-sm font-bold flex items-center justify-center shrink-0 z-10">
+                    <Check size={18} strokeWidth={3} />
+                  </div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Kavel gevonden? Ga verder</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Heeft u een interessante kavel op het oog? Schakel direct door naar een KavelRapport.</p>
+                  </div>
+                </div>
+              </div>
+
               <button
                 onClick={() => {
                   posthog?.capture?.('cta_kavelalert_flow_click');
                   trackKavelAlertClick('home_flow');
                   setShowWizard(true);
                 }}
-                className="mt-8 inline-flex items-center text-navy-900 font-semibold hover:text-blue-600 transition-colors"
+                className="mt-12 w-full inline-flex items-center justify-center px-6 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-md"
               >
-                Start gratis <ArrowRight size={16} className="ml-2" />
+                Start nu gratis <ArrowRight size={18} className="ml-2" />
               </button>
             </article>
 
-            <article className="relative bg-white rounded-3xl border border-slate-200 p-8 shadow-sm overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-amber-500" />
-              <div className="flex items-center gap-3 mb-8">
-                <span className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center">
-                  <FileText size={20} />
-                </span>
-                <h3 className="font-bold text-xl text-navy-900">KavelRapport</h3>
-              </div>
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 rounded-full bg-orange-500 text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
-                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
-                  </div>
-                  <div className="pb-2">
-                    <p className="font-semibold text-slate-900 mb-1">Stuur de kavelgegevens in</p>
-                    <p className="text-sm text-slate-500">Via het intakeformulier of direct vanuit een kavel in het aanbod.</p>
-                  </div>
+            {/* KavelRapport Flow */}
+            <article className="group bg-white rounded-3xl border border-slate-200 p-10 shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-14 h-14 rounded-2xl bg-orange-500 text-white flex items-center justify-center shadow-lg shadow-orange-500/20">
+                  <FileText size={28} />
                 </div>
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 rounded-full bg-orange-500 text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
-                    <div className="w-0.5 flex-1 bg-slate-200 my-1" />
-                  </div>
-                  <div className="pb-2">
-                    <p className="font-semibold text-slate-900 mb-1">Architect analyseert de kavel</p>
-                    <p className="text-sm text-slate-500">Bouwregels, bestemmingsplan, risico&apos;s en haalbaarheid worden beoordeeld.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="w-8 h-8 rounded-full bg-emerald-500 text-white text-sm font-bold flex items-center justify-center shrink-0">
-                      <Check size={16} />
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-900 mb-1">U weet waar u aan toe bent</p>
-                    <p className="text-sm text-slate-500">Helder rapport met advies, zodat u met vertrouwen een beslissing neemt.</p>
-                  </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Methode 02</span>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900">KavelRapport</h3>
                 </div>
               </div>
+
+              <div className="space-y-8 relative">
+                {/* Visual Line */}
+                <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-slate-100 -z-0" />
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-orange-500 text-orange-500 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-orange-500 group-hover/step:text-white">1</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Stuur kavelgegevens in</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Geef het adres of de link door via ons intakeformulier. U ontvangt direct een bevestiging.</p>
+                  </div>
+                </div>
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-white border-2 border-orange-500 text-orange-500 text-sm font-bold flex items-center justify-center shrink-0 z-10 transition-colors group-hover/step:bg-orange-500 group-hover/step:text-white">2</div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Architect analyseert kavel</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">Wij duiken in het omgevingsplan, bouwregels en risico&apos;s om de potentie te toetsen.</p>
+                  </div>
+                </div>
+
+                <div className="relative flex gap-6 group/step">
+                  <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 border-2 border-emerald-100 text-sm font-bold flex items-center justify-center shrink-0 z-10">
+                    <Check size={18} strokeWidth={3} />
+                  </div>
+                  <div className="pt-0.5">
+                    <p className="font-bold text-navy-900 mb-1">Ontvang uw rapport</p>
+                    <p className="text-slate-600 text-sm leading-relaxed">U krijgt een helder advies van onze architect, zodat u met 100% vertrouwen kunt bieden.</p>
+                  </div>
+                </div>
+              </div>
+
               <Link
                 href="/kavelrapport"
                 onClick={() => posthog?.capture?.('cta_kavelrapport_flow_click')}
-                className="mt-8 inline-flex items-center text-orange-600 font-semibold hover:text-orange-700 transition-colors"
+                className="mt-12 w-full inline-flex items-center justify-center px-6 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all shadow-md shadow-orange-500/20"
               >
-                Bekijk KavelRapport <ArrowRight size={16} className="ml-2" />
+                Bekijk KavelRapport <ArrowRight size={18} className="ml-2" />
               </Link>
             </article>
           </div>

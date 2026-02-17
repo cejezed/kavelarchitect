@@ -61,6 +61,9 @@ export default function NavBarClient({ citiesByProvince, topCities }: NavBarClie
                 <Link href="/kennisbank" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
                   Kennisbank
                 </Link>
+                <Link href="/gids" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
+                  Gidsen
+                </Link>
                 <Link href="/over-ons" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
                   Over Ons
                 </Link>
@@ -83,6 +86,38 @@ export default function NavBarClient({ citiesByProvince, topCities }: NavBarClie
                 <div className="max-h-[60vh] overflow-auto pr-1">
                   <div className="grid gap-4 md:grid-cols-2">
                     <div>
+                      <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2">
+                        Gidsen cluster
+                      </p>
+                      <ul className="space-y-1 mb-4">
+                        <li>
+                          <Link
+                            href="/gids/kavel-kopen"
+                            onClick={() => setOpen(false)}
+                            className="text-xs text-slate-600 hover:text-navy-900 transition-colors"
+                          >
+                            Kavel kopen (2026)
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/gids/wat-mag-ik-bouwen"
+                            onClick={() => setOpen(false)}
+                            className="text-xs text-slate-600 hover:text-navy-900 transition-colors"
+                          >
+                            Wat mag ik bouwen?
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            href="/gids/faalkosten-voorkomen"
+                            onClick={() => setOpen(false)}
+                            className="text-xs text-slate-600 hover:text-navy-900 transition-colors"
+                          >
+                            Faalkosten voorkomen
+                          </Link>
+                        </li>
+                      </ul>
                       <p className="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-2">
                         Populaire regio's
                       </p>

@@ -355,6 +355,64 @@ export default function Home() {
       </section>
 
       <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-6 mb-12">
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+            <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
+              Pijlergidsen
+            </p>
+            <h2 className="font-serif text-2xl md:text-3xl text-navy-900 text-center mb-3">
+              Drie gidsen voor rationele keuzes vóór aankoop
+            </h2>
+            <p className="text-center text-slate-600 max-w-2xl mx-auto mb-8">
+              Lees de complete route: eerst aankooprisico, dan planologische
+              ruimte, daarna faalkostenbeheersing.
+            </p>
+            <div className="grid md:grid-cols-3 gap-4">
+              <Link
+                href="/gids/kavel-kopen"
+                className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-navy-900 hover:shadow-md transition-all group"
+              >
+                <h3 className="font-bold text-slate-900 mb-2 group-hover:text-navy-900">
+                  Kavel kopen (2026)
+                </h3>
+                <p className="text-sm text-slate-600">
+                  Kosten, voorwaarden, hypotheek en pre-aankooprisico&apos;s.
+                </p>
+              </Link>
+              <Link
+                href="/gids/wat-mag-ik-bouwen"
+                className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-navy-900 hover:shadow-md transition-all group"
+              >
+                <h3 className="font-bold text-slate-900 mb-2 group-hover:text-navy-900">
+                  Wat mag ik bouwen?
+                </h3>
+                <p className="text-sm text-slate-600">
+                  Omgevingsplan, peil, bijgebouwen, BOPA en vergunningduur.
+                </p>
+              </Link>
+              <Link
+                href="/gids/faalkosten-voorkomen"
+                className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-navy-900 hover:shadow-md transition-all group"
+              >
+                <h3 className="font-bold text-slate-900 mb-2 group-hover:text-navy-900">
+                  Faalkosten voorkomen
+                </h3>
+                <p className="text-sm text-slate-600">
+                  Waarom projecten uitlopen en hoe u dat vooraf voorkomt.
+                </p>
+              </Link>
+            </div>
+            <div className="text-center mt-6">
+              <Link
+                href="/gids"
+                className="inline-flex items-center gap-2 text-navy-900 font-semibold hover:text-blue-600 transition-colors"
+              >
+                Bekijk alle gidsen <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <div className="max-w-5xl mx-auto px-6">
           <p className="text-center text-sm font-medium text-slate-500 mb-8">Meer verdieping</p>
           <div className="grid md:grid-cols-2 gap-4">

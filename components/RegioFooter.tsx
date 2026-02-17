@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 
 export default function RegioFooter() {
   return (
@@ -19,7 +19,7 @@ export default function RegioFooter() {
 
         <div className="border-t border-slate-700 my-8"></div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <h4 className="font-bold mb-4">KavelArchitect</h4>
             <p className="text-slate-400 text-sm leading-relaxed">
@@ -46,8 +46,33 @@ export default function RegioFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/gids" className="text-slate-400 hover:text-white transition-colors">
+                  Gidsen
+                </Link>
+              </li>
+              <li>
                 <Link href="/over-ons" className="text-slate-400 hover:text-white transition-colors">
                   Over Ons
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold mb-4">Pijlergidsen</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/gids/kavel-kopen" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel kopen (2026)
+                </Link>
+              </li>
+              <li>
+                <Link href="/gids/wat-mag-ik-bouwen" className="text-slate-400 hover:text-white transition-colors">
+                  Wat mag ik bouwen?
+                </Link>
+              </li>
+              <li>
+                <Link href="/gids/faalkosten-voorkomen" className="text-slate-400 hover:text-white transition-colors">
+                  Faalkosten voorkomen
                 </Link>
               </li>
             </ul>

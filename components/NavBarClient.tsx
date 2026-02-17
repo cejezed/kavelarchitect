@@ -58,9 +58,7 @@ export default function NavBarClient({ citiesByProvince, topCities }: NavBarClie
                 <Link href="/diensten" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
                   Diensten
                 </Link>
-                <Link href="/kennisbank" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
-                  Kennisbank
-                </Link>
+
                 <Link href="/gids" onClick={() => setOpen(false)} className="block text-sm font-semibold text-slate-700 hover:text-navy-900">
                   Gidsen
                 </Link>

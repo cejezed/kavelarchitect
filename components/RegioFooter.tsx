@@ -40,11 +40,7 @@ export default function RegioFooter() {
                   Diensten
                 </Link>
               </li>
-              <li>
-                <Link href="/kennisbank" className="text-slate-400 hover:text-white transition-colors">
-                  Kennisbank
-                </Link>
-              </li>
+
               <li>
                 <Link href="/gids" className="text-slate-400 hover:text-white transition-colors">
                   Gidsen

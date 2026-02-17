@@ -9,12 +9,20 @@ import { InlineKavelAlert } from '@/components/InlineKavelAlert';
 import { SimilarListings } from '@/components/SimilarListings';
 import { KavelRapportTeaser } from '@/components/KavelRapportTeaser';
 
+function buildSeoFallbackTitle(listing: Awaited<ReturnType<typeof getListing>>) {
+  if (!listing) return 'Bouwkavel';
+  const place = listing.plaats || 'Nederland';
+  const address = listing.adres || '';
+  return address ? `Bouwkavel ${place} ${address}` : `Bouwkavel ${place}`;
+}
+
 // 1. Generate SEO Metadata dynamically based on the listing data
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id);
   if (!listing) return { title: 'Kavel Niet Gevonden' };
 
-  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const sourceSeoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const seoTitle = sourceSeoTitle.toLowerCase().includes('jules zwijsen') ? buildSeoFallbackTitle(listing) : sourceSeoTitle;
   const description = listing.seo_summary_ka || listing.seo_summary || '';
   const title = `${seoTitle} | KavelArchitect`;
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
@@ -81,7 +89,8 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
     notFound();
   }
 
-  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const sourceSeoTitle = listing.seo_title_ka || listing.seo_title || listing.adres || 'Bouwkavel';
+  const seoTitle = sourceSeoTitle.toLowerCase().includes('jules zwijsen') ? buildSeoFallbackTitle(listing) : sourceSeoTitle;
   const seoSummary = listing.seo_summary_ka || listing.seo_summary || '';
   const seoArticleHtml = listing.seo_article_html_ka || listing.seo_article_html || '';
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';

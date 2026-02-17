@@ -7,12 +7,38 @@ import { MapPin, ArrowRight, Bell } from 'lucide-react';
 import { Listing } from '@/lib/api';
 import { InlineKavelAlert } from './InlineKavelAlert';
 
+function buildListingHeadline(listing: Listing) {
+  const place = listing.plaats || 'Nederland';
+  const address = listing.adres || '';
+  const idSeed = (listing.kavel_id || '').split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  const variants = [
+    'vrijstaande villa mogelijk',
+    'kavel voor vrijstaande woning',
+    'zelfbouwkavel met potentie',
+  ];
+  const suffix = variants[idSeed % variants.length];
+
+  if (!address) return `Bouwkavel ${place} - ${suffix}`;
+  return `Bouwkavel ${place} ${address} - ${suffix}`;
+}
+
+function buildWoonmilieu(listing: Listing) {
+  const area = listing.oppervlakte || 0;
+  if (area >= 2000) return 'Woonmilieu: landelijk en ruim opgezet';
+  if (area >= 1000) return 'Woonmilieu: ruim villamilieu';
+  return 'Woonmilieu: dorps of stadsrand';
+}
+
 export function ListingCard({ listing }: { listing: Listing }) {
   const [showAlert, setShowAlert] = useState(false);
 
   // Use map_url as fallback for image
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80';
-  const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres;
+  const sourceTitle = listing.seo_title_ka || listing.seo_title || listing.adres || '';
+  const isBrandedTitle = sourceTitle.toLowerCase().includes('jules zwijsen');
+  const isTooLongTitle = sourceTitle.length > 85;
+  const displayTitle = !sourceTitle || isBrandedTitle || isTooLongTitle ? buildListingHeadline(listing) : sourceTitle;
+  const woonmilieu = buildWoonmilieu(listing);
 
   // Calculate price/m2
   const pricePerSqm = listing.oppervlakte > 0 ? Math.round(listing.prijs / listing.oppervlakte) : 0;
@@ -43,9 +69,10 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
       <div className="p-6 flex-1 flex flex-col">
         <h3 className="font-serif text-xl font-bold text-navy-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
-          {seoTitle}
+          {displayTitle}
         </h3>
-        <p className="text-sm text-slate-500 mb-4">{listing.plaats}, {listing.provincie}</p>
+        <p className="text-sm text-slate-500 mb-2">{listing.plaats}, {listing.provincie}</p>
+        <p className="text-xs text-slate-500 mb-4">{woonmilieu}. Aanrader: laat de bouwmogelijkheden toetsen met een KavelRapport.</p>
 
         <div className="grid grid-cols-2 gap-4 mb-6 border-t border-b border-slate-50 py-4 mt-auto">
           <div>

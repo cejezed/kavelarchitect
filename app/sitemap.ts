@@ -48,6 +48,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/gids`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/kavelrapport`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -83,6 +89,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // Dedicated guide routes (same source content, separate guide URL structure)
+  const gidsArticleUrls: MetadataRoute.Sitemap = articles.map((article) => ({
+    url: `${baseUrl}/gids/${article.slug}`,
+    lastModified: new Date(article.modified || article.date),
+    changeFrequency: 'monthly',
+    priority: 0.75,
+  }));
+
   // Programmatic SEO regio pages - dynamically generated from all published cities
   const regioUrls: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
     url: `${baseUrl}/regio/${city}`,
@@ -91,5 +105,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85, // High priority for conversion pages
   }));
 
-  return [...staticPages, ...listingUrls, ...articleUrls, ...regioUrls];
+  return [...staticPages, ...listingUrls, ...articleUrls, ...gidsArticleUrls, ...regioUrls];
 }

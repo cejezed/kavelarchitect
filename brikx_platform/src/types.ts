@@ -73,3 +73,51 @@ export interface DashboardStats {
     lastCheck: string | null;
   };
 }
+
+export type RedditPostStatus = 'new' | 'seen' | 'answered' | 'ignored';
+
+export interface RedditPost {
+  id: string;
+  title: string;
+  subreddit: string;
+  createdAt: string;
+  url: string;
+  score: number;
+  summary: string;
+  topic: string;
+  followupQuestions: string[];
+  suggestedReply: string[];
+  status: RedditPostStatus;
+  seenAt?: string | null;
+  answeredAt?: string | null;
+  language?: string | null;
+  hasSummary?: boolean;
+}
+
+export interface RedditSettings {
+  subreddits: { name: string; enabled: boolean }[];
+  starterSetEnabled: boolean;
+  includeKeywords: string[];
+  excludeKeywords: string[];
+  questionSignals: string[];
+  languageFilterNl: boolean;
+  scanIntervalMins: number;
+  maxPostsPerRun: number;
+  maxItemsPerFeed?: number;
+  politeMode: boolean;
+  jitterSeconds?: number;
+  backoffSeconds?: number;
+  model: string;
+  maxOutputTokens: number;
+  summaryTemplate: string;
+  strictJson: boolean;
+  emailDigest: boolean;
+  notificationScoreThreshold: number;
+}
+
+export interface RedditScanStats {
+  lastRun: string | null;
+  totalScanned: number;
+  newPosts: number;
+  rateLimited: boolean;
+}

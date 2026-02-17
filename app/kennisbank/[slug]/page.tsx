@@ -7,6 +7,70 @@ import InlineCTA from '@/components/InlineCTA';
 import { getArticle, getArticles, WORDPRESS_SITE_URL, getListings } from '../../../lib/api';
 import ElementorContent from '@/components/ElementorContent';
 
+type PillarType = 'faalkosten' | 'kavel-kopen' | 'bouwregels' | null;
+
+type PillarConfig = {
+    title: string;
+    description: string;
+    routeLabel: string;
+    intro: string;
+    faq: Array<{ q: string; a: string }>;
+};
+
+function getPillarType(slug: string, rawTitle: string): PillarType {
+    const text = `${slug} ${rawTitle}`.toLowerCase();
+    if (text.includes('faalkosten')) return 'faalkosten';
+    if (text.includes('bouwen') || text.includes('omgevingsplan') || text.includes('bouwregels')) return 'bouwregels';
+    if (text.includes('kavel') && text.includes('koop')) return 'kavel-kopen';
+    return null;
+}
+
+function getPillarConfig(type: PillarType): PillarConfig | null {
+    if (type === 'faalkosten') {
+        return {
+            title: 'Faalkosten bij nieuwbouw voorkomen in 2026 | KavelArchitect',
+            description: 'Voorkom faalkosten bij nieuwbouw met praktische stappen voor zelfbouw, villabouw en bouwkavel kopen. Inzicht in risico\'s, budget en voorbereiding.',
+            routeLabel: 'Onderdeel van de kavel-strategie-route',
+            intro: 'Deze gids is bedoeld voor particuliere zelfbouwers, villabouw en sloop-nieuwbouw in Nederland. U leert hoe u faalkosten bij zelfbouw beperkt en faalkosten voorkomt voor kavelaankoop.',
+            faq: [
+                { q: 'Hoe voorkomt u faalkosten bij zelfbouw?', a: 'Door vroeg planologische regels, budget en ontwerpkeuzes te toetsen voordat u verplichtingen aangaat.' },
+                { q: 'Wanneer ontstaan de grootste faalkosten?', a: 'Meestal in de fase voor aankoop of ontwerp, door onduidelijke bouwregels en verkeerde aannames over haalbaarheid.' },
+                { q: 'Helpt een kavelcheck tegen faalkosten?', a: 'Ja. Een inhoudelijke kavelcheck voorkomt miskopen en reduceert dure bijsturing later in het traject.' },
+            ],
+        };
+    }
+
+    if (type === 'kavel-kopen') {
+        return {
+            title: 'Bouwkavel kopen in 2026: stappenplan en risico\'s | KavelArchitect',
+            description: 'Gids voor bouwkavel kopen in 2026: zelfbouwkavel selecteren, financiering, risico\'s en due diligence. Voorkom miskopen met een helder stappenplan.',
+            routeLabel: 'Onderdeel van de kavel-strategie-route',
+            intro: 'Wilt u een bouwkavel kopen in 2026 en miskopen voorkomen? Deze gids helpt u met de kernstappen voor selectie, risico-inschatting, financiering en aankoop.',
+            faq: [
+                { q: 'Is een bouwkavel altijd bouwrijp?', a: 'Nee. Controleer altijd nutsvoorzieningen, bodem, ontsluiting en planregels voordat u koopt.' },
+                { q: 'Hoeveel eigen geld heeft u nodig?', a: 'Dat hangt af van kavelprijs, financieringsvoorwaarden en bijkomende kosten zoals advies, leges en voorbereiding.' },
+                { q: 'Koopt u beter via gemeente of makelaar?', a: 'Dat verschilt per regio. Belangrijk is dat u dezelfde technische en juridische controles uitvoert.' },
+            ],
+        };
+    }
+
+    if (type === 'bouwregels') {
+        return {
+            title: 'Wat mag ik bouwen op mijn kavel? Omgevingsplan en bouwregels 2026 | KavelArchitect',
+            description: 'Ontdek wat u mag bouwen volgens omgevingsplan en bouwregels in 2026. Praktische uitleg voor zelfbouwers over bouwmogelijkheden en valkuilen.',
+            routeLabel: 'Onderdeel van de kavel-strategie-route',
+            intro: 'Deze gids helpt zelfbouwers en villabouwers om bouwmogelijkheden op kavel goed te interpreteren. U ziet wat mag volgens omgevingsplan, wat vaak misgaat en hoe u vooraf zekerheid krijgt.',
+            faq: [
+                { q: 'Wat mag ik bouwen volgens omgevingsplan?', a: 'Dat hangt af van bouwvlak, maatvoering, functies en aanvullende regels per locatie.' },
+                { q: 'Waarom verschillen regels per gemeente?', a: 'Omdat lokale uitwerking en beleidskeuzes kunnen variëren, zelfs binnen vergelijkbare woongebieden.' },
+                { q: 'Wanneer is een extra architectcheck verstandig?', a: 'Voordat u tekent of biedt, zodat u zeker weet dat uw woonwens juridisch en technisch haalbaar is.' },
+            ],
+        };
+    }
+
+    return null;
+}
+
 // --- 1. GENERATE METADATA FOR SEO ---
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const article = await getArticle(params.slug);
@@ -18,8 +82,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         };
     }
 
-    const title = `${article.title.rendered} | KavelArchitect Kennisbank`;
-    const description = article.yoast_head_json?.description || article.excerpt.rendered.replace(/<[^>]*>/g, '').slice(0, 160);
+    const rawTitle = article.title.rendered.replace(/<[^>]*>/g, '');
+    const pillarType = getPillarType(params.slug, rawTitle);
+    const pillarConfig = getPillarConfig(pillarType);
+
+    const title = pillarConfig?.title || `${article.title.rendered} | KavelArchitect Kennisbank`;
+    const description = pillarConfig?.description || article.yoast_head_json?.description || article.excerpt.rendered.replace(/<[^>]*>/g, '').slice(0, 160);
     const imageUrl = article._embedded?.['wp:featuredmedia']?.[0]?.source_url;
     const canonicalUrl = `https://kavelarchitect.nl/kennisbank/${params.slug}`;
 
@@ -79,6 +147,8 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
     const imageUrl = article._embedded?.['wp:featuredmedia']?.[0]?.source_url;
     const date = new Date(article.date).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
     const breadcrumbTitle = article.title.rendered.replace(/<[^>]*>/g, '');
+    const pillarType = getPillarType(params.slug, breadcrumbTitle);
+    const pillarConfig = getPillarConfig(pillarType);
 
     // Extract city names from article content for contextual region links
     const popularCities = ['Blaricum', 'Laren', 'Heemstede', 'Zeist', 'Wassenaar', 'Noordwijk'];
@@ -115,12 +185,30 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
         ]
     };
 
+    const faqJsonLd = pillarConfig
+        ? {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: pillarConfig.faq.map((item) => ({
+                '@type': 'Question',
+                name: item.q,
+                acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+        }
+        : null;
+
     return (
         <div className="min-h-screen bg-white pb-20">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
+            {faqJsonLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+                />
+            )}
             <nav aria-label="Breadcrumb" className="max-w-3xl mx-auto px-6 pt-10 text-xs text-slate-500">
                 <ol className="flex flex-wrap items-center gap-2">
                     <li>
@@ -136,7 +224,17 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
             </nav>
             {/* Header */}
             <header className="pt-32 pb-10 max-w-3xl mx-auto px-6 text-center">
+                {pillarConfig && (
+                    <p className="inline-block mb-4 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-widest border border-blue-100">
+                        {pillarConfig.routeLabel}
+                    </p>
+                )}
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article.title.rendered }} />
+                {pillarConfig && (
+                    <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                        {pillarConfig.intro}
+                    </p>
+                )}
 
                 <div className="flex items-center justify-center gap-6 mt-8 text-sm text-slate-400">
                     <div className="flex items-center"><Calendar size={14} className="mr-2" /> {date}</div>
@@ -157,6 +255,17 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
 
                 {/* Center Content */}
                 <article className="lg:col-span-7">
+                    {pillarConfig && (
+                        <section className="mb-10 bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                            <h2 className="font-bold text-navy-900 mb-3">Inhoud en route</h2>
+                            <ul className="text-sm text-slate-700 space-y-2">
+                                <li>- Stap 1: <Link href="/kennisbank" className="font-semibold text-navy-900 underline underline-offset-4">Bouwkavel kopen (2026)</Link></li>
+                                <li>- Stap 2: <Link href="/kennisbank" className="font-semibold text-navy-900 underline underline-offset-4">Wat mag ik bouwen?</Link></li>
+                                <li>- Stap 3: <Link href="/kennisbank" className="font-semibold text-navy-900 underline underline-offset-4">Faalkosten voorkomen</Link></li>
+                            </ul>
+                        </section>
+                    )}
+
                     {imageUrl && (
                         <div className="relative h-96 w-full mb-12 rounded-2xl overflow-hidden shadow-sm">
                             <Image
@@ -174,6 +283,20 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         postId={article.id}
                         siteUrl={WORDPRESS_SITE_URL}
                     />
+
+                    {pillarConfig && (
+                        <section className="mt-12 border-t border-slate-100 pt-10">
+                            <h3 className="font-serif text-2xl font-bold mb-4 text-navy-900">Korte FAQ</h3>
+                            <div className="space-y-4">
+                                {pillarConfig.faq.map((item) => (
+                                    <div key={item.q} className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                                        <p className="font-semibold text-slate-900 mb-1">{item.q}</p>
+                                        <p className="text-sm text-slate-700">{item.a}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
 
                     {/* SCROLL TRIGGERED CTA (Client Component) */}
                     <InlineCTA />
@@ -268,6 +391,34 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                             Start Gratis Matching
                         </Link>
                     </div>
+
+                    {pillarConfig && (
+                        <section className="mt-10 border-t border-slate-100 pt-10">
+                            <h3 className="font-serif text-2xl font-bold mb-4 text-navy-900">Clusterroute</h3>
+                            <p className="text-slate-600 mb-4">
+                                Volg deze route voor een complete kavelstrategie: eerst bouwkavel kopen, daarna bouwregels toetsen en vervolgens faalkosten beperken.
+                            </p>
+                            <div className="flex flex-wrap gap-3 mb-6">
+                                <Link href="/kennisbank" className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-navy-900 hover:border-navy-900">
+                                    Stap 1: Kavel kopen in 2026
+                                </Link>
+                                <Link href="/kennisbank" className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-navy-900 hover:border-navy-900">
+                                    Stap 2: Wat mag ik bouwen?
+                                </Link>
+                                <Link href="/kennisbank" className="px-4 py-2 rounded-lg border border-slate-200 text-sm font-semibold text-navy-900 hover:border-navy-900">
+                                    Stap 3: Faalkosten voorkomen
+                                </Link>
+                            </div>
+                            <div className="flex flex-wrap gap-3">
+                                <Link href="/kavelrapport/intake" className="px-4 py-2 rounded-lg bg-white border border-slate-200 text-sm font-semibold text-slate-900 hover:border-slate-400">
+                                    Start QuickScan intake
+                                </Link>
+                                <Link href="/kavelrapport" className="px-4 py-2 rounded-lg bg-navy-900 text-white text-sm font-semibold hover:bg-navy-800">
+                                    Laat uw omgevingsplan en bouwmogelijkheden door een architect checken voordat u tekent
+                                </Link>
+                            </div>
+                        </section>
+                    )}
                 </article>
 
                 {/* Sidebar */}

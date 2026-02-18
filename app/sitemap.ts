@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
 import { FAQ_ARTICLES } from '@/lib/faqArticles';
+import { GUIDES } from '@/lib/guides/guideIndex';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://kavelarchitect.nl';
@@ -48,6 +49,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/gids`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.85,
     },
     {
       url: `${baseUrl}/kennisbank`,
@@ -98,6 +105,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  const guideUrls: MetadataRoute.Sitemap = Object.values(GUIDES).map((guide) => ({
+    url: `${baseUrl}${guide.canonicalPath}`,
+    lastModified: new Date(guide.updatedAtISO),
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }));
+
   // Programmatic SEO regio pages - dynamically generated from all published cities
   const regioUrls: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
     url: `${baseUrl}/regio/${city}`,
@@ -106,5 +120,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85, // High priority for conversion pages
   }));
 
-  return [...staticPages, ...listingUrls, ...articleUrls, ...faqUrls, ...regioUrls];
+  return [...staticPages, ...guideUrls, ...listingUrls, ...articleUrls, ...faqUrls, ...regioUrls];
 }

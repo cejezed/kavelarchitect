@@ -20,6 +20,8 @@ export default function KavelAlertOverlay({ buttonText, className, onOpen }: Kav
           onOpen?.();
           setOpen(true);
         }}
+        title="Activeer KavelAlert"
+        aria-label="Activeer KavelAlert voor nieuwe bouwkavels"
         className={className}
       >
         {buttonText}

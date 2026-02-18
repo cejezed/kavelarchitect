@@ -10,15 +10,15 @@ export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 export const metadata = {
-    title: 'Kavelaanbod | KavelArchitect - Bouwkavels in heel Nederland',
-    description: 'Actueel overzicht van bouwkavels in Nederland. Vind uw ideale kavel voor zelfbouw met expert begeleiding van Architectenbureau Zwijsen.',
+    title: 'Kavelaanbod | KavelArchitect - Bouwkavels en bouwgrond in heel Nederland',
+    description: 'Actueel kavelaanbod in heel Nederland. Dagelijks geactualiseerde bouwkavels, inclusief off-market kavels, met KavelRapport voor extra aankoopzekerheid.',
     keywords: ['bouwkavels', 'kavelaanbod', 'zelfbouw', 'bouwgrond te koop', 'Nederland', 'architect', 'nieuwbouw', 'kavels', 'grond kopen'],
     alternates: {
         canonical: 'https://kavelarchitect.nl/aanbod',
     },
     openGraph: {
         title: 'Kavelaanbod | KavelArchitect',
-        description: 'Actueel overzicht van bouwkavels in Nederland. Vind uw ideale kavel voor zelfbouw.',
+        description: 'Dagelijks geactualiseerd kavelaanbod met bouwkavels en off-market kansen in Nederland.',
         url: 'https://kavelarchitect.nl/aanbod',
         siteName: 'KavelArchitect',
         locale: 'nl_NL',
@@ -27,7 +27,7 @@ export const metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'Kavelaanbod | KavelArchitect',
-        description: 'Actueel overzicht van bouwkavels in Nederland.',
+        description: 'Dagelijks geactualiseerd kavelaanbod met bouwkavels en off-market kansen in Nederland.',
     },
     robots: {
         index: true,
@@ -80,8 +80,16 @@ export default async function AanbodPage() {
                         </ol>
                     </nav>
                     <div className="text-center max-w-4xl mx-auto mb-8 md:mb-12">
-                        <h1 className="font-serif text-2xl md:text-4xl font-bold text-slate-900 mb-2 md:mb-4">Beschikbare Grond</h1>
-                        <p className="text-slate-600 text-sm md:text-base mb-4 md:mb-6">Dagelijks geactualiseerd aanbod.</p>
+                        <p className="text-xs md:text-sm font-semibold text-blue-700 mb-2">
+                            U bent hier in het proces: stap 2 van 4 (kavel vinden)
+                        </p>
+                        <p className="text-slate-600 text-sm md:text-base mb-3 md:mb-4">
+                            KavelArchitect is de zoekservice voor bouwkavels met architecten-check.{' '}
+                            Bouwkavels te koop in Nederland, dagelijks geactualiseerd voor zelfbouw en villabouw.
+                            Liever per gemeente zoeken? <Link href="/regio" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">Bekijk alle regio&apos;s</Link>.
+                        </p>
+                        <h1 className="font-serif text-2xl md:text-4xl font-bold text-slate-900 mb-2 md:mb-4">Beschikbare bouwgrond en kavels</h1>
+                        <p className="text-slate-600 text-sm md:text-base mb-4 md:mb-6">Dagelijks geactualiseerd aanbod voor zelfbouw en villabouw.</p>
 
                         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
                             <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 md:px-6 py-2 md:py-3 text-sm text-emerald-900">
@@ -90,6 +98,32 @@ export default async function AanbodPage() {
                             <KavelAlertOverlay
                                 buttonText="Activeer KavelAlert"
                                 className="inline-flex items-center px-4 md:px-6 py-2 md:py-3 bg-navy-900 text-white font-bold text-sm md:text-base rounded-xl hover:bg-navy-800 transition-colors shadow-lg"
+                            />
+                        </div>
+                        <p className="text-slate-500 text-xs md:text-sm mt-3">
+                            Ons aanbod wordt dagelijks vernieuwd op basis van marktdata en exclusieve off-market kavels.
+                        </p>
+                    </div>
+
+                    <div className="bg-white border border-slate-200 rounded-xl p-4 md:p-5 mb-6">
+                        <p className="text-sm md:text-base text-slate-700">
+                            Nieuw met bouwkavels? Lees eerst{' '}
+                            <Link href="/gids/kavel-kopen" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">Kavel kopen (2026)</Link>,{' '}
+                            <Link href="/gids/wat-mag-ik-bouwen" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">Wat mag ik bouwen?</Link>{' '}
+                            en{' '}
+                            <Link href="/gids/faalkosten-voorkomen" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">Faalkosten voorkomen</Link>.
+                        </p>
+                    </div>
+
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 md:p-5 mb-6">
+                        <p className="text-sm md:text-base text-slate-700 mb-3 font-semibold">Keuzestress?</p>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <Link href="/kavelrapport" className="inline-flex items-center justify-center px-4 py-3 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors">
+                                Laat een kavel checken (KavelRapport)
+                            </Link>
+                            <KavelAlertOverlay
+                                buttonText="Start een zoekalert (KavelAlert)"
+                                className="inline-flex items-center justify-center px-4 py-3 bg-white border border-slate-300 text-slate-800 font-bold rounded-xl hover:bg-slate-50 transition-colors"
                             />
                         </div>
                     </div>

@@ -45,11 +45,13 @@ export function FloatingAlertButton() {
 
                 <div className="mr-4">
                     <p className="font-bold text-sm">Niet gevonden?</p>
-                    <p className="text-xs text-slate-300">Ontvang nieuwe kavels in uw mail.</p>
+                    <p className="text-xs text-slate-300">Ontvang nieuwe bouwkavels in uw mail op basis van budget, regio en woonwensen.</p>
                 </div>
 
                 <Link
                     href="/"
+                    title="Activeer KavelAlert voor nieuwe bouwkavels"
+                    aria-label="Activeer KavelAlert voor nieuwe bouwkavels"
                     className="bg-white text-navy-900 px-4 py-2 rounded-lg text-xs font-bold hover:bg-blue-50 transition-colors whitespace-nowrap"
                 >
                     Start Alert

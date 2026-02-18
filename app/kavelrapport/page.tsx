@@ -104,6 +104,9 @@ export default function KavelRapportPage() {
               <ShieldCheck size={14} />
               Zekerheid voor aankoop
             </div>
+            <p className="text-sm text-blue-200 mb-4">
+              U bent hier in het proces: stap 3 van 4 (kavelcheck)
+            </p>
 
             <h1 className="font-serif text-4xl md:text-6xl text-white leading-tight mb-6">
               Bouwkavel beoordeling <br />
@@ -111,7 +114,7 @@ export default function KavelRapportPage() {
             </h1>
 
             <p className="text-lg text-slate-300 mb-8 max-w-lg leading-relaxed">
-              Voorkom kostbare fouten bij het kopen van bouwgrond. Ons KavelRapport beoordeelt
+              KavelArchitect is de zoekservice voor bouwkavels met architecten-check. Voorkom kostbare fouten bij het kopen van bouwgrond. Ons KavelRapport beoordeelt
               bestemmingsplan, bouwmogelijkheden en financiële haalbaarheid, zodat u precies weet
               wat u kunt bouwen voordat u een bouwkavel koopt.
             </p>
@@ -130,6 +133,9 @@ export default function KavelRapportPage() {
                 Ik heb al een kavel/woning
               </Link>
             </div>
+            <p className="mt-4 text-sm text-emerald-300 font-semibold">
+              Meer dan 100+ KavelRapporten opgeleverd voor kopers in Nederland.
+            </p>
           </div>
 
           <div className="w-full h-full">

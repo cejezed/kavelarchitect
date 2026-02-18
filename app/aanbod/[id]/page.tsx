@@ -33,6 +33,17 @@ function getSiteContent(listing: NonNullable<Awaited<ReturnType<typeof getListin
   };
 }
 
+function buildLocationFirstTitle(
+  listing: NonNullable<Awaited<ReturnType<typeof getListing>>>,
+  rawTitle: string
+) {
+  const brandHeavy = /jules|zwijsen|architect|begeleidt/i.test(rawTitle || '');
+  if (!brandHeavy) return rawTitle;
+  if (listing.plaats && listing.adres) return `Bouwkavel ${listing.plaats} - ${listing.adres}`;
+  if (listing.plaats) return `Bouwkavel ${listing.plaats}`;
+  return rawTitle || 'Bouwkavel';
+}
+
 // 1. Generate SEO Metadata dynamically based on the listing data
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const listing = await getListing(params.id);
@@ -40,8 +51,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
   const host = headers().get('host');
   const { seoTitle, seoSummary, siteName, canonicalBase } = getSiteContent(listing, isZwijsenHost(host));
-  const description = seoSummary;
-  const title = `${seoTitle} | ${siteName}`;
+  const locationFirstTitle = buildLocationFirstTitle(listing, seoTitle);
+  const description = seoSummary || `Bouwkavel in ${listing.plaats}, ${listing.provincie}. Bekijk prijs, oppervlakte en bouwmogelijkheden.`;
+  const title = `${locationFirstTitle} | ${siteName}`;
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
   const canonicalUrl = `${canonicalBase}/aanbod/${params.id}`;
   const priceFormatted = listing.prijs ? `€${listing.prijs.toLocaleString('nl-NL')}` : 'Prijs op aanvraag';
@@ -108,6 +120,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
 
   const host = headers().get('host');
   const { seoTitle, seoSummary, seoArticleHtml } = getSiteContent(listing, isZwijsenHost(host));
+  const locationFirstTitle = buildLocationFirstTitle(listing, seoTitle);
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef';
   const price = typeof listing.prijs === 'number' ? listing.prijs : null;
   const oppervlakte = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : null;
@@ -119,8 +132,8 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
     '@graph': [
       {
         '@type': 'RealEstateListing',
-        'name': seoTitle,
-        'description': seoSummary,
+        'name': locationFirstTitle,
+        'description': seoSummary || `Bouwkavel in ${listing.plaats}, ${listing.provincie}.`,
         'image': [imageUrl],
         'url': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`,
         'datePosted': listing.created_at || new Date().toISOString(),
@@ -170,7 +183,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
           {
             '@type': 'ListItem',
             'position': 3,
-            'name': seoTitle.length > 30 ? `${seoTitle.substring(0, 30)}...` : seoTitle,
+            'name': locationFirstTitle.length > 30 ? `${locationFirstTitle.substring(0, 30)}...` : locationFirstTitle,
             'item': `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`
           }
         ]
@@ -208,7 +221,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             }`}>
             {listing.status === 'sold' ? 'Verkocht' : 'Beschikbaar'}
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2">{seoTitle}</h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-bold mb-2">{locationFirstTitle}</h1>
           <p className="text-xl opacity-90">{listing.adres}, {listing.plaats}</p>
         </div>
       </div>
@@ -223,7 +236,7 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
             <Link href="/aanbod" className="hover:text-slate-700">Kavels</Link>
           </li>
           <li aria-hidden="true">›</li>
-          <li className="text-slate-700">{seoTitle}</li>
+          <li className="text-slate-700">{locationFirstTitle}</li>
         </ol>
       </nav>
 
@@ -358,6 +371,21 @@ export default async function ListingDetailPage({ params }: { params: { id: stri
         </div>
 
       </div>
+
+      <section className="max-w-7xl mx-auto px-6 pb-10">
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 md:p-6">
+          <p className="text-sm md:text-base text-slate-700">
+            Meer weten voor u beslist? Lees ook{' '}
+            <Link href="/gids/wat-mag-ik-bouwen" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">
+              Wat mag ik bouwen?
+            </Link>{' '}
+            en{' '}
+            <Link href="/gids/faalkosten-voorkomen" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">
+              Faalkosten voorkomen
+            </Link>.
+          </p>
+        </div>
+      </section>
 
       {/* Similar Listings Section */}
       <SimilarListings currentListing={listing} />

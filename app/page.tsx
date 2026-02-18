@@ -21,9 +21,35 @@ import { trackKavelAlertClick } from '@/lib/analytics';
 
 export default function Home() {
   const [showWizard, setShowWizard] = useState(false);
+  const homeFaqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Wat is KavelAlert?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'KavelAlert zoekt dagelijks naar bouwgrond en kavels te koop in Nederland en stuurt passende matches op basis van regio, budget en woonwensen.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Wanneer kies ik voor een KavelRapport?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden, risico’s en planologische haalbaarheid voordat u een bod doet.',
+        },
+      },
+    ],
+  };
 
   return (
     <main className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqJsonLd) }}
+      />
       {showWizard && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
           <KavelAlertForm onClose={() => setShowWizard(false)} />
@@ -55,9 +81,9 @@ export default function Home() {
               Twijfel niet achteraf.
             </h2>
             <p className="text-slate-800 mb-8 text-lg">
-              Begin met zekerheid voordat u een bod uitbrengt.
-
-              Twee routes, één doel: de juiste kavel, met zekerheid.
+              Vind <Link href="/aanbod" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">bouwgrond en kavels te koop</Link> in Nederland
+              en kies voor <Link href="/diensten" className="font-semibold text-navy-900 underline underline-offset-4 hover:text-blue-600">kavel kopen met architect</Link>.
+              Twee routes, een doel: de juiste kavel met zekerheid voordat u een bod uitbrengt.
             </p>
           </div>
 
@@ -71,6 +97,7 @@ export default function Home() {
                   KavelAlert
                 </div>
                 <h2 className="font-serif text-2xl md:text-3xl text-white mb-3">Nieuwe kavels die echt passen</h2>
+                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-200 mb-3">KavelAlert - automatisch bouwgrond en kavels zoeken in Nederland</p>
                 <p className="text-slate-300 mb-6">Gratis zoekprofiel, dagelijks matches in uw inbox.</p>
                 <ul className="space-y-4 mb-8 flex-1">
                   <li className="flex items-start gap-3 text-slate-200">
@@ -99,6 +126,8 @@ export default function Home() {
                     trackKavelAlertClick('home_product_card');
                     setShowWizard(true);
                   }}
+                  aria-label="Activeer KavelAlert voor nieuwe bouwgrond en kavels te koop"
+                  title="Activeer KavelAlert"
                   className="inline-flex items-center justify-center w-full px-6 py-4 bg-white text-navy-900 font-bold text-lg rounded-xl hover:bg-emerald-50 hover:shadow-lg transition-all duration-200 shadow-md group-hover:shadow-lg"
                 >
                   <Bell size={20} className="mr-2" />
@@ -116,6 +145,7 @@ export default function Home() {
                   KavelRapport
                 </div>
                 <h2 className="font-serif text-2xl md:text-3xl text-slate-900 mb-3">Zekerheid voor u een bod doet</h2>
+                <p className="text-xs font-semibold uppercase tracking-wider text-orange-700 mb-3">KavelRapport - bouwkavel laten controleren door een architect voor bod</p>
                 <p className="text-slate-600 mb-6">Persoonlijke analyse van bouwregels, risico&apos;s en haalbaarheid.</p>
                 <ul className="space-y-4 mb-8 flex-1">
                   <li className="flex items-start gap-3 text-slate-700">
@@ -141,6 +171,8 @@ export default function Home() {
                 <Link
                   href="/kavelrapport"
                   onClick={() => posthog?.capture?.('cta_kavelrapport_productcard_click')}
+                  aria-label="Bekijk KavelRapport en laat een kavel beoordelen"
+                  title="Bestel KavelRapport"
                   className="inline-flex items-center justify-center w-full px-6 py-4 bg-orange-500 text-white font-bold text-lg rounded-xl hover:bg-orange-600 hover:shadow-lg transition-all duration-200 shadow-md shadow-orange-500/20 group-hover:shadow-lg"
                 >
                   Bekijk KavelRapport
@@ -157,6 +189,40 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="py-14 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10">
+          <div>
+            <h2 className="font-serif text-3xl text-navy-900 mb-4">Wat is KavelArchitect?</h2>
+            <p className="text-slate-700 leading-relaxed mb-5">
+              KavelArchitect is de zoekservice voor bouwkavels met architecten-check.
+            </p>
+            <p className="text-slate-700 leading-relaxed mb-5">
+              KavelArchitect helpt particulieren die bouwgrond of een kavel willen kopen met twee routes: automatisch zoeken en een kavelcheck door een architect.
+              Zo weet u sneller welke kavels passen bij uw plannen, budget en bouwmogelijkheden.
+            </p>
+            <h3 className="font-bold text-navy-900 mb-3">Voor wie is dit?</h3>
+            <ul className="space-y-2 text-slate-700">
+              <li>- Particuliere zelfbouwers die gericht bouwgrond of een kavel zoeken</li>
+              <li>- Villabouwers die vooraf risico&apos;s willen uitsluiten</li>
+              <li>- Doorstromers met kavel-ambitie die zekerheid willen voor aankoop</li>
+            </ul>
+          </div>
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+            <h3 className="font-serif text-2xl text-navy-900 mb-5">Korte FAQ</h3>
+            <div className="space-y-4 text-slate-700">
+              <div>
+                <p className="font-semibold text-slate-900">Wat is KavelAlert?</p>
+                <p>KavelAlert zoekt dagelijks naar bouwgrond en kavels te koop en stuurt alleen relevante matches door.</p>
+              </div>
+              <div>
+                <p className="font-semibold text-slate-900">Wanneer kies ik voor een KavelRapport?</p>
+                <p>Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden en risico&apos;s voordat u een bod doet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 bg-white border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-6">
           <div className="bg-slate-50 rounded-3xl border border-slate-200 p-6 md:p-8 md:flex md:items-center md:gap-8">
@@ -167,8 +233,8 @@ export default function Home() {
               <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Wie beoordeelt mijn kavel?</p>
               <h2 className="font-serif text-3xl text-navy-900 mb-3">Jules Zwijsen, architect</h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                Elk KavelRapport wordt inhoudelijk beoordeeld vanuit praktijkervaring in villabouw en planologische haalbaarheid.
-                U krijgt dus geen generieke output, maar onderbouwd advies dat helpt bij een echte aankoopbeslissing.
+                Gespecialiseerd in villabouw en planologische haalbaarheid in Nederland, met meer dan 25 jaar ervaring in particuliere woonprojecten.
+                Elk KavelRapport wordt inhoudelijk beoordeeld vanuit praktijkervaring, zodat u geen generieke output krijgt maar onderbouwd advies voor een echte aankoopbeslissing.
               </p>
               <Link
                 href="/over-ons"
@@ -238,6 +304,8 @@ export default function Home() {
                   trackKavelAlertClick('home_flow');
                   setShowWizard(true);
                 }}
+                aria-label="Activeer KavelAlert en ontvang dagelijkse kavelmatches"
+                title="Activeer KavelAlert"
                 className="mt-12 w-full inline-flex items-center justify-center px-6 py-4 bg-navy-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-md"
               >
                 Start nu gratis <ArrowRight size={18} className="ml-2" />
@@ -290,6 +358,8 @@ export default function Home() {
               <Link
                 href="/kavelrapport"
                 onClick={() => posthog?.capture?.('cta_kavelrapport_flow_click')}
+                aria-label="Bekijk KavelRapport voor kavelcheck voor aankoop"
+                title="Bestel KavelRapport"
                 className="mt-12 w-full inline-flex items-center justify-center px-6 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all shadow-md shadow-orange-500/20"
               >
                 Bekijk KavelRapport <ArrowRight size={18} className="ml-2" />
@@ -317,10 +387,11 @@ export default function Home() {
               Actueel aanbod
             </div>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">
-              Bouwkavels te koop in heel Nederland
+              Bouwgrond en kavels te koop in heel Nederland
             </h2>
             <p className="text-lg text-slate-200 leading-relaxed">
-              Bekijk het actuele aanbod aan bouwkavels. Filter op regio, prijs en oppervlakte en vind de kavel die bij u past.
+              Bekijk het actuele aanbod aan bouwgrond en kavels. Filter op regio, prijs en oppervlakte en vind de kavel die bij u past.
+              Denk aan combinaties zoals bouwgrond in Utrecht, Gelderland of Noord-Brabant, inclusief off-market kansen.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -349,6 +420,8 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/aanbod"
+              aria-label="Bekijk bouwgrond en kavels te koop in heel Nederland"
+              title="Bekijk kavelaanbod"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-navy-900 font-bold rounded-xl hover:bg-slate-100 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               Bekijk kavels te koop
@@ -393,7 +466,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Kavel kopen (2026)</h3>
                 <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
-                  Alles over kosten, voorwaarden, hypotheek en de cruciale risico&apos;s die u moet kennen vóór u tekent.
+                  Alles over kosten, voorwaarden, hypotheek en de cruciale risico&apos;s die u moet kennen vóór u tekent als u een bouwkavel wilt kopen.
                 </p>
                 <div className="pt-4 border-t border-slate-100 mt-auto">
                   <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
@@ -425,7 +498,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Wat mag u bouwen?</h3>
                 <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
-                  Uitleg over omgevingsplannen, bouwregels, bijgebouwen en de BOPA procedure die geldt in 2026.
+                  Uitleg over omgevingsplannen, bouwregels, bijgebouwen en de BOPA procedure die geldt in 2026, zodat u weet wat u volgens het omgevingsplan mag bouwen.
                 </p>
                 <div className="pt-4 border-t border-slate-100 mt-auto">
                   <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
@@ -457,7 +530,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Faalkosten voorkomen</h3>
                 <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
-                  Doorgrond het domino-effect van vroege keuzes en voorkom onnodige bouwkosten door foute aannames.
+                  Doorgrond het domino-effect van vroege keuzes en voorkom onnodige bouwkosten en faalkosten door foute aannames.
                 </p>
                 <div className="pt-4 border-t border-slate-100 mt-auto">
                   <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
@@ -500,6 +573,8 @@ export default function Home() {
                     trackKavelAlertClick('home_bottom');
                     setShowWizard(true);
                   }}
+                  aria-label="Activeer KavelAlert voor nieuwe bouwgrond en kavels"
+                  title="Activeer KavelAlert"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-white text-navy-900 font-bold rounded-xl hover:bg-emerald-50 transition-colors shadow-md"
                 >
                   <Bell size={18} />
@@ -520,6 +595,8 @@ export default function Home() {
                 <Link
                   href="/kavelrapport"
                   onClick={() => posthog?.capture?.('cta_kavelrapport_bottom_click')}
+                  aria-label="Bestel KavelRapport voor kavelcheck door architect"
+                  title="Bestel KavelRapport"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors shadow-md shadow-orange-500/20"
                 >
                   Bestel KavelRapport

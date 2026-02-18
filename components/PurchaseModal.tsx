@@ -19,9 +19,9 @@ export function PurchaseModal({ listing, tier, onClose }: PurchaseModalProps) {
 
     const getTierDetails = (t: ReportTier) => {
         switch (t) {
-            case 'check': return { price: 39, name: 'KavelCheck', oldPrice: 79 };
+            case 'check': return { price: 39, name: 'KavelCheck', oldPrice: 59 };
             case 'premium': return { price: 349, name: 'Premium Review', oldPrice: 499 };
-            case 'rapport': default: return { price: 149, name: 'KavelRapport™', oldPrice: 249 };
+            case 'rapport': default: return { price: 149, name: 'KavelRapport™', oldPrice: 219 };
         }
     };
 

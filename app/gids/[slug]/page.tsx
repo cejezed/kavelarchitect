@@ -10,10 +10,11 @@ import { JsonLd } from "@/components/guides/JsonLd";
 function buildToc(slug: GuideSlug) {
   if (slug === "kavel-kopen") {
     return [
-      { id: "intro", label: "Waar moet u op letten?" },
+      { id: "intro", label: "Stappenplan en miskooprisico" },
       { id: "fouten", label: "Veelgemaakte fouten" },
+      { id: "bedenktijd", label: "Aankoop via gemeente of makelaar" },
       { id: "kosten", label: "Welke kosten komen erbij?" },
-      { id: "hypotheek-2026", label: "Hypotheekregels 2026" },
+      { id: "hypotheek-2026", label: "Financiering, BKR en zekerheden" },
       { id: "verandert-2026", label: "Wat verandert er in 2026?" },
       { id: "checklist", label: "Kavel kopen checklist" },
       { id: "faq", label: "Veelgestelde vragen" },
@@ -23,7 +24,7 @@ function buildToc(slug: GuideSlug) {
   }
   if (slug === "wat-mag-ik-bouwen") {
     return [
-      { id: "intro", label: "Regels op de kaart in 2026" },
+      { id: "intro", label: "Wat mag ik bouwen volgens omgevingsplan?" },
       { id: "goothoogte", label: "Goothoogte en bouwhoogte" },
       { id: "bijgebouwen", label: "Bijgebouwen: regels en valkuilen" },
       { id: "welstand", label: "Kavelpaspoort en welstand" },

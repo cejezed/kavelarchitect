@@ -94,7 +94,8 @@ export function buildZwijsenArticle(listing: Listing) {
     <h3>Bouwmogelijkheden</h3>
     ${specsHtml}
     <h3>Van kavel naar ontwerp</h3>
-    <p>Elke kavel stelt zijn eigen eisen: de verhouding tussen bouwvlak en perceel, de oriëntatie op de zon, de relatie met de straat en de buren. Dat vraagt om een ontwerp dat niet alleen voldoet aan de regels, maar ook past bij de plek.</p>
+    <p>Elke kavel stelt zijn eigen eisen: de verhouding tussen bouwvlak en perceel, de orientatie op de zon, de relatie met de straat en de buren. Dat vraagt om een ontwerp dat niet alleen voldoet aan de regels, maar ook past bij de plek.</p>
     <p>Als u nadenkt over wat hier mogelijk is, kunt u <a href="https://www.zwijsen.net/contact" target="_blank" rel="noopener noreferrer">vrijblijvend afstemmen</a> over de uitgangspunten.</p>
   `.trim();
 }
+

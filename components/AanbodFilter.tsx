@@ -155,6 +155,7 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                 <div className="ml-auto flex items-center gap-2">
                     <ArrowUpDown size={16} className="text-slate-400" />
                     <select
+                        aria-label="Sorteer kavelaanbod"
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as any)}
                         className="text-sm px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
@@ -167,11 +168,15 @@ export function AanbodFilter({ initialListings, onResultsChange }: AanbodFilterP
                     </select>
                 </div>
             </div>
+            <p className="hidden md:block text-xs text-slate-500 mb-4">
+                Filter op prijs, oppervlakte en provincie om sneller de juiste bouwkavel te vinden.
+            </p>
 
             {/* Mobile Sort - Only shown on mobile */}
             <div className="md:hidden flex items-center gap-2 mb-3">
                 <ArrowUpDown size={16} className="text-slate-400" />
                 <select
+                    aria-label="Sorteer kavelaanbod"
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as any)}
                     className="flex-1 text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"

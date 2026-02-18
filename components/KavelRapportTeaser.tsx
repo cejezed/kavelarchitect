@@ -29,6 +29,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                 key: 'check' as const,
                 title: 'KavelCheck',
                 price: 39,
+                oldPrice: 59,
                 badge: 'Oriëntatie',
                 icon: FileText,
                 bullets: [
@@ -42,6 +43,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                 key: 'rapport' as const,
                 title: 'KavelRapport',
                 price: 149,
+                oldPrice: 219,
                 badge: 'Meest gekozen',
                 icon: Shield,
                 bullets: [
@@ -56,6 +58,7 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                 key: 'premium' as const,
                 title: 'Premium Review',
                 price: 349,
+                oldPrice: 499,
                 badge: 'Maximale zekerheid',
                 icon: Crown,
                 bullets: [
@@ -131,9 +134,11 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                                                 </span>
                                             </div>
                                             <div className="mt-1 flex items-baseline gap-1">
+                                                <span className="text-slate-400 text-sm line-through">€ {t.oldPrice},-</span>
                                                 <span className="text-2xl font-extrabold">€ {t.price},-</span>
                                                 <span className="text-slate-400 text-xs">incl. btw</span>
                                             </div>
+                                            <div className="text-[11px] font-bold text-emerald-300 mt-1">Bespaar tot 30%</div>
                                         </div>
                                             </div>
 
@@ -204,6 +209,9 @@ export function KavelRapportTeaser({ listing }: KavelRapportTeaserProps) {
                     >
                         Meer weten over KavelRapport & wat u krijgt?
                     </Link>
+                </div>
+                <div className="mt-2 text-[11px] text-emerald-300 font-semibold">
+                    Meer dan 100+ KavelRapporten opgeleverd.
                 </div>
 
                 {/* Micro trust */}

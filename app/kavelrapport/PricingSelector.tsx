@@ -13,6 +13,7 @@ const tiers = [
     key: 'check' as const,
     title: 'KavelCheck',
     price: '€ 39',
+    oldPrice: '€ 59',
     subtitle: 'Voor een eerste indruk',
     bullets: ['Bestemmingsplan (hoog over)', 'Bouwvlak & maxima (globaal)', 'Top-3 aandachtspunten'],
   },
@@ -20,6 +21,7 @@ const tiers = [
     key: 'rapport' as const,
     title: 'KavelRapport',
     price: '€ 149',
+    oldPrice: '€ 219',
     subtitle: 'Beslisdocument voor het bod',
     bullets: [
       'Alles uit KavelCheck',
@@ -33,6 +35,7 @@ const tiers = [
     key: 'premium' as const,
     title: 'Premium Review',
     price: '€ 349',
+    oldPrice: '€ 499',
     subtitle: 'Extra zekerheid met persoonlijke toelichting',
     bullets: ['Alles uit KavelRapport', 'Persoonlijke review door architect', '30 min strategiegesprek'],
   },
@@ -113,7 +116,13 @@ export default function PricingSelector() {
 
             <h3 className="font-serif text-2xl font-bold text-navy-900 mb-1">{tier.title}</h3>
             <p className="text-slate-500 text-sm italic mb-3">{tier.subtitle}</p>
-            <div className="text-4xl font-bold text-navy-900 mb-6">{tier.price}</div>
+            <div className="mb-6">
+              <div className="flex items-end gap-2">
+                <div className="text-lg font-semibold text-slate-400 line-through">{tier.oldPrice}</div>
+                <div className="text-4xl font-bold text-navy-900">{tier.price}</div>
+              </div>
+              <p className="text-sm font-bold text-emerald-600 mt-1">Bespaar tot 30%</p>
+            </div>
 
             <ul className="space-y-3 mb-8 flex-1">
               {tier.bullets.map((f) => (

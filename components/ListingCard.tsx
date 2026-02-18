@@ -12,10 +12,20 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
   const imageUrl = listing.image_url || listing.map_url || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80';
   const seoTitle = listing.seo_title_ka || listing.seo_title || listing.adres;
+  const hasBrandHeavyTitle = /jules|architect|begeleidt/i.test(seoTitle || '');
+  const cardTitle = hasBrandHeavyTitle
+    ? `Bouwkavel ${listing.plaats}${listing.adres ? ` - ${listing.adres}` : ''}`
+    : seoTitle;
 
   const price = typeof listing.prijs === 'number' ? listing.prijs : null;
   const oppervlakte = typeof listing.oppervlakte === 'number' ? listing.oppervlakte : null;
   const pricePerSqm = price && oppervlakte && oppervlakte > 0 ? Math.round(price / oppervlakte) : 0;
+  const woonmilieu =
+    oppervlakte && oppervlakte >= 1500
+      ? 'Ruime kavel met landelijk woongevoel'
+      : oppervlakte && oppervlakte >= 900
+        ? 'Kavel met extra ruimte voor vrijstaande woning'
+        : 'Kavel aan de rand van dorp of stad';
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
@@ -42,9 +52,10 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
       <div className="p-6 flex-1 flex flex-col">
         <h3 className="font-serif text-xl font-bold text-navy-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
-          {seoTitle}
+          {cardTitle}
         </h3>
         <p className="text-sm text-slate-500 mb-4">{listing.plaats}, {listing.provincie}</p>
+        <p className="text-xs text-slate-500 mb-4">{woonmilieu}</p>
 
         <div className="grid grid-cols-2 gap-4 mb-6 border-t border-b border-slate-50 py-4 mt-auto">
           <div>

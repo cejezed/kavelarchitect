@@ -1,7 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
 import { FAQ_ARTICLES } from '@/lib/faqArticles';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://kavelarchitect.nl';
@@ -13,13 +12,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all unique cities from published listings for regio pages
   let cityData: any[] | null = [];
   try {
+    const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
     const { data } = await supabaseAdmin
       .from('listings')
       .select('plaats')
       .eq('status', 'published');
     cityData = data;
   } catch (error) {
-    console.error('Sitemap Supabase fetch failed:', error);
+    // Local/dev fallback when Supabase env vars are not configured.
+    cityData = [];
   }
 
   const uniqueCities = cityData

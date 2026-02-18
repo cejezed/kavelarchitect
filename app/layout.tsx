@@ -48,6 +48,22 @@ const organizationSchema = {
   },
 };
 
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Architectenbureau Jules Zwijsen',
+  url: 'https://kavelarchitect.nl',
+  image: 'https://kavelarchitect.nl/jules-zwijsen.jpg',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Bastertlaan 3',
+    addressLocality: 'Loenen',
+    addressCountry: 'NL',
+  },
+  areaServed: 'NL',
+  knowsAbout: ['bouwgrond kopen', 'kavel kopen', 'kavelcheck', 'villabouw', 'planologische haalbaarheid'],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://kavelarchitect.nl'),
   icons: {
@@ -55,19 +71,19 @@ export const metadata: Metadata = {
     apple: '/images/kavelarchitect_icon.webp',
   },
   title: {
-    default: "KavelArchitect | Vind uw Droomkavel",
+    default: "KavelArchitect | Bouwgrond en kavel zoeken met architecten-check",
     template: "%s | KavelArchitect"
   },
-  description: "De enige zoekservice voor bouwkavels met architecten-check. Vind grond, check de bouwpotentie en realiseer uw droomhuis.",
-  keywords: ['bouwkavel', 'kavel te koop', 'zelfbouw', 'architect', 'nieuwbouw', 'kavelarchitect'],
+  description: "Zoek bouwgrond en kavels in Nederland en laat uw kavel checken door een architect voordat u biedt. Dagelijkse matches en persoonlijke kavelrapporten.",
+  keywords: ['bouwgrond kopen', 'bouwgrond te koop', 'kavel kopen', 'kavel kopen met architect', 'kavelcheck', 'zelfbouw', 'nieuwbouw', 'kavelarchitect'],
   authors: [{ name: 'KavelArchitect' }],
   creator: 'KavelArchitect',
   openGraph: {
     type: 'website',
     locale: 'nl_NL',
     url: 'https://kavelarchitect.nl',
-    title: "KavelArchitect | Vind uw Droomkavel",
-    description: "De enige zoekservice voor bouwkavels met architecten-check.",
+    title: "KavelArchitect | Bouwgrond en kavel zoeken met architecten-check",
+    description: "Zoek bouwgrond en kavels in Nederland en laat uw kavel checken door een architect voordat u biedt.",
     siteName: 'KavelArchitect',
     images: [
       {
@@ -80,8 +96,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "KavelArchitect | Vind uw Droomkavel",
-    description: "De enige zoekservice voor bouwkavels met architecten-check.",
+    title: "KavelArchitect | Bouwgrond en kavel zoeken met architecten-check",
+    description: "Zoek bouwgrond en kavels in Nederland en laat uw kavel checken door een architect voordat u biedt.",
     images: ['/hero-bg.jpg'],
   },
   robots: {
@@ -128,6 +144,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
         {/* Google Tag Manager - Standard head part */}
         {gtmId && (

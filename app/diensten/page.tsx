@@ -235,6 +235,51 @@ export default function DienstenPage() {
         </div>
       </section>
 
+      <section className="py-12 bg-white border-b border-slate-200">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="font-serif text-2xl md:text-3xl text-navy-900 mb-2 text-center">KavelAlert of KavelRapport: wat past bij mij?</h2>
+          <p className="text-slate-500 text-center mb-8 text-sm">Twee diensten, elk voor een ander moment in het kaveltraject.</p>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-6">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                  <Bell size={20} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-emerald-900 text-lg">KavelAlert</h3>
+                  <p className="text-xs text-emerald-700 font-semibold">Gratis</p>
+                </div>
+              </div>
+              <ul className="space-y-2 text-sm text-emerald-900">
+                <li><strong>Doel:</strong> automatisch bouwgrond vinden in heel Nederland</li>
+                <li><strong>Moment:</strong> u bent nog op zoek naar een kavel</li>
+                <li><strong>Output:</strong> dagelijkse e-mailmatches op regio, budget en kavelwensen</li>
+                <li><strong>Tijdsinvestering:</strong> 2 minuten setup, daarna passief</li>
+              </ul>
+              <p className="mt-4 text-xs text-emerald-800 font-medium">Kies dit als u nog geen specifieke kavel op het oog heeft.</p>
+            </div>
+            <div className="rounded-2xl border-2 border-blue-200 bg-blue-50 p-6">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 bg-navy-900 rounded-xl flex items-center justify-center shrink-0">
+                  <ShieldCheck size={20} className="text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-navy-900 text-lg">KavelRapport</h3>
+                  <p className="text-xs text-navy-700 font-semibold">Vanaf EUR 39</p>
+                </div>
+              </div>
+              <ul className="space-y-2 text-sm text-navy-900">
+                <li><strong>Doel:</strong> een specifieke kavel laten beoordelen door een architect</li>
+                <li><strong>Moment:</strong> u heeft een kavel gevonden en wilt zekerheid voor aankoop</li>
+                <li><strong>Output:</strong> rapport met bouwmogelijkheden, risico&apos;s en kostbeeldbandbreedte</li>
+                <li><strong>Tijdsinvestering:</strong> intake in 5 minuten, rapport binnen 48 uur</li>
+              </ul>
+              <p className="mt-4 text-xs text-navy-800 font-medium">Kies dit als u een concrete kavel op het oog heeft en zekerheid wilt vóór aankoop.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 max-w-7xl mx-auto px-6">
         <div className="space-y-8">
           {services.map((service) => {

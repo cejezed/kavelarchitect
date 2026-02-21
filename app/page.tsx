@@ -21,27 +21,52 @@ import { trackKavelAlertClick } from '@/lib/analytics';
 
 export default function Home() {
   const [showWizard, setShowWizard] = useState(false);
+  const homeFaqItems = [
+    {
+      q: 'Wat is KavelAlert?',
+      a: 'KavelAlert zoekt dagelijks naar bouwgrond en kavels te koop in Nederland en stuurt passende matches op basis van regio, budget en woonwensen. Het is gratis en direct opzegbaar.',
+    },
+    {
+      q: 'Wanneer kies ik voor een KavelRapport?',
+      a: 'Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden, risico\'s en planologische haalbaarheid voordat u een bod doet.',
+    },
+    {
+      q: 'Hoeveel kost een KavelRapport?',
+      a: 'Een KavelRapport start vanaf EUR 39. De prijs hangt af van het rapporttype (KavelCheck, KavelRapport of Premium Review). Bekijk de actuele tarieven op de KavelRapport-pagina.',
+    },
+    {
+      q: 'Hoe snel ontvang ik een KavelRapport?',
+      a: 'Na betaling gaan wij direct aan de slag. Voor een KavelCheck en KavelRapport streven we naar levering binnen 24 uur op werkdagen.',
+    },
+    {
+      q: 'Werkt KavelAlert in heel Nederland?',
+      a: 'Ja. KavelAlert monitort het aanbod in heel Nederland, zowel stedelijke als landelijke regio\'s. U stelt uw eigen zoekgebied in bij de activatie.',
+    },
+    {
+      q: 'Kan ik ook een bestaande woning laten beoordelen?',
+      a: 'Ja. Het KavelRapport is ook geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, sloop-nieuwbouw of uitbreiding overweegt.',
+    },
+    {
+      q: 'Is KavelArchitect onafhankelijk van makelaars en verkopers?',
+      a: 'Ja, volledig. KavelArchitect verdient niet aan courtage of grondprijs. Ons advies is gebaseerd op architectonische en planologische haalbaarheid, niet op verkoopbelang.',
+    },
+    {
+      q: 'Wat is het verschil tussen KavelAlert en KavelRapport?',
+      a: 'KavelAlert is een gratis zoekservice voor bouwkavels: u stelt uw profiel in en ontvangt dagelijks matches. KavelRapport is een betaalde kavelcheck door een architect: u geeft een specifieke kavel op en ontvangt een rapport met bouwmogelijkheden, risico\'s en kostbeeldbandbreedte.',
+    },
+  ];
+
   const homeFaqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'Wat is KavelAlert?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'KavelAlert zoekt dagelijks naar bouwgrond en kavels te koop in Nederland en stuurt passende matches op basis van regio, budget en woonwensen.',
-        },
+    mainEntity: homeFaqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
       },
-      {
-        '@type': 'Question',
-        name: 'Wanneer kies ik voor een KavelRapport?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden, risico’s en planologische haalbaarheid voordat u een bod doet.',
-        },
-      },
-    ],
+    })),
   };
 
   return (
@@ -210,14 +235,12 @@ export default function Home() {
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
             <h3 className="font-serif text-2xl text-navy-900 mb-5">Korte FAQ</h3>
             <div className="space-y-4 text-slate-700">
-              <div>
-                <p className="font-semibold text-slate-900">Wat is KavelAlert?</p>
-                <p>KavelAlert zoekt dagelijks naar bouwgrond en kavels te koop en stuurt alleen relevante matches door.</p>
-              </div>
-              <div>
-                <p className="font-semibold text-slate-900">Wanneer kies ik voor een KavelRapport?</p>
-                <p>Kies KavelRapport als u een kavel wilt laten beoordelen op bouwmogelijkheden en risico&apos;s voordat u een bod doet.</p>
-              </div>
+              {homeFaqItems.slice(0, 4).map((item) => (
+                <div key={item.q}>
+                  <p className="font-semibold text-slate-900">{item.q}</p>
+                  <p>{item.a}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -549,6 +572,21 @@ export default function Home() {
               Bekijk kennisbank
               <ArrowRight size={20} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="font-serif text-3xl text-navy-900 mb-2 text-center">Veelgestelde vragen over bouwkavels</h2>
+          <p className="text-slate-500 text-center mb-10 text-sm">Antwoorden op de meest gestelde vragen over kavels zoeken, checken en kopen in Nederland.</p>
+          <div className="space-y-3">
+            {homeFaqItems.map((item) => (
+              <details key={item.q} className="bg-white border border-slate-200 rounded-xl p-4">
+                <summary className="font-bold text-navy-900 cursor-pointer">{item.q}</summary>
+                <p className="text-slate-600 mt-3 leading-relaxed">{item.a}</p>
+              </details>
+            ))}
           </div>
         </div>
       </section>

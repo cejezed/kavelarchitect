@@ -113,10 +113,13 @@ export default function KavelRapportPage() {
               <span className="text-blue-400">door ervaren architect</span>
             </h1>
 
-            <p className="text-lg text-slate-300 mb-8 max-w-lg leading-relaxed">
+            <p className="text-lg text-slate-300 mb-4 max-w-lg leading-relaxed">
               KavelArchitect is de zoekservice voor bouwkavels met architecten-check. Voorkom kostbare fouten bij het kopen van bouwgrond. Ons KavelRapport beoordeelt
               bestemmingsplan, bouwmogelijkheden en financiële haalbaarheid, zodat u precies weet
               wat u kunt bouwen voordat u een bouwkavel koopt.
+            </p>
+            <p className="text-sm text-blue-200/80 mb-8 max-w-lg leading-relaxed">
+              Op deze pagina: wat een KavelRapport is, wat we controleren, wat u ontvangt, voor wie het geschikt is en wat het kost.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

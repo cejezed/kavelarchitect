@@ -112,6 +112,9 @@ export default function AboutPage() {
                   Zo gaat u van orientatie naar een onderbouwde aankoopbeslissing en een uitvoerbaar plan.
                 </p>
               </div>
+              <p className="text-sm text-slate-500 italic mt-5">
+                KavelArchitect is een gespecialiseerd architectenbureau voor bouwgrond en zelfbouw in Nederland. Het combineert AI-gedreven kavelbewaking met architectonische en planologische expertise voor particuliere zelfbouwers en villabouwers die zekerheid willen vóór aankoop.
+              </p>
               <div className="flex flex-col sm:flex-row gap-3 not-prose mt-6">
                 <Link href="/kavelrapport" className="inline-flex items-center justify-center px-4 py-3 bg-navy-900 text-white font-bold rounded-xl hover:bg-navy-800 transition-colors">
                   Bekijk KavelRapport
@@ -254,6 +257,19 @@ export default function AboutPage() {
               </details>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="font-serif text-2xl text-navy-900 mb-3">Voor wie is KavelArchitect expliciet niet?</h2>
+          <p className="text-slate-600 mb-4">KavelArchitect werkt uitsluitend voor particuliere zelfbouwers. Bewust werken wij niet voor:</p>
+          <ul className="space-y-2 text-slate-700">
+            <li className="flex items-start gap-2"><span className="text-slate-400 shrink-0">—</span>Projectontwikkelaars en beleggers die kavels voor de markt inkopen</li>
+            <li className="flex items-start gap-2"><span className="text-slate-400 shrink-0">—</span>Grondeigenaren die kavels opdelen of doorverkopen</li>
+            <li className="flex items-start gap-2"><span className="text-slate-400 shrink-0">—</span>Aannemers die op zoek zijn naar opdrachten of kavels voor eigen portefeuille</li>
+          </ul>
+          <p className="text-slate-600 mt-4 text-sm">Deze afbakening is bewust: zo garandeert KavelArchitect 100% onafhankelijk advies, zonder belang bij de transactieprijs of doorverkoop.</p>
         </div>
       </section>
 

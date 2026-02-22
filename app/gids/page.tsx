@@ -131,6 +131,16 @@ export default function GuidesIndexPage() {
           })}
         </section>
 
+        <div className="max-w-3xl mx-auto px-6 py-10 text-center">
+          <div className="bg-navy-900 rounded-2xl p-8 text-white">
+            <h2 className="font-serif text-2xl font-bold mb-3">Heeft u na het lezen een kavel op het oog?</h2>
+            <p className="text-slate-300 mb-6 text-sm leading-relaxed">Laat het beoordelen door een architect. Een KavelRapport geeft u binnen 48 uur zekerheid over bouwmogelijkheden, risico&apos;s en kosten — vóór u tekent.</p>
+            <Link href="/kavelrapport" className="inline-flex items-center gap-2 px-6 py-3 bg-white text-navy-900 font-bold rounded-xl hover:bg-blue-50 transition-colors">
+              Bestel KavelRapport
+            </Link>
+          </div>
+        </div>
+
         <section className="guides-index-hero" aria-label="Veelgestelde vragen">
           <h2 className="guides-index-title">Veelgestelde vragen</h2>
           <p className="guides-index-lead">

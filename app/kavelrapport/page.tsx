@@ -139,6 +139,12 @@ export default function KavelRapportPage() {
             <p className="mt-4 text-sm text-emerald-300 font-semibold">
               Meer dan 100+ KavelRapporten opgeleverd voor kopers in Nederland.
             </p>
+            <p className="mt-1 text-sm text-blue-200/70">
+              Elk rapport wordt persoonlijk beoordeeld door Jules Zwijsen, architect met 25+ jaar ervaring.{' '}
+              <Link href="/over-ons" className="text-blue-300 hover:text-white underline underline-offset-2">
+                Lees wie wij zijn →
+              </Link>
+            </p>
           </div>
 
           <div className="w-full h-full">

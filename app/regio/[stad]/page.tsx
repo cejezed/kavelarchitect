@@ -384,7 +384,7 @@ export default async function RegioPage({ params }: { params: { stad: string } }
           <p className="text-lg text-slate-600 leading-relaxed mb-6">{content.intro}</p>
 
           <h3 className="font-serif text-2xl font-bold text-navy-900 mb-4">Bouwmogelijkheden</h3>
-          <ul className="space-y-3 mb-8">
+          <ul className="space-y-3 mb-6">
             {content.buildingOpportunities.map((opportunity, i) => (
               <li key={i} className="flex items-start gap-3">
                 <CheckCircle2 className="text-emerald-600 flex-shrink-0 mt-1" size={20} />
@@ -392,6 +392,15 @@ export default async function RegioPage({ params }: { params: { stad: string } }
               </li>
             ))}
           </ul>
+          <p className="text-sm text-slate-500">
+            Heeft u een kavel gevonden in {cityName}?{' '}
+            <Link href="/gids/wat-mag-ik-bouwen" className="text-navy-900 font-semibold hover:underline">
+              Lees wat u er mag bouwen
+            </Link>{' '}of laat het direct toetsen via een{' '}
+            <Link href="/kavelrapport" className="text-navy-900 font-semibold hover:underline">
+              KavelRapport
+            </Link>.
+          </p>
         </div>
       </section>
 

@@ -2,15 +2,14 @@ import { MetadataRoute } from 'next';
 import { getListings, getArticles } from '@/lib/api';
 import { FAQ_ARTICLES } from '@/lib/faqArticles';
 import { GUIDES } from '@/lib/guides/guideIndex';
+import { NIEUWS_ITEMS } from '@/lib/news';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://kavelarchitect.nl';
 
-  // Fetch all published listings and articles
   const listings = await getListings();
   const articles = await getArticles();
 
-  // Fetch all unique cities from published listings for regio pages
   let cityData: any[] | null = [];
   try {
     const { supabaseAdmin } = await import('@/lib/supabaseAdmin');
@@ -20,7 +19,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .eq('status', 'published');
     cityData = data;
   } catch (error) {
-    // Local/dev fallback when Supabase env vars are not configured.
     cityData = [];
   }
 
@@ -30,7 +28,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .map(city => city.toLowerCase().replace(/\s+/g, '-'))
     : [];
 
-  // Static pages with priority and change frequency
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -55,6 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/nieuws`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/kennisbank`,
@@ -82,7 +85,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic listing pages - use actual modified dates for better indexing
   const listingUrls: MetadataRoute.Sitemap = listings.map((listing) => ({
     url: `${baseUrl}/aanbod/${listing.kavel_id}`,
     lastModified: listing.created_at ? new Date(listing.created_at) : new Date(),
@@ -90,7 +92,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // Dynamic article pages
   const articleUrls: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${baseUrl}/kennisbank/${article.slug}`,
     lastModified: new Date(article.modified || article.date),
@@ -112,13 +113,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // Programmatic SEO regio pages - dynamically generated from all published cities
+  const nieuwsUrls: MetadataRoute.Sitemap = NIEUWS_ITEMS.map((item) => ({
+    url: `${baseUrl}/nieuws/${item.slug}`,
+    lastModified: new Date(item.publishedAt),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
   const regioUrls: MetadataRoute.Sitemap = uniqueCities.map((city) => ({
     url: `${baseUrl}/regio/${city}`,
     lastModified: new Date(),
     changeFrequency: 'daily',
-    priority: 0.85, // High priority for conversion pages
+    priority: 0.85,
   }));
 
-  return [...staticPages, ...guideUrls, ...listingUrls, ...articleUrls, ...faqUrls, ...regioUrls];
+  return [...staticPages, ...guideUrls, ...nieuwsUrls, ...listingUrls, ...articleUrls, ...faqUrls, ...regioUrls];
 }

@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 
 export default function RegioFooter() {
   return (
@@ -47,6 +47,11 @@ export default function RegioFooter() {
               <li>
                 <Link href="/gids" className="text-slate-400 hover:text-white transition-colors">
                   Gidsen
+                </Link>
+              </li>
+              <li>
+                <Link href="/nieuws" className="text-slate-400 hover:text-white transition-colors">
+                  Nieuws
                 </Link>
               </li>
               <li>

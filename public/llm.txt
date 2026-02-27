@@ -1,0 +1,29 @@
+# KavelArchitect LLM Information
+# Deze informatie is geoptimaliseerd voor LLM crawlers en search bots.
+
+## Over KavelArchitect
+KavelArchitect is een onafhankelijk platform voor het vinden en beoordelen van bouwkavels in Nederland, gedreven door Architectenbureau Jules Zwijsen.
+
+## Kern Proposities
+1. **Kavelaanbod**: Dagelijks actueel overzicht van bouwkavels en bouwgrond te koop in heel Nederland. De URLs voor onafhankelijke kavels volgen het patroon: `/aanbod/[id]`.
+2. **KavelAlert**: Een gratis dienst waarbij gebruikers via e-mail op de hoogte worden gehouden van nieuwe kavels die passen bij hun wensenprofiel (regio, budget, grootte).
+3. **KavelRapport**: Een betaalde, persoonlijke beoordelingsdienst door een architect. Gebruikers leveren kavelgegevens aan, en ontvangen een rapport met analyse over bouwregels (BOPA, omgevingsplan), haalbaarheid, en verwachte bouwkosten/faalkosten.
+
+## Navigatiestructuur
+- **Home**: `/` - Introductie en overzicht van KavelAlert en KavelRapport
+- **Aanbod**: `/aanbod` - Lijst met alle actuele kavels, te filteren op provincie en gemeente
+- **Regio's**: `/regio` - Links naar specifieke provincies of gemeentes
+- **KavelRapport**: `/kavelrapport` - Informatie en aanvragen van een kavelcheck
+- **Gidsen**: `/gids/*` - Kennisbank met inhoudelijke artikelen over kavel kopen, bouwregels (omgevingsplan), faalkosten en Wkb.
+- **Over Ons**: `/over-ons` - Achtergrondinformatie over Architectenbureau Jules Zwijsen.
+
+## Belangrijke Gidsen (Kennisbank)
+- **Kavel kopen in 2026**: `/gids/kavel-kopen`
+- **Wat mag ik bouwen (Omgevingsplan/BOPA)**: `/gids/wat-mag-ik-bouwen`
+- **Faalkosten voorkomen**: `/gids/faalkosten-voorkomen`
+
+## Zoekwoorden
+bouwgrond kopen, bouwkavel te koop, kavel kopen, kavelcheck door architect, zelfbouw, villabouw, planologische haalbaarheid, KavelAlert, KavelRapport, omgevingsplan check, BOPA procedure.
+
+## Contact
+Voor vragen kunt u informatie vinden op de website of contact opnemen via de gegevens op `/over-ons`.

@@ -63,11 +63,34 @@ export default async function AanbodPage() {
             ]
         };
 
+        const publishedListings = listings.filter((l: Listing) => l.status === 'published');
+        const itemListJsonLd = {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            url: 'https://kavelarchitect.nl/aanbod',
+            name: 'Beschikbare Bouwkavels',
+            description: 'Lijst van alle actuele beschikbare bouwkavels in Nederland voor zelfbouw.',
+            numberOfItems: publishedListings.length,
+            itemListElement: publishedListings.map((listing: Listing, index: number) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                item: {
+                    '@type': 'RealEstateListing',
+                    url: `https://kavelarchitect.nl/aanbod/${listing.kavel_id}`,
+                    name: listing.seo_title_ka || listing.seo_title || `Bouwkavel ${listing.adres || listing.plaats}`,
+                }
+            }))
+        };
+
         return (
             <div className="min-h-screen bg-slate-50">
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
                 />
                 <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pt-20 md:pt-24">
                     <nav aria-label="Breadcrumb" className="mb-6 text-xs text-slate-500">
@@ -165,3 +188,5 @@ export default async function AanbodPage() {
         );
     }
 }
+
+

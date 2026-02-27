@@ -22,7 +22,7 @@ export default function RegioFooter() {
 
         <div className="border-t border-slate-700 my-8"></div>
 
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-5 gap-8 mb-8">
           <div>
             <h4 className="font-bold mb-4">KavelArchitect</h4>
             <p className="text-slate-400 text-sm leading-relaxed">
@@ -57,6 +57,41 @@ export default function RegioFooter() {
               <li>
                 <Link href="/over-ons" className="text-slate-400 hover:text-white transition-colors">
                   Over Ons
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold mb-4">Populaire Regio's</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/regio/gelderland" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel Gelderland
+                </Link>
+              </li>
+              <li>
+                <Link href="/regio/noord-brabant" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel Noord-Brabant
+                </Link>
+              </li>
+              <li>
+                <Link href="/regio/utrecht" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel Utrecht
+                </Link>
+              </li>
+              <li>
+                <Link href="/regio/overijssel" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel Overijssel
+                </Link>
+              </li>
+              <li>
+                <Link href="/regio/noord-holland" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel Noord-Holland
+                </Link>
+              </li>
+              <li>
+                <Link href="/regio/zuid-holland" className="text-slate-400 hover:text-white transition-colors">
+                  Kavel Zuid-Holland
                 </Link>
               </li>
             </ul>

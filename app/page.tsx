@@ -471,96 +471,102 @@ export default function Home() {
               href="/gids/kavel-kopen"
               className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src="/images/kavel-kopen-in-2026.webp"
-                  alt="Kavel kopen"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="px-2.5 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-blue-100">
-                    Aankoop
-                  </span>
-                  <span className="text-[11px] text-slate-400 font-medium">12 min leestijd</span>
+              <article className="h-full flex flex-col">
+                <div className="relative h-56 overflow-hidden">
+                  <Image
+                    src="/images/kavel-kopen-in-2026.webp"
+                    alt="Kavel kopen"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Kavel kopen (2026)</h3>
-                <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
-                  Alles over kosten, voorwaarden, hypotheek en de cruciale risico&apos;s die u moet kennen vóór u tekent als u een bouwkavel wilt kopen.
-                </p>
-                <div className="pt-4 border-t border-slate-100 mt-auto">
-                  <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
-                    Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                  </span>
+                <div className="p-8 flex-1 flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2.5 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-blue-100">
+                      Aankoop
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">12 min leestijd</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Kavel kopen (2026)</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
+                    Alles over kosten, voorwaarden, hypotheek en de cruciale risico&apos;s die u moet kennen vóór u tekent als u een bouwkavel wilt kopen.
+                  </p>
+                  <div className="pt-4 border-t border-slate-100 mt-auto">
+                    <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
+                      Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </article>
             </Link>
 
             <Link
               href="/gids/wat-mag-ik-bouwen"
               className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src="/images/wat-mag-u-bouwen.webp"
-                  alt="Wat mag ik bouwen"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="px-2.5 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-orange-100">
-                    Regels
-                  </span>
-                  <span className="text-[11px] text-slate-400 font-medium">10 min leestijd</span>
+              <article className="h-full flex flex-col">
+                <div className="relative h-56 overflow-hidden">
+                  <Image
+                    src="/images/wat-mag-u-bouwen.webp"
+                    alt="Wat mag ik bouwen"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Wat mag u bouwen?</h3>
-                <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
-                  Uitleg over omgevingsplannen, bouwregels, bijgebouwen en de BOPA procedure die geldt in 2026, zodat u weet wat u volgens het omgevingsplan mag bouwen.
-                </p>
-                <div className="pt-4 border-t border-slate-100 mt-auto">
-                  <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
-                    Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                  </span>
+                <div className="p-8 flex-1 flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2.5 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-orange-100">
+                      Regels
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">10 min leestijd</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Wat mag u bouwen?</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
+                    Uitleg over omgevingsplannen, bouwregels, bijgebouwen en de BOPA procedure die geldt in 2026, zodat u weet wat u volgens het omgevingsplan mag bouwen.
+                  </p>
+                  <div className="pt-4 border-t border-slate-100 mt-auto">
+                    <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
+                      Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </article>
             </Link>
 
             <Link
               href="/gids/faalkosten-voorkomen"
               className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
             >
-              <div className="relative h-56 overflow-hidden">
-                <Image
-                  src="/images/faalkosten-voorkomen-bij-nieuwbouw.webp"
-                  alt="Faalkosten voorkomen"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-100">
-                    Kosten
-                  </span>
-                  <span className="text-[11px] text-slate-400 font-medium">9 min leestijd</span>
+              <article className="h-full flex flex-col">
+                <div className="relative h-56 overflow-hidden">
+                  <Image
+                    src="/images/faalkosten-voorkomen-bij-nieuwbouw.webp"
+                    alt="Faalkosten voorkomen"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-navy-900/10 group-hover:bg-transparent transition-colors" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Faalkosten voorkomen</h3>
-                <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
-                  Doorgrond het domino-effect van vroege keuzes en voorkom onnodige bouwkosten en faalkosten door foute aannames.
-                </p>
-                <div className="pt-4 border-t border-slate-100 mt-auto">
-                  <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
-                    Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                  </span>
+                <div className="p-8 flex-1 flex flex-col">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider rounded-md border border-emerald-100">
+                      Kosten
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">9 min leestijd</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3 group-hover:text-blue-600 transition-colors">Faalkosten voorkomen</h3>
+                  <p className="text-slate-600 text-[15px] leading-relaxed mb-6 flex-1">
+                    Doorgrond het domino-effect van vroege keuzes en voorkom onnodige bouwkosten en faalkosten door foute aannames.
+                  </p>
+                  <div className="pt-4 border-t border-slate-100 mt-auto">
+                    <span className="inline-flex items-center gap-2 text-navy-900 font-bold text-sm">
+                      Lees gids <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </article>
             </Link>
           </div>
 

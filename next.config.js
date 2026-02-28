@@ -50,6 +50,15 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   // Enable SWC minification (faster than Terser)
   swcMinify: true,
+  async redirects() {
+    return [
+      {
+        source: '/llm.txt',
+        destination: '/llms.txt',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

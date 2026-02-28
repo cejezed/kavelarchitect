@@ -111,8 +111,10 @@ export default async function GuidePage({
       name: "KavelArchitect",
     },
     author: {
-      "@type": "Organization",
-      name: "KavelArchitect",
+      "@type": "Person",
+      name: "Jules Zwijsen",
+      jobTitle: "Architect",
+      url: "https://www.kavelarchitect.nl/over-ons",
     },
   };
 
@@ -144,81 +146,81 @@ export default async function GuidePage({
   const howToSchema =
     slug === "wat-mag-ik-bouwen"
       ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: "Zo controleert u in 15 minuten wat u mag bouwen",
+        description:
+          "Snelle controle op bouwmogelijkheden via Regels op de kaart, definities en kavelvoorwaarden.",
+        totalTime: "PT15M",
+        step: [
+          { "@type": "HowToStep", text: "Ga naar het Omgevingsloket." },
+          {
+            "@type": "HowToStep",
+            text: "Zoek uw adres en open Regels op de kaart.",
+          },
+          {
+            "@type": "HowToStep",
+            text: "Controleer het bouwvlak en bebouwingspercentage.",
+          },
+          {
+            "@type": "HowToStep",
+            text: "Lees de definities van peil, goothoogte en bouwhoogte.",
+          },
+          {
+            "@type": "HowToStep",
+            text: "Controleer regels voor bijgebouwen.",
+          },
+          {
+            "@type": "HowToStep",
+            text: "Zoek of er een kavelpaspoort of beeldkwaliteitsplan geldt.",
+          },
+          {
+            "@type": "HowToStep",
+            text: "Noteer of uw ontwerp binnen deze kaders past.",
+          },
+        ],
+      }
+      : slug === "kavel-kopen"
+        ? {
           "@context": "https://schema.org",
           "@type": "HowTo",
-          name: "Zo controleert u in 15 minuten wat u mag bouwen",
+          name: "Checklist: waar moet u op letten bij het kopen van een kavel?",
           description:
-            "Snelle controle op bouwmogelijkheden via Regels op de kaart, definities en kavelvoorwaarden.",
+            "Snelle pre-aankoopcontrole op juridische, planologische en financiele risico's bij een bouwkavel.",
           totalTime: "PT15M",
           step: [
-            { "@type": "HowToStep", text: "Ga naar het Omgevingsloket." },
             {
               "@type": "HowToStep",
-              text: "Zoek uw adres en open Regels op de kaart.",
+              text: "Controleer of ontbindende voorwaarden zijn opgenomen.",
             },
             {
               "@type": "HowToStep",
-              text: "Controleer het bouwvlak en bebouwingspercentage.",
+              text: "Bekijk het omgevingsplan via Regels op de kaart.",
             },
             {
               "@type": "HowToStep",
-              text: "Lees de definities van peil, goothoogte en bouwhoogte.",
+              text: "Check erfdienstbaarheden en kadastrale beperkingen.",
             },
             {
               "@type": "HowToStep",
-              text: "Controleer regels voor bijgebouwen.",
+              text: "Bereken de werkelijke bouwkosten per m2.",
             },
             {
               "@type": "HowToStep",
-              text: "Zoek of er een kavelpaspoort of beeldkwaliteitsplan geldt.",
+              text: "Houd rekening met 10,4% overdrachtsbelasting.",
             },
             {
               "@type": "HowToStep",
-              text: "Noteer of uw ontwerp binnen deze kaders past.",
+              text: "Informeer naar hypotheekacceptatie voor de kavel.",
+            },
+            {
+              "@type": "HowToStep",
+              text: "Reserveer een realistische buffer (7-12%).",
             },
           ],
         }
-      : slug === "kavel-kopen"
-        ? {
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "Checklist: waar moet u op letten bij het kopen van een kavel?",
-            description:
-              "Snelle pre-aankoopcontrole op juridische, planologische en financiele risico's bij een bouwkavel.",
-            totalTime: "PT15M",
-            step: [
-              {
-                "@type": "HowToStep",
-                text: "Controleer of ontbindende voorwaarden zijn opgenomen.",
-              },
-              {
-                "@type": "HowToStep",
-                text: "Bekijk het omgevingsplan via Regels op de kaart.",
-              },
-              {
-                "@type": "HowToStep",
-                text: "Check erfdienstbaarheden en kadastrale beperkingen.",
-              },
-              {
-                "@type": "HowToStep",
-                text: "Bereken de werkelijke bouwkosten per m2.",
-              },
-              {
-                "@type": "HowToStep",
-                text: "Houd rekening met 10,4% overdrachtsbelasting.",
-              },
-              {
-                "@type": "HowToStep",
-                text: "Informeer naar hypotheekacceptatie voor de kavel.",
-              },
-              {
-                "@type": "HowToStep",
-                text: "Reserveer een realistische buffer (7-12%).",
-              },
-            ],
-          }
-      : slug === "faalkosten-voorkomen"
-        ? {
+        : slug === "faalkosten-voorkomen"
+          ? {
             "@context": "https://schema.org",
             "@type": "HowTo",
             name: "Faalkosten voorkomen bij nieuwbouw",
@@ -242,7 +244,7 @@ export default async function GuidePage({
               },
             ],
           }
-        : null;
+          : null;
 
   return (
     <>

@@ -24,6 +24,14 @@ export default function KavelRapportPage() {
       a: 'Dat is waardevolle informatie! Het rapport behoedt u dan voor een miskoop. U krijgt in dat geval een negatief bouwadvies, helder onderbouwd.'
     },
     {
+      q: 'Helpt dit rapport mij om beter te kunnen bieden op een kavel?',
+      a: 'Ja, absoluut. Omdat we een indicatieve investeringsbandbreedte afgeven (inclusief grondkosten, btw, aansluitkosten en bijbehorende bouwkosten) en een overzicht van de reële bouwmogelijkheden (BOPA, Omgevingsplan) geven, weet je wat je na de grondkoop totaal kwijt gaat zijn. Je kunt je maximale bod voor de naakte grond zo keihard baseren op feiten, in plaats van een gok.'
+    },
+    {
+      q: 'Is dit rapport genoeg voor mijn hypotheek/financiering?',
+      a: 'Voor een zelfbouwhypotheek wil de bank bewijs dat je op het stuk grond mág bouwen en wat het ongeveer gaat kosten. Het KavelRapport is geen officiële taxatie, maar helpt enorm bij het eerste gesprek met je financieel adviseur omdat je exact aantoonbare meters, volume en randvoorwaarden hebt.'
+    },
+    {
       q: 'Is het KavelRapport ook geschikt voor bestaande woningen?',
       a: 'Ja. Het KavelRapport is geschikt bij de aankoop van een bestaande woning waarbij u een ingrijpende verbouwing, verduurzaming of vervangende nieuwbouw overweegt. Wij analyseren de planologische mogelijkheden, beperkingen en risico’s van het object — niet de technische detaillering van de bouwkundige staat. Voor technische inspecties adviseren wij gespecialiseerde partijen.'
     },

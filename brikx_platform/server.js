@@ -259,9 +259,18 @@ app.post('/api/publish/:id', async (req, res) => {
 
     // WordPress publishing disabled
     // 2. Bereid update data voor
+    const kavelArchitectSummary = buildKavelArchitectSummary(listing);
+    const kavelArchitectArticle = buildKavelArchitectArticle(listing);
+    const zwijsenArticle = buildZwijsenArticle(listing);
+
     const updateData = {
         status: 'published',
         published_sites: sites,
+        seo_summary: kavelArchitectSummary,
+        seo_article_html: kavelArchitectArticle,
+        seo_summary_ka: kavelArchitectSummary,
+        seo_article_html_ka: kavelArchitectArticle,
+        seo_article_html_zw: zwijsenArticle,
         updated_at: new Date().toISOString()
     };
 
@@ -282,7 +291,17 @@ app.post('/api/publish/:id', async (req, res) => {
 
     if (error) return res.status(500).json({ success: false, message: error.message });
 
-    // 4. MATCH LOGICA & EMAILING
+    // 4. Sync naar kavels tabel als zwijsen is inbegrepen
+    const publishedListing = { ...listing, ...updateData };
+    if (Array.isArray(sites) && sites.includes('zwijsen')) {
+        try {
+            await syncListingToKavels(publishedListing);
+        } catch (e) {
+            console.error('Sync to kavels failed (non-fatal):', e);
+        }
+    }
+
+    // 5. MATCH LOGICA & EMAILING
     let matchCount = 0;
     if (resend) {
         const matches = await findMatchesForListing(listing);
@@ -346,6 +365,11 @@ app.post('/api/publish-all', async (req, res) => {
                 .update({
                     status: 'published',
                     published_sites: sites,
+                    seo_summary: buildKavelArchitectSummary(listing),
+                    seo_article_html: buildKavelArchitectArticle(listing),
+                    seo_summary_ka: buildKavelArchitectSummary(listing),
+                    seo_article_html_ka: buildKavelArchitectArticle(listing),
+                    seo_article_html_zw: buildZwijsenArticle(listing),
                     updated_at: new Date().toISOString()
                 })
                 .eq('kavel_id', listing.kavel_id);
@@ -386,6 +410,113 @@ app.post('/api/publish-all', async (req, res) => {
         message: `${successCount} kavels gepubliceerd op ${sites.join(' & ')}${errorCount > 0 ? ` (${errorCount} fouten)` : ''}`,
         count: successCount
     });
+});
+
+// 5c. Regenereer teksten voor bestaand (al gepubliceerde) listing
+app.post('/api/regenerate/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const { data: listing, error: fetchError } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('kavel_id', id)
+        .single();
+
+    if (fetchError || !listing) return res.status(404).json({ success: false, message: "Kavel niet gevonden" });
+
+    const { error } = await supabase
+        .from('listings')
+        .update({
+            seo_summary: buildKavelArchitectSummary(listing),
+            seo_article_html: buildKavelArchitectArticle(listing),
+            seo_summary_ka: buildKavelArchitectSummary(listing),
+            seo_article_html_ka: buildKavelArchitectArticle(listing),
+            seo_article_html_zw: buildZwijsenArticle(listing),
+            updated_at: new Date().toISOString()
+        })
+        .eq('kavel_id', id);
+
+    if (error) return res.status(500).json({ success: false, message: error.message });
+    res.json({ success: true, message: `Teksten voor ${listing.adres} hergenereerd` });
+});
+
+// 5c. Sync listing naar kavels tabel (voor zwijsen.net)
+function listingToKavelSlug(adres, plaats) {
+    return 'bouwkavel-' + (adres + '-' + plaats)
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+}
+
+async function syncListingToKavels(listing) {
+    const slug = listingToKavelSlug(listing.adres, listing.plaats);
+    const sites = Array.isArray(listing.published_sites) ? listing.published_sites : [];
+    const zwijsenSites = sites.filter(s => s === 'zwijsen' || s === 'kavelarchitect');
+
+    const kavelRow = {
+        slug,
+        title: `Bouwkavel ${listing.adres}, ${listing.plaats}`,
+        excerpt: listing.seo_summary_zw || listing.seo_summary || `Bouwkavel in ${listing.plaats}`,
+        location: listing.plaats,
+        region: listing.provincie || null,
+        price: listing.prijs || null,
+        area: listing.oppervlakte || 0,
+        status: 'beschikbaar',
+        featured_image_url: listing.featured_image_url || listing.image_url || '',
+        featured_image_alt: `Bouwkavel ${listing.adres}, ${listing.plaats}`,
+        description: listing.seo_article_html_zw || listing.seo_article_html || null,
+        published_sites: zwijsenSites.length > 0 ? zwijsenSites : ['zwijsen'],
+        published_at: listing.created_at || new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        latitude: (listing.specs && listing.specs.lat) ? listing.specs.lat : null,
+        longitude: (listing.specs && listing.specs.lon) ? listing.specs.lon : null,
+        max_ridge_height: (listing.specs && listing.specs.nokhoogte) ? parseFloat(listing.specs.nokhoogte) : null,
+        seo_article_html_zw: listing.seo_article_html_zw || null,
+        seo_summary_zw: listing.seo_summary_zw || listing.seo_summary || null,
+        seo_article_html_ka: listing.seo_article_html_ka || listing.seo_article_html || null,
+        seo_summary_ka: listing.seo_summary_ka || listing.seo_summary || null,
+    };
+
+    // Check if a kavel with this slug already exists
+    const { data: existing } = await supabase
+        .from('kavels')
+        .select('id')
+        .eq('slug', slug)
+        .maybeSingle();
+
+    if (existing) {
+        const { error } = await supabase
+            .from('kavels')
+            .update(kavelRow)
+            .eq('slug', slug);
+        return { error, action: 'updated', slug };
+    } else {
+        const { error } = await supabase
+            .from('kavels')
+            .insert(kavelRow);
+        return { error, action: 'inserted', slug };
+    }
+}
+
+app.post('/api/sync-to-kavels/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const { data: listing, error: fetchError } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('kavel_id', id)
+        .single();
+
+    if (fetchError || !listing) {
+        return res.status(404).json({ success: false, message: 'Kavel niet gevonden' });
+    }
+
+    const { error, action, slug } = await syncListingToKavels(listing);
+
+    if (error) return res.status(500).json({ success: false, message: error.message });
+    res.json({ success: true, message: `Kavel ${action} in kavels tabel als slug "${slug}"` });
 });
 
 // 6. Overslaan
@@ -481,6 +612,99 @@ app.post('/api/sync', (req, res) => {
         res.json({ success: true });
     });
 });
+
+// --- Helper: Listing Copy Templates (mirrors lib/listingCopy.ts) ---
+function escapeHtml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function formatCurrency(value) {
+    if (!value) return 'Prijs op aanvraag';
+    return `€ ${Number(value).toLocaleString('nl-NL')}`;
+}
+
+function formatSqm(value) {
+    if (!value) return 'Onbekend';
+    return `${Number(value).toLocaleString('nl-NL')} m²`;
+}
+
+function getSpecsLines(listing) {
+    const specs = listing.specs;
+    if (!specs) return [];
+    const volume = specs.maxVolume || specs.volume;
+    const height = specs.maxHeight || specs.nokhoogte;
+    const gutter = specs.gutterHeight || specs.goothoogte;
+    const roofType = specs.roofType;
+    const lines = [];
+    if (volume) lines.push(`Max. bouwvolume: ${escapeHtml(volume)}`);
+    if (height) lines.push(`Max. hoogte: ${escapeHtml(height)}`);
+    if (gutter) lines.push(`Max. goothoogte: ${escapeHtml(gutter)}`);
+    if (roofType) lines.push(`Daktype: ${escapeHtml(roofType)}`);
+    if (specs.regulations) lines.push(`Bouwregels: ${escapeHtml(specs.regulations)}`);
+    return lines;
+}
+
+function buildKavelArchitectSummary(listing) {
+    const adres = escapeHtml(listing.adres);
+    const plaats = escapeHtml(listing.plaats);
+    const prijs = formatCurrency(listing.prijs);
+    return `Bouwkavel ${adres} in ${plaats} (${prijs}). Een korte kavelanalyse helpt om bouwmogelijkheden, beperkingen en risico's helder te krijgen.`;
+}
+
+function buildKavelArchitectArticle(listing) {
+    const adres = escapeHtml(listing.adres);
+    const plaats = escapeHtml(listing.plaats);
+    const provincie = escapeHtml(listing.provincie);
+    const prijs = formatCurrency(listing.prijs);
+    const oppervlakte = formatSqm(listing.oppervlakte);
+    const specsLines = getSpecsLines(listing);
+    const specsHtml = specsLines.length
+        ? `<ul>${specsLines.map(l => `<li>${l}</li>`).join('')}</ul>`
+        : `<p>De exacte bouwmogelijkheden hangen af van het bestemmingsplan en de welstand. Het KavelRapport geeft hier snel helderheid over.</p>`;
+    return `
+    <p><strong>${adres}, ${plaats}</strong> is een bouwkavel in ${provincie} met een perceeloppervlak van circa ${oppervlakte}. De vraagprijs is ${prijs}.</p>
+    <h3>Locatie en kenmerken</h3>
+    <ul>
+      <li>Adres: ${adres}, ${plaats}</li>
+      <li>Provincie: ${provincie}</li>
+      <li>Oppervlakte: ${oppervlakte}</li>
+      <li>Vraagprijs: ${prijs}</li>
+    </ul>
+    <h3>Wat mag u hier bouwen?</h3>
+    ${specsHtml}
+    <h3>Helderheid vooraf</h3>
+    <p>Bij bouwkavels zit de echte winst in duidelijkheid: wat mag er, wat kost het en welke beperkingen spelen mee? Met een korte analyse voorkomt u verrassingen en weet u sneller of de kavel past bij uw wensen.</p>
+    <p><a href="https://kavelarchitect.nl/kavelrapport">Lees meer over het KavelRapport</a> of vraag vrijblijvend een intake aan.</p>
+    <h3>Vervolg</h3>
+    <p>Wilt u zekerheid voordat u verder gaat? Dan is een onafhankelijke kavelanalyse een logische volgende stap.</p>
+  `.trim();
+}
+
+function buildZwijsenArticle(listing) {
+    const adres = escapeHtml(listing.adres);
+    const plaats = escapeHtml(listing.plaats);
+    const provincie = escapeHtml(listing.provincie);
+    const prijs = formatCurrency(listing.prijs);
+    const oppervlakte = formatSqm(listing.oppervlakte);
+    const specsLines = getSpecsLines(listing);
+    const specsHtml = specsLines.length
+        ? `<ul>${specsLines.map(l => `<li>${l}</li>`).join('')}</ul>`
+        : `<p>De exacte bouwmogelijkheden worden bepaald door het bestemmingsplan, het bouwvlak en eventuele welstandseisen van de gemeente. Een check vooraf voorkomt verrassingen.</p>`;
+    return `
+    <h2>Bouwkavel ${adres}, ${plaats}</h2>
+    <p>Dit perceel in ${plaats} (${provincie}) heeft een oppervlak van circa ${oppervlakte}. De vraagprijs is ${prijs}.</p>
+    <h3>Bouwmogelijkheden</h3>
+    ${specsHtml}
+    <h3>Van kavel naar ontwerp</h3>
+    <p>Elke kavel stelt zijn eigen eisen: de verhouding tussen bouwvlak en perceel, de orientatie op de zon, de relatie met de straat en de buren. Dat vraagt om een ontwerp dat niet alleen voldoet aan de regels, maar ook past bij de plek.</p>
+    <p>Als u nadenkt over wat hier mogelijk is, kunt u <a href="https://www.zwijsen.net/contact" target="_blank" rel="noopener noreferrer">vrijblijvend afstemmen</a> over de uitgangspunten.</p>
+  `.trim();
+}
 
 // --- Helper: Match Logica ---
 async function findMatchesForListing(listing) {

@@ -22,7 +22,7 @@ export default function RegioFooter() {
 
         <div className="border-t border-slate-700 my-8"></div>
 
-        <div className="grid md:grid-cols-5 gap-8 mb-8">
+        <div className="grid md:grid-cols-6 gap-8 mb-8">
           <div>
             <h4 className="font-bold mb-4">KavelArchitect</h4>
             <p className="text-slate-400 text-sm leading-relaxed">
@@ -61,40 +61,38 @@ export default function RegioFooter() {
               </li>
             </ul>
           </div>
-          <div>
-            <h4 className="font-bold mb-4">Populaire Regio's</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/regio/gelderland" className="text-slate-400 hover:text-white transition-colors">
-                  Kavel Gelderland
-                </Link>
-              </li>
-              <li>
-                <Link href="/regio/noord-brabant" className="text-slate-400 hover:text-white transition-colors">
-                  Kavel Noord-Brabant
-                </Link>
-              </li>
-              <li>
-                <Link href="/regio/utrecht" className="text-slate-400 hover:text-white transition-colors">
-                  Kavel Utrecht
-                </Link>
-              </li>
-              <li>
-                <Link href="/regio/overijssel" className="text-slate-400 hover:text-white transition-colors">
-                  Kavel Overijssel
-                </Link>
-              </li>
-              <li>
-                <Link href="/regio/noord-holland" className="text-slate-400 hover:text-white transition-colors">
-                  Kavel Noord-Holland
-                </Link>
-              </li>
-              <li>
-                <Link href="/regio/zuid-holland" className="text-slate-400 hover:text-white transition-colors">
-                  Kavel Zuid-Holland
-                </Link>
-              </li>
-            </ul>
+          <div className="md:col-span-2">
+            <h4 className="font-bold mb-4">Populaire Regio's & Steden</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/regio/noord-holland" className="text-slate-400 hover:text-white transition-colors">Kavel Noord-Holland</Link></li>
+                <li><Link href="/regio/zuid-holland" className="text-slate-400 hover:text-white transition-colors">Kavel Zuid-Holland</Link></li>
+                <li><Link href="/regio/utrecht" className="text-slate-400 hover:text-white transition-colors">Kavel Utrecht</Link></li>
+                <li><Link href="/regio/gelderland" className="text-slate-400 hover:text-white transition-colors">Kavel Gelderland</Link></li>
+                <li><Link href="/regio/noord-brabant" className="text-slate-400 hover:text-white transition-colors">Kavel Noord-Brabant</Link></li>
+                <li><Link href="/regio/overijssel" className="text-slate-400 hover:text-white transition-colors">Kavel Overijssel</Link></li>
+                <li><Link href="/regio/limburg" className="text-slate-400 hover:text-white transition-colors">Kavel Limburg</Link></li>
+                <li><Link href="/regio/flevoland" className="text-slate-400 hover:text-white transition-colors">Kavel Flevoland</Link></li>
+                <li><Link href="/regio/zeeland" className="text-slate-400 hover:text-white transition-colors">Kavel Zeeland</Link></li>
+                <li><Link href="/regio/friesland" className="text-slate-400 hover:text-white transition-colors">Kavel Friesland</Link></li>
+                <li><Link href="/regio/groningen" className="text-slate-400 hover:text-white transition-colors">Kavel Groningen</Link></li>
+                <li><Link href="/regio/drenthe" className="text-slate-400 hover:text-white transition-colors">Kavel Drenthe</Link></li>
+              </ul>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/regio/amsterdam" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Amsterdam</Link></li>
+                <li><Link href="/regio/rotterdam" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Rotterdam</Link></li>
+                <li><Link href="/regio/den-haag" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Den Haag</Link></li>
+                <li><Link href="/regio/breda" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Breda</Link></li>
+                <li><Link href="/regio/eindhoven" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Eindhoven</Link></li>
+                <li><Link href="/regio/tilburg" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Tilburg</Link></li>
+                <li><Link href="/regio/almere" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Almere</Link></li>
+                <li><Link href="/regio/apeldoorn" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Apeldoorn</Link></li>
+                <li><Link href="/regio/nijmegen" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Nijmegen</Link></li>
+                <li><Link href="/regio/enschede" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Enschede</Link></li>
+                <li><Link href="/regio/haarlem" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Haarlem</Link></li>
+                <li><Link href="/regio/arnhem" className="text-slate-400 hover:text-white transition-colors">Bouwkavel Arnhem</Link></li>
+              </ul>
+            </div>
           </div>
           <div>
             <h4 className="font-bold mb-4">Pijlergidsen</h4>

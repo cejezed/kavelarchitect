@@ -138,6 +138,29 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
         // Get recent listings for internal linking
         const featuredListings = recentListings.slice(0, 2);
 
+        const articleJsonLd = {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: breadcrumbTitle,
+            description: faqArticle ? faqArticle.description : article?.yoast_head_json?.description || '',
+            image: imageUrl || 'https://kavelarchitect.nl/images/og-image.jpg',
+            author: {
+                '@type': 'Person',
+                name: 'Jules Zwijsen',
+                url: 'https://kavelarchitect.nl/over-ons',
+                jobTitle: 'Architect & Oprichter'
+            },
+            publisher: {
+                '@type': 'Organization',
+                name: 'KavelArchitect',
+                logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://kavelarchitect.nl/kavelarchitect-logo.png'
+                }
+            },
+            datePublished: dateSource || new Date().toISOString()
+        };
+
         const breadcrumbJsonLd = {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
@@ -167,6 +190,10 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
             <div className="min-h-screen bg-white pb-20">
                 <script
                     type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+                />
+                <script
+                    type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
                 />
                 <nav aria-label="Breadcrumb" className="max-w-3xl mx-auto px-6 pt-10 text-xs text-slate-500">
@@ -192,11 +219,14 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         <h1 className="font-serif text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: article?.title?.rendered || '' }} />
                     )}
 
-                    <div className="flex items-center justify-center gap-6 mt-8 text-sm text-slate-400">
+                    <div className="flex items-center justify-center gap-6 mt-8 text-sm text-slate-500">
                         {date && (
                             <div className="flex items-center"><Calendar size={14} className="mr-2" /> {date}</div>
                         )}
-                        <div className="flex items-center"><User size={14} className="mr-2" /> Redactie Zwijsen</div>
+                        <div className="flex items-center">
+                            <User size={14} className="mr-2" />
+                            Door <Link href="/over-ons" className="underline hover:text-slate-700 ml-1">Jules Zwijsen</Link>
+                        </div>
                     </div>
                 </header>
 
@@ -323,11 +353,13 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                         </div>
 
                         {/* Static Bottom CTA */}
-                        <div className="mt-12 border-t border-slate-100 pt-10">
-                            <h3 className="font-serif text-2xl font-bold mb-4">Stop met zoeken</h3>
-                            <p className="text-slate-600 mb-6">Laat ons dagelijks kavels matchen met uw profiel.</p>
-                            <Link href="/" className="inline-block px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-100">
-                                Start Gratis Matching
+                        <div className="mt-12 bg-slate-50 border border-slate-200 rounded-2xl p-8 text-center">
+                            <h3 className="font-serif text-2xl font-bold text-navy-900 mb-3">Hulp bij uw aankoop</h3>
+                            <p className="text-slate-600 mb-6 max-w-lg mx-auto">
+                                Heeft u een kavel op het oog, maar wilt u zekerheid over de mogelijkheden en kosten? Laat dit objectief toetsen voordat u een bod uitbrengt.
+                            </p>
+                            <Link href="/kavelrapport" className="inline-block px-6 py-3 bg-white text-navy-900 border border-slate-300 font-bold rounded-xl hover:border-navy-900 transition-colors">
+                                Bekijk het KavelRapport
                             </Link>
                         </div>
                     </article>
@@ -335,11 +367,11 @@ export default async function ArticleDetailPage({ params }: { params: { slug: st
                     {/* Sidebar */}
                     <aside className="lg:col-span-3">
                         <div className="sticky top-32 space-y-8">
-                            <div className="bg-navy-900 text-white p-6 rounded-2xl">
-                                <h4 className="font-bold text-lg mb-2">Brikx KavelAlert</h4>
-                                <p className="text-sm text-slate-400 mb-4">Mis nooit meer een buitenkans. Ontvang matches in uw mailbox.</p>
-                                <Link href="/" className="block w-full text-center py-3 bg-white text-slate-900 font-bold rounded-lg text-xs hover:bg-blue-50 transition-colors">
-                                    Activeer Nu
+                            <div className="bg-slate-50 border border-slate-200 p-6 rounded-2xl">
+                                <h4 className="font-bold text-lg text-navy-900 mb-2">KavelAlert</h4>
+                                <p className="text-sm text-slate-600 mb-4">Ontvang nieuwe bouwkavels die passen bij uw wensen direct in uw inbox.</p>
+                                <Link href="/" className="block w-full text-center py-2.5 bg-white border border-slate-300 text-navy-900 font-semibold rounded-lg text-sm hover:border-slate-400 transition-colors shadow-sm">
+                                    Alert instellen
                                 </Link>
                             </div>
 

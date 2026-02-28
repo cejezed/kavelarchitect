@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,41 +8,57 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { listingId, price, description, email, name, metadata, productName } = body;
 
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        const stripe = getStripe();
 
-        // Maak Stripe Checkout Session aan
+        if (!listingId || !email || !name) {
+            return NextResponse.json(
+                { success: false, error: 'Ontbrekende verplichte velden (listingId, email, name).' },
+                { status: 400 }
+            );
+        }
+
+        const amountInCents = Math.round(Number(price) * 100);
+        if (!Number.isFinite(amountInCents) || amountInCents < 50) {
+            return NextResponse.json(
+                { success: false, error: 'Ongeldige prijs voor betaling.' },
+                { status: 400 }
+            );
+        }
+
+        const requestOrigin = req.headers.get('origin');
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || requestOrigin || 'http://localhost:3000';
+
         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'ideal', 'paypal'], // Paypal vereist speciale activatie in Dashboard, Card voegt Google Pay/Apple Pay toe
+            payment_method_types: ['card', 'ideal'],
             line_items: [
                 {
                     price_data: {
                         currency: 'eur',
                         product_data: {
-                            name: productName || 'KavelRapport™',
+                            name: productName || 'KavelRapport',
                             description: description || `Rapport voor kavel ${listingId}`,
-                            // images: ['https://uwdomein.nl/assets/rapport-cover.jpg'], // Optioneel
                         },
-                        unit_amount: Math.round(Number(price) * 100), // Stripe rekent in centen
+                        unit_amount: amountInCents,
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
-            success_url: `${siteUrl}/betaling/succes?listingId=${listingId}`,
+            locale: 'nl',
+            success_url: `${siteUrl}/betaling/succes?listingId=${listingId}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${siteUrl}/aanbod/${listingId}`,
             customer_email: email,
             metadata: {
                 listingId,
                 name,
-                ...metadata
-            }
+                ...metadata,
+            },
         });
 
         return NextResponse.json({
             success: true,
-            checkoutUrl: session.url
+            checkoutUrl: session.url,
         });
-
     } catch (error: any) {
         console.error('Stripe Payment Error:', error);
         return NextResponse.json({ success: false, error: error.message }, { status: 500 });
